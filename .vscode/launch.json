@@ -1,0 +1,29 @@
+{
+	// 使用 IntelliSense 了解相关属性。
+	// 悬停以查看现有属性的描述。
+	// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "npm run dev",
+			"request": "launch",
+			"runtimeArgs": ["run", "dev"],
+			"runtimeExecutable": "npm",
+			"skipFiles": ["<node_internals>/**"],
+			"type": "node"
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "自动监测并运行当前文件",
+			"skipFiles": ["<node_internals>/**"],
+			// 🎯 核心改变：指定使用 node_modules 下的 tsx 来执行
+			"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
+			"args": [
+				"watch", // 让 tsx 处于监听模式
+				"${file}"
+			],
+			"console": "integratedTerminal"
+		}
+	]
+}
