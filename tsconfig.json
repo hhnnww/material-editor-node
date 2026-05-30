@@ -1,5 +1,5 @@
 {
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "src/routes/maf/-component/MAF_制作首图/maf-制作首图-子表单-首图信息.tsx"],
   "exclude": ["C:/Users/aimlo/AppData/Local/Temp/**","src/components/ui/**"],
   "compilerOptions": {
     "target": "ES2022",

@@ -10,11 +10,13 @@ const xqWidth = 2000;
 const stHeijingHeight = 250;
 const stStyleList = ["黑鲸", "T500"];
 const stLayoutList = [
-	"固定裁剪",
-	"ST_1大1小",
-	"横版1221",
-	"列_自适应",
+	"ST_固定裁剪",
+	"ST_1大_1小",
+	"ST_横版_1221",
+	"ST_列_自适应",
 	"ST_1大列2小列",
+	"ST_行_自适应",
+	"ST_行_固定尺寸",
 ];
 const logoSize = 100;
 

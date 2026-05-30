@@ -9,26 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as MaterialEditRouteRouteImport } from './routes/material-edit/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as MaterialEditIndexRouteImport } from './routes/material-edit/index'
+import { Route as MafIndexRouteImport } from './routes/maf/index'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
 
-const MaterialEditRouteRoute = MaterialEditRouteRouteImport.update({
-  id: '/material-edit',
-  path: '/material-edit',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MaterialEditIndexRoute = MaterialEditIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => MaterialEditRouteRoute,
+const MafIndexRoute = MafIndexRouteImport.update({
+  id: '/maf/',
+  path: '/maf/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiSplatRoute = ApiSplatRouteImport.update({
   id: '/api/$',
@@ -43,60 +37,40 @@ const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/material-edit': typeof MaterialEditRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
-  '/material-edit/': typeof MaterialEditIndexRoute
+  '/maf/': typeof MafIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/$': typeof ApiSplatRoute
-  '/material-edit': typeof MaterialEditIndexRoute
+  '/maf': typeof MafIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/material-edit': typeof MaterialEditRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
-  '/material-edit/': typeof MaterialEditIndexRoute
+  '/maf/': typeof MafIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/material-edit'
-    | '/api/$'
-    | '/material-edit/'
-    | '/api/rpc/$'
+  fullPaths: '/' | '/api/$' | '/maf/' | '/api/rpc/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/$' | '/material-edit' | '/api/rpc/$'
-  id:
-    | '__root__'
-    | '/'
-    | '/material-edit'
-    | '/api/$'
-    | '/material-edit/'
-    | '/api/rpc/$'
+  to: '/' | '/api/$' | '/maf' | '/api/rpc/$'
+  id: '__root__' | '/' | '/api/$' | '/maf/' | '/api/rpc/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  MaterialEditRouteRoute: typeof MaterialEditRouteRouteWithChildren
   ApiSplatRoute: typeof ApiSplatRoute
+  MafIndexRoute: typeof MafIndexRoute
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/material-edit': {
-      id: '/material-edit'
-      path: '/material-edit'
-      fullPath: '/material-edit'
-      preLoaderRoute: typeof MaterialEditRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -104,12 +78,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/material-edit/': {
-      id: '/material-edit/'
-      path: '/'
-      fullPath: '/material-edit/'
-      preLoaderRoute: typeof MaterialEditIndexRouteImport
-      parentRoute: typeof MaterialEditRouteRoute
+    '/maf/': {
+      id: '/maf/'
+      path: '/maf'
+      fullPath: '/maf/'
+      preLoaderRoute: typeof MafIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/$': {
       id: '/api/$'
@@ -128,21 +102,10 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface MaterialEditRouteRouteChildren {
-  MaterialEditIndexRoute: typeof MaterialEditIndexRoute
-}
-
-const MaterialEditRouteRouteChildren: MaterialEditRouteRouteChildren = {
-  MaterialEditIndexRoute: MaterialEditIndexRoute,
-}
-
-const MaterialEditRouteRouteWithChildren =
-  MaterialEditRouteRoute._addFileChildren(MaterialEditRouteRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  MaterialEditRouteRoute: MaterialEditRouteRouteWithChildren,
   ApiSplatRoute: ApiSplatRoute,
+  MafIndexRoute: MafIndexRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
 }
 export const routeTree = rootRouteImport

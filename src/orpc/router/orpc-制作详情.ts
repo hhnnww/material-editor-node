@@ -1,8 +1,8 @@
 import { os } from "@orpc/server";
 import z from "zod";
-import { FUN_循环保存图片 } from "#/fun-图片功能/fun-循环保存图片";
-import { XQ_制作效果图 } from "#/xq-制作详情/xq-制作效果图";
-import { XQ_制作预览图 } from "#/xq-制作详情/xq-制作预览图";
+import { FUN_循环保存图片 } from "#/material-edit/fun-图片功能/fun-循环保存图片";
+import { XQ_制作效果图 } from "#/material-edit/xq-制作详情/xq-制作效果图";
+import { XQ_制作预览图 } from "#/material-edit/xq-制作详情/xq-制作预览图";
 
 export const ORPC_制作详情 = os
 	.input(

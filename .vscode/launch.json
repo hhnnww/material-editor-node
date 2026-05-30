@@ -5,12 +5,15 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "npm run dev",
+			"name": "Debug dev script",
+			"type": "node",
 			"request": "launch",
-			"runtimeArgs": ["run", "dev"],
+			"cwd": "${workspaceFolder}",
 			"runtimeExecutable": "npm",
-			"skipFiles": ["<node_internals>/**"],
-			"type": "node"
+			"runtimeArgs": ["run", "dev"],
+			// 关键：允许调试器跟踪 npm 派生出来的子进程
+			"outputCapture": "std",
+			"console": "integratedTerminal"
 		},
 		{
 			"type": "node",

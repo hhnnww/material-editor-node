@@ -188,6 +188,12 @@ body,
     @apply font-heading font-bold
   }
   .item-box{
-    @apply grid grid-cols-12 gap-4 items-end
+    @apply grid grid-cols-12 gap-4 items-start
+  }
+  .col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+  .col-span-10 {
+    grid-column: span 10 / span 10;
   }
 }
