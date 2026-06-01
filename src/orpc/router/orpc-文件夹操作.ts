@@ -93,6 +93,7 @@ export const ORPC_文件夹操作 = os
 		};
 
 		if (actionMap[ctx.input.actionName]) {
+			console.log(`执行成功: ${ctx.input.actionName}`);
 			await actionMap[ctx.input.actionName]();
 		}
 

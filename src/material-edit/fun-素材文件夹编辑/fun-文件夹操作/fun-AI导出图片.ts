@@ -23,7 +23,8 @@ export function FUN_AI导出图片(materialPath: string) {
 		// -1 = UserInteractionLevel.DISPLAY_NO_ALERTS
 		app.UserInteractionLevel = -1;
 
-		for (const filePath of aiEpsFileList) {
+		for (let index = 0; index < aiEpsFileList.length; index++) {
+			const filePath = aiEpsFileList[index];
 			try {
 				const fileDir = path.dirname(filePath);
 				const fileStem = path.basename(filePath, path.extname(filePath));
@@ -31,17 +32,26 @@ export function FUN_AI导出图片(materialPath: string) {
 
 				// 先判断源文件对应的素材图（主图）是否存在，如果已存在则跳过该文件
 				if (fs.existsSync(targetPathBase)) {
-					console.log(`跳过已存在预览图的 AI/EPS: ${fileStem}`);
+					console.log(`跳过已存在预览图的 AI/EPS: ${fileStem}`); // 跳过已存在预览图的 AI/EPS
 					continue;
 				}
 
-				console.log(`正在导出 AI/EPS: ${filePath}`);
+				console.log(
+					`[${index + 1}/${aiEpsFileList.length}] 正在导出 AI/EPS: ${fileStem}`, // 正在导出 AI/EPS
+				);
 				const doc = app.Open(filePath);
 
 				// 检查颜色模式，如果是 CMYK (1) 则转换为 RGB (2)
 				// DocumentColorSpace: 1 = CMYK, 2 = RGB
 				if (doc.DocumentColorSpace === 1) {
 					app.ExecuteMenuCommand("doc-color-rgb");
+				}
+
+				// 获取第一个图层，如果名字匹配则隐藏
+				const adlayerNames = ["淘宝:小夕素材", "删除这个图层，即可开始编辑。"];
+				const firstLayer = doc.Layers.Item(1);
+				if (firstLayer && adlayerNames.includes(firstLayer.Name)) {
+					firstLayer.Visible = false;
 				}
 
 				// 遍历画板

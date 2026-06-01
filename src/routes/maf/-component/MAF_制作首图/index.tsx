@@ -46,6 +46,7 @@ export function MAF_制作首图() {
 			);
 			form.setFieldValue("shopName", store.shopName);
 			form.clearFieldValues("imageList");
+			form.setFieldValue("title", "");
 		}
 	}, [store, form.setFieldValue, form.clearFieldValues]);
 

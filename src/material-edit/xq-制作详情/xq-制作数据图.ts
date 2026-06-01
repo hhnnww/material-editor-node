@@ -64,7 +64,7 @@ export async function XQ_制作数据图(
 			left: paddingX,
 		});
 
-		const fontSize = 57;
+		const fontSize = 55;
 		// 制作名称文字
 		const nameImg = await FUN_制作文字图片({
 			text: item.name,
