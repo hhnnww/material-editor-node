@@ -25,10 +25,11 @@ export function FUN_打开没有预览图的AI文件(materialPath: string) {
 		const mStem = path.basename(mFile, path.extname(mFile));
 
 		// 检查同目录下是否存在同名的图片文件
+
 		const hasPreview = imageFileList.some((imgFile) => {
 			const imgDir = path.dirname(imgFile);
 			const imgStem = path.basename(imgFile, path.extname(imgFile));
-			return imgDir === mDir && imgStem === mStem;
+			return imgDir === mDir && imgStem.includes(mStem);
 		});
 
 		if (!hasPreview) {

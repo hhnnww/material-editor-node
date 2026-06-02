@@ -18,19 +18,40 @@ export async function XQ_制作效果图(
 	const itemWidth = Math.floor(
 		(availableWidth - (props.rows - 1) * props.innerSpacing) / props.rows,
 	);
+	const remainder =
+		props.rows >= 2 ? props.effectImageList.length % props.rows : 0;
+	const firstRowItemWidth =
+		remainder > 0
+			? Math.floor(
+					(availableWidth - (remainder - 1) * props.innerSpacing) / remainder,
+				)
+			: itemWidth;
 
 	const composites: OverlayOptions[] = [];
 	composites.push({ input: titleImg, top: 0, left: 0 });
 
 	let currentY = titleMeta.height || 0;
-	const rowGroups: { buffer: Buffer; height: number; width: number }[][] = [];
+	const rowGroups: {
+		buffer: Buffer;
+		height: number;
+		width: number;
+		itemWidthUsed: number;
+	}[][] = [];
 
 	// 1. 预处理所有图片，缩放到统一宽度
-	for (let i = 0; i < props.effectImageList.length; i += props.rows) {
-		const row = props.effectImageList.slice(i, i + props.rows);
+	let i = 0;
+	while (i < props.effectImageList.length) {
+		const take = i === 0 && remainder > 0 ? remainder : props.rows;
+		const row = props.effectImageList.slice(i, i + take);
+		const currentItemWidth =
+			i === 0 && remainder > 0 ? firstRowItemWidth : itemWidth;
+		i += take;
+
 		const processedRow = await Promise.all(
 			row.map(async (img) => {
-				let buffer = await sharp(img.imagePath).resize(itemWidth).toBuffer();
+				let buffer = await sharp(img.imagePath)
+					.resize(currentItemWidth)
+					.toBuffer();
 				const meta = await sharp(buffer).metadata();
 
 				if (props.borderRadius > 0) {
@@ -43,7 +64,12 @@ export async function XQ_制作效果图(
 						.toBuffer();
 				}
 
-				return { buffer, height: meta.height || 0, width: meta.width || 0 };
+				return {
+					buffer,
+					height: meta.height || 0,
+					width: meta.width || 0,
+					itemWidthUsed: currentItemWidth,
+				};
 			}),
 		);
 		rowGroups.push(processedRow);
@@ -54,7 +80,8 @@ export async function XQ_制作效果图(
 		const maxHeight = Math.max(...row.map((img) => img.height));
 
 		row.forEach((img, index) => {
-			const x = props.outerSpacing + index * (itemWidth + props.innerSpacing);
+			const x =
+				props.outerSpacing + index * (img.itemWidthUsed + props.innerSpacing);
 			// 底部对齐：当前行最大高度 - 图片自身高度
 			const yOffset = maxHeight - img.height;
 

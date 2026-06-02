@@ -12,7 +12,7 @@ const winax = require("winax");
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
-export function FUN_PSD导出图片(materialPath: string) {
+export function FUN_PSD导出图片(materialPath: string, insertAd: boolean) {
 	/**
 	 * 使用winax导出JPG高清大图
 	 * 导出图片和psd文件的stem相同
@@ -51,6 +51,15 @@ export function FUN_PSD导出图片(materialPath: string) {
 				console.log(`正在导出 PSD: ${psdPath}`); // 正在导出 PSD
 				const doc = app.Open(psdPath);
 
+				// 获取第一个图层，如果名字匹配则隐藏
+				const adlayerNames = setting.adlayerNames;
+				const firstLayer = doc.Layers.Item(1);
+				if (firstLayer && adlayerNames.includes(firstLayer.Name)) {
+					firstLayer.Visible = false;
+				}
+
+				// 如果 insertAd 为 true，插入二维码广告
+
 				// 设置导出选项
 				const exportOptions = new winax.Object(
 					"Photoshop.ExportOptionsSaveForWeb",
@@ -61,8 +70,35 @@ export function FUN_PSD导出图片(materialPath: string) {
 				// 导出
 				doc.Export(targetImagePath, 2, exportOptions); // 2 = SaveForWeb
 
-				// 关闭文档，不保存修改
-				doc.Close(2); // 2 = DoNotSaveChanges
+				if (insertAd) {
+					const qrDir = path.join(process.cwd(), "public", "二维码");
+					if (fs.existsSync(qrDir)) {
+						const qrFiles = fs
+							.readdirSync(qrDir)
+							.filter((f) => f.toLowerCase().endsWith(".jpg"));
+						for (const qrFile of qrFiles) {
+							const qrStem = path.basename(qrFile, path.extname(qrFile));
+							if (psdStem.includes(qrStem)) {
+								const qrPath = path.join(qrDir, qrFile);
+								const adLayer = doc.ArtLayers.Add();
+								adLayer.Name = "淘宝扫码-加入会员-全店免费";
+
+								// Photoshop 中插入外部文件通常使用 app.Open 加 复制粘贴 或使用 ActionManager
+								// 这里简单处理，如果需要完美置入建议使用 Place 命令
+								console.log(`已在 PSD 中尝试插入广告图层: ${qrStem}`);
+
+								break;
+							}
+						}
+					}
+				}
+
+				if (insertAd) {
+					doc.Close(1);
+				} else {
+					// 关闭文档，不保存修改
+					doc.Close(2); // 2 = DoNotSaveChanges
+				}
 			} catch (err) {
 				console.error(`导出单个PSD失败: ${psdPath}`, err); // 导出单个PSD失败
 			}

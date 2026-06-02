@@ -53,5 +53,7 @@ export async function FUN_获取效果图(effectPath: string, thumbPath: string)
 		}
 	}
 
+	result.sort((a, b) => b.imageRatio - a.imageRatio);
+
 	return result;
 }

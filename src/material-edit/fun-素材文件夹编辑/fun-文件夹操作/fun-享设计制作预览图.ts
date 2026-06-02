@@ -6,8 +6,8 @@ import { setting } from "#/setting";
 export async function FUN_享设计制作预览图(materialPath: string) {
 	const innerSpacing = 20;
 	const outerSpacing = 20;
-	const targetWidth = 2000;
-
+	const itemWidth = 800;
+	const backgroundColor = "#efefef";
 	const maxHeightLimit = 30000;
 
 	const items = fs.readdirSync(materialPath);
@@ -32,45 +32,39 @@ export async function FUN_享设计制作预览图(materialPath: string) {
 		const targetPath = path.join(materialPath, `${subDirStem}.jpg`);
 		if (fs.existsSync(targetPath)) continue;
 
+		const composites: OverlayOptions[] = [];
+
+		// 计算所有图片在 itemWidth 宽度下的总高度
 		const metas = await Promise.all(
 			imageFiles.map((img) => sharp(img).metadata()),
 		);
-
-		const composites: OverlayOptions[] = [];
-
-		// 计算所有图片在统一宽度（targetWidth）下的总高度，用于决定布局
 		let totalHeightAtFullWidth = 0;
 		for (const m of metas) {
-			const h = Math.round(((m.height || 1) * targetWidth) / (m.width || 1));
+			const h = Math.round(((m.height || 1) * itemWidth) / (m.width || 1));
 			totalHeightAtFullWidth += h;
 		}
 
-		// 目标是让总宽高比接近 3:4 (宽:高)。
-		// 假设排列成 n 列，则单图宽度 w = targetWidth / n
-		// 总高度 H = (totalHeightAtFullWidth / n) / n = totalHeightAtFullWidth / (n^2)
-		// 我们希望 targetWidth / H ≈ 3/4  => H ≈ (4/3) * targetWidth
-		// totalHeightAtFullWidth / (n^2) ≈ (4/3) * targetWidth => n^2 ≈ totalHeightAtFullWidth / (1.333 * targetWidth)
-		const idealCols = Math.max(
+		// 目标宽高比为 3:4，即 height = width * (4/3)
+		// 设列数为 C，则 width ≈ C * itemWidth
+		// 目标总高度 H ≈ (C * itemWidth) * (4/3)
+		// 瀑布流布局下，所有图片的总高度会平摊到 C 列，即 H ≈ totalHeightAtFullWidth / C
+		// 联立得：totalHeightAtFullWidth / C ≈ C * itemWidth * 4 / 3  => C^2 ≈ (3 * totalHeightAtFullWidth) / (4 * itemWidth)
+		const cols = Math.max(
 			1,
-			Math.round(
-				Math.sqrt(
-					totalHeightAtFullWidth / ((4 / 3) * (targetWidth - outerSpacing * 2)),
-				),
-			),
+			Math.round(Math.sqrt((3 * totalHeightAtFullWidth) / (4 * itemWidth))),
 		);
-		const cols = idealCols;
-		const itemWidth = Math.floor(
-			(targetWidth - outerSpacing * 2 - (cols - 1) * innerSpacing) / cols,
-		);
+
+		const canvasWidth =
+			outerSpacing * 2 + cols * itemWidth + (cols - 1) * innerSpacing;
 
 		const colHeights = new Array(cols).fill(0);
 
 		for (let i = 0; i < imageFiles.length; i++) {
 			// 总是把下一张图放在当前最短的那一列
 			const shortestCol = colHeights.indexOf(Math.min(...colHeights));
-
-			const buffer = await sharp(imageFiles[i]).resize(itemWidth).toBuffer();
-			const meta = await sharp(buffer).metadata();
+			const resizedImage = sharp(imageFiles[i]).resize(itemWidth);
+			const buffer = await resizedImage.toBuffer();
+			const meta = await sharp(buffer).metadata(); // 此时 buffer 已是调整后的尺寸
 
 			const x = outerSpacing + shortestCol * (itemWidth + innerSpacing);
 			const y = outerSpacing + colHeights[shortestCol];
@@ -94,10 +88,10 @@ export async function FUN_享设计制作预览图(materialPath: string) {
 
 		await sharp({
 			create: {
-				width: targetWidth,
+				width: canvasWidth,
 				height: actualHeight,
 				channels: 4,
-				background: { r: 255, g: 255, b: 255, alpha: 1 },
+				background: backgroundColor,
 			},
 		})
 			.composite(composites)

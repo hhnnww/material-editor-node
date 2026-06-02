@@ -11,6 +11,7 @@ import { FUN_图片转PSD } from "#/material-edit/fun-素材文件夹编辑/fun-
 import { FUN_复制到预览图 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-复制到预览图";
 import { FUN_子文件夹源文件重命名 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子文件夹源文件重命名";
 import { FUN_子目录移动到根目录 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子目录内容移动到根";
+import { FUN_子目录图片重命名 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子目录图片重命名";
 import { FUN_子目录重命名 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子目录重命名";
 import { FUN_PPT导出图片 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-导出PPTX图片";
 import { FUN_打开文件夹 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-打开文件夹";
@@ -34,6 +35,7 @@ export const ORPC_文件夹操作 = os
 	.handler(async (ctx) => {
 		const folderStructure = FUN_创建文件夹(ctx.input.rootPath);
 		console.log(`正在执行操作: ${ctx.input.actionName}`);
+
 		const actionMap: Record<string, () => void> = {
 			打开素材文件夹: () => FUN_打开文件夹(folderStructure.materialPath),
 			移动到根目录: () => FUN_移动到根目录(folderStructure.materialPath),
@@ -47,7 +49,7 @@ export const ORPC_文件夹操作 = os
 			文件重命名: () =>
 				FUN_文件重命名(folderStructure.materialPath, ctx.input.shopName),
 			删除广告文件: () => FUN_删除广告文件(folderStructure.materialPath),
-			PSD导出图片: () => FUN_PSD导出图片(folderStructure.materialPath),
+			PSD导出图片: () => FUN_PSD导出图片(folderStructure.materialPath, false),
 			复制到预览图: () =>
 				FUN_复制到预览图(
 					folderStructure.materialPath,
@@ -80,7 +82,7 @@ export const ORPC_文件夹操作 = os
 				FUN_子文件夹源文件重命名(folderStructure.materialPath),
 			打开没有预览图的AI文件: () =>
 				FUN_打开没有预览图的AI文件(folderStructure.materialPath),
-			AI导出图片: () => FUN_AI导出图片(folderStructure.materialPath),
+			AI导出图片: () => FUN_AI导出图片(folderStructure.materialPath, false),
 			享设计制作预览图: () =>
 				FUN_享设计制作预览图(folderStructure.materialPath),
 			图片转PSD: () => FUN_图片转PSD(folderStructure.materialPath),
@@ -90,6 +92,8 @@ export const ORPC_文件夹操作 = os
 			打开小夕素材大目录: () => FUN_打开素材大目录("小夕素材"),
 			打开饭桶设计大目录: () => FUN_打开素材大目录("饭桶设计"),
 			打开泡泡素材大目录: () => FUN_打开素材大目录("泡泡素材"),
+			子目录图片重命名: () =>
+				FUN_子目录图片重命名(folderStructure.materialPath),
 		};
 
 		if (actionMap[ctx.input.actionName]) {

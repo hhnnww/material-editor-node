@@ -19,8 +19,14 @@ const stLayoutList = [
 	"ST_行_固定尺寸",
 ];
 const logoSize = 100;
-
+const adlayerNames = [
+	"淘宝:小夕素材",
+	"删除这个图层，即可开始编辑。",
+	"隐藏 或 删除此图层即可开始您的编辑.",
+	"淘宝扫码-加入会员-全店免费",
+];
 export const setting = {
+	adlayerNames,
 	logoSize,
 	stLayoutList,
 	stStyleList,
