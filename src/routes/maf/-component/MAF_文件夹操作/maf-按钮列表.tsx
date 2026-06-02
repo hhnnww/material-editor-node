@@ -39,10 +39,12 @@ export const MAFButtonList = [
 	],
 	[
 		{ name: "AI导出图片", icon: <ImagePlus />, confirm: false },
+		{ name: "AI导出图片-插入广告", icon: <ImagePlus />, confirm: false },
 		{ name: "打开没有预览图的AI文件", icon: <ImageUp />, confirm: false },
 	],
 	[
 		{ name: "PSD导出图片", icon: <ImagePlay />, confirm: false },
+		{ name: "PSD导出图片—插入广告", icon: <ImagePlay />, confirm: false },
 		{ name: "图片转PSD", icon: <ImagePlay />, confirm: false },
 		{ name: "打开没有预览图的PSD文件", icon: <ImagePlay />, confirm: false },
 	],

@@ -36,6 +36,7 @@ export const ORPC_制作首图 = os
 		}),
 	)
 	.handler(async (ctx) => {
+		console.log(ctx.input);
 		const layoutMap: Record<string, () => Promise<Buffer>> = {
 			ST_固定裁剪: async () => await ST_固定裁剪({ ...ctx.input }),
 			ST_1大_1小: async () => await ST_1大1小({ ...ctx.input }),

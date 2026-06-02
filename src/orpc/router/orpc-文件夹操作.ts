@@ -94,6 +94,10 @@ export const ORPC_文件夹操作 = os
 			打开泡泡素材大目录: () => FUN_打开素材大目录("泡泡素材"),
 			子目录图片重命名: () =>
 				FUN_子目录图片重命名(folderStructure.materialPath),
+			"PSD导出图片—插入广告": () =>
+				FUN_PSD导出图片(folderStructure.materialPath, true),
+			"AI导出图片-插入广告": () =>
+				FUN_AI导出图片(folderStructure.materialPath, true),
 		};
 
 		if (actionMap[ctx.input.actionName]) {

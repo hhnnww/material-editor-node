@@ -6,7 +6,7 @@ export const maf_制作首图_表单参数 = formOptions({
 	defaultValues: {
 		title: "",
 		style: "黑鲸",
-		layout: "固定裁剪",
+		layout: "ST_固定裁剪",
 
 		format: "",
 		currentStem: "",

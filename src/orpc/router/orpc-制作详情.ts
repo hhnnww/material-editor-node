@@ -50,7 +50,7 @@ export const ORPC_制作详情 = os
 			ctx.input.previewImageList.length > 0
 		) {
 			console.log("正在制作预览图详情...");
-			const previewImg = await XQ_制作预览图({ ...ctx.input });
+			const previewImg = await XQ_制作预览图(ctx.input);
 			await FUN_循环保存图片(previewImg, startNum);
 		}
 

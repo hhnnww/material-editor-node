@@ -9,6 +9,19 @@ export async function XQ_制作预览图(
 	props: InferRouterInputs<typeof ORPC_制作详情>,
 ) {
 	const width = setting.xqWidth;
+
+	const nameFontSize = 56;
+	const nameFontColor = "#333";
+	const nameFontWeight = "Light";
+
+	const sizeFontSize = 49;
+	const sizeFontColor = "#333";
+	const sizeFontWeight = "Light";
+
+	const imgToNameSpacing = 80;
+	const nameToSizeSpacing = 30;
+	const bottomSpacing = 320;
+
 	const titleImg = await XQ_制作标题({
 		title: "素材预览图",
 		desc: "* 素材内容以预览图为准",
@@ -28,13 +41,13 @@ export async function XQ_制作预览图(
 				)
 			: itemWidth;
 
+	// 存储所有待合成的图层
 	const composites: OverlayOptions[] = [];
+	// 添加标题图层
 	composites.push({ input: titleImg, top: 0, left: 0 });
 
+	// 记录当前绘制的垂直位置
 	let currentY = titleMeta.height || 0;
-	const imgToNameSpacing = 80;
-	const nameToSizeSpacing = 30;
-	const bottomSpacing = 320;
 
 	// 1. 预处理所有图片和文字
 	const processedItems = await Promise.all(
@@ -65,11 +78,19 @@ export async function XQ_制作预览图(
 			const nameText = img.materialName.toUpperCase();
 			const nameImg = await FUN_制作文字图片({
 				text: nameText,
-				fontSize: 56,
-				fontWidth: "Regular",
-				fillColor: "#999",
+				fontSize: nameFontSize,
+				fontWidth: nameFontWeight,
+				fillColor: nameFontColor,
 			});
-			const nameMeta = await sharp(nameImg).metadata();
+
+			let processedNameImg = nameImg;
+			let nameMeta = await sharp(processedNameImg).metadata();
+			if ((nameMeta.width || 0) > currentItemWidth) {
+				processedNameImg = await sharp(processedNameImg)
+					.resize(currentItemWidth)
+					.toBuffer();
+				nameMeta = await sharp(processedNameImg).metadata();
+			}
 
 			const ext = img.materialName.split(".").pop()?.toLowerCase();
 			const sizeText = ["ai", "eps"].includes(ext || "")
@@ -78,11 +99,19 @@ export async function XQ_制作预览图(
 
 			const sizeImg = await FUN_制作文字图片({
 				text: sizeText,
-				fontSize: 45,
-				fontWidth: "Regular",
-				fillColor: "#999",
+				fontSize: sizeFontSize,
+				fontWidth: sizeFontWeight,
+				fillColor: sizeFontColor,
 			});
-			const sizeMeta = await sharp(sizeImg).metadata();
+
+			let processedSizeImg = sizeImg;
+			let sizeMeta = await sharp(processedSizeImg).metadata();
+			if ((sizeMeta.width || 0) > currentItemWidth) {
+				processedSizeImg = await sharp(processedSizeImg)
+					.resize(currentItemWidth)
+					.toBuffer();
+				sizeMeta = await sharp(processedSizeImg).metadata();
+			}
 
 			const totalHeight =
 				currentImgHeight +
@@ -94,9 +123,9 @@ export async function XQ_制作预览图(
 			return {
 				imgBuffer,
 				imgMeta,
-				nameImg,
+				nameImg: processedNameImg,
 				nameMeta,
-				sizeImg,
+				sizeImg: processedSizeImg,
 				sizeMeta,
 				totalHeight,
 				itemWidthUsed: currentItemWidth,
