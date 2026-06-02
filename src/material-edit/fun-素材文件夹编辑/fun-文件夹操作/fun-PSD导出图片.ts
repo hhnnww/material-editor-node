@@ -58,8 +58,6 @@ export function FUN_PSD导出图片(materialPath: string, insertAd: boolean) {
 					firstLayer.Visible = false;
 				}
 
-				// 如果 insertAd 为 true，插入二维码广告
-
 				// 设置导出选项
 				const exportOptions = new winax.Object(
 					"Photoshop.ExportOptionsSaveForWeb",
@@ -80,12 +78,23 @@ export function FUN_PSD导出图片(materialPath: string, insertAd: boolean) {
 							const qrStem = path.basename(qrFile, path.extname(qrFile));
 							if (psdStem.includes(qrStem)) {
 								const qrPath = path.join(qrDir, qrFile);
-								const adLayer = doc.ArtLayers.Add();
-								adLayer.Name = "淘宝扫码-加入会员-全店免费";
 
-								// Photoshop 中插入外部文件通常使用 app.Open 加 复制粘贴 或使用 ActionManager
-								// 这里简单处理，如果需要完美置入建议使用 Place 命令
-								console.log(`已在 PSD 中尝试插入广告图层: ${qrStem}`);
+								// 使用 ActionManager 执行 Place (置入) 命令
+								const idPlc = app.CharIDToTypeID("Plc ");
+								const desc = new winax.Object("Photoshop.ActionDescriptor");
+								const idnull = app.CharIDToTypeID("null");
+								desc.PutPath(idnull, qrPath);
+								const idFTms = app.CharIDToTypeID("FTms");
+								const idQCSt = app.CharIDToTypeID("QCSt");
+								const idQcsa = app.CharIDToTypeID("Qcsa");
+								desc.PutEnumerated(idFTms, idQCSt, idQcsa);
+								app.ExecuteAction(idPlc, desc, 3); // 3 = DialogModes.NO
+
+								const activeLayer = doc.ActiveLayer;
+								activeLayer.Name = "淘宝扫码-加入会员-全店免费";
+								console.log(
+									`已在 PSD 中通过 ActionManager 插入广告图层: ${qrStem}`,
+								);
 
 								break;
 							}

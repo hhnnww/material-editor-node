@@ -175,7 +175,7 @@ export async function XQ_制作预览图(
 
 	const totalHeight = currentY + props.outerSpacing;
 
-	return await sharp({
+	const result = await sharp({
 		create: {
 			width: width,
 			height: totalHeight,
@@ -186,4 +186,10 @@ export async function XQ_制作预览图(
 		.composite(composites)
 		.png()
 		.toBuffer();
+
+	// 释放内存
+	sharp.cache(false);
+	sharp.cache(true);
+
+	return result;
 }

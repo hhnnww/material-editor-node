@@ -52,6 +52,7 @@ export const MAFButtonList = [
 	[
 		{ name: "复制到预览图", icon: <ImagePlus />, confirm: false },
 		{ name: "移动到效果图", icon: <ImageUp />, confirm: false },
+		{ name: "素材图水印", icon: <ImageUp />, confirm: false },
 	],
 	[
 		{ name: "删除素材文件夹内所有图片", icon: <ImageOff />, confirm: true },

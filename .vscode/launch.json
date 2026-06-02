@@ -11,6 +11,9 @@
 			"cwd": "${workspaceFolder}",
 			"runtimeExecutable": "npm",
 			"runtimeArgs": ["run", "dev"],
+			"env": {
+				"NODE_OPTIONS": "--max-old-space-size=24096"
+			},
 			// 关键：允许调试器跟踪 npm 派生出来的子进程
 			"outputCapture": "std",
 			"console": "integratedTerminal"
