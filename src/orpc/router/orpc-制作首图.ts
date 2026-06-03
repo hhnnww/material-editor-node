@@ -3,6 +3,7 @@ import z from "zod";
 import { FUN_保存图片 } from "#/material-edit/fun-图片功能/fun-保存图片";
 import { ST_1大1小 } from "#/material-edit/st-制作首图/st-制作布局/st-1大1小";
 import { ST_1大列2小列 } from "#/material-edit/st-制作首图/st-制作布局/st-1大列-2小列";
+import { ST_列_固定尺寸 } from "#/material-edit/st-制作首图/st-制作布局/st-列-固定尺寸";
 import { ST_列自适应 } from "#/material-edit/st-制作首图/st-制作布局/st-列自适应";
 import { ST_固定裁剪 } from "#/material-edit/st-制作首图/st-制作布局/st-固定裁剪";
 import { ST_横版1221 } from "#/material-edit/st-制作首图/st-制作布局/st-横版1221";
@@ -44,6 +45,7 @@ export const ORPC_制作首图 = os
 			ST_1大列2小列: async () => await ST_1大列2小列(ctx.input),
 			ST_行_自适应: async () => await ST_行自适应(ctx.input),
 			ST_行_固定尺寸: async () => await ST_行固定尺寸(ctx.input),
+			ST_列_固定尺寸: async () => await ST_列_固定尺寸(ctx.input),
 		};
 
 		const layoutIm = await layoutMap[ctx.input.layout]();

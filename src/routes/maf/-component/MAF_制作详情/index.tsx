@@ -72,7 +72,14 @@ export function MAF_制作详情() {
 	});
 
 	return (
-		<div className="item-box">
+		<form
+			className="item-box"
+			onSubmit={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				form.handleSubmit();
+			}}
+		>
 			<h2 className="col-span-12">制作详情</h2>
 			<form.AppField name="rows">
 				{(field) => (
@@ -149,6 +156,6 @@ export function MAF_制作详情() {
 			<form.AppForm>
 				<form.SubmitButtonField label="制作详情" />
 			</form.AppForm>
-		</div>
+		</form>
 	);
 }

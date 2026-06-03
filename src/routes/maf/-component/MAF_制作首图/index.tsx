@@ -53,14 +53,19 @@ export function MAF_制作首图() {
 	return (
 		<>
 			<MAF_制作首图_子表单_首图信息 form={form} />
-			<MAF_效果图列表
-				form={form}
-				effectImageList={store.serverResInfo?.effectImageList}
-			/>
-			<MAF_预览图列表
-				form={form}
-				previewImageList={store.serverResInfo?.previewImageList}
-			/>
+			{store.serverResInfo?.effectImageList && (
+				<MAF_效果图列表
+					form={form}
+					effectImageList={store.serverResInfo?.effectImageList}
+				/>
+			)}
+
+			{store.serverResInfo?.previewImageList && (
+				<MAF_预览图列表
+					form={form}
+					previewImageList={store.serverResInfo?.previewImageList}
+				/>
+			)}
 		</>
 	);
 }
