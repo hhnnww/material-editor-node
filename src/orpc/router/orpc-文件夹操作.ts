@@ -116,5 +116,5 @@ export const ORPC_文件夹操作 = os
 			await actionMap[ctx.input.actionName]();
 		}
 
-		return { success: true, actionName: ctx.input.actionName };
+		return { success: true, actionName: ctx.input.actionName, refresh: false };
 	});

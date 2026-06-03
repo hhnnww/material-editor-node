@@ -9,25 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as MafIndexRouteImport } from './routes/maf/index'
+import { Route as LayoutRouteRouteImport } from './routes/_layout/route'
+import { Route as LayoutIndexRouteImport } from './routes/_layout.index'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
+import { Route as LayoutUp_baiduIndexRouteImport } from './routes/_layout.up_baidu/index'
+import { Route as LayoutMafIndexRouteImport } from './routes/_layout.maf/index'
 import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LayoutRouteRoute = LayoutRouteRouteImport.update({
+  id: '/_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MafIndexRoute = MafIndexRouteImport.update({
-  id: '/maf/',
-  path: '/maf/',
-  getParentRoute: () => rootRouteImport,
+const LayoutIndexRoute = LayoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LayoutRouteRoute,
 } as any)
 const ApiSplatRoute = ApiSplatRouteImport.update({
   id: '/api/$',
   path: '/api/$',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LayoutUp_baiduIndexRoute = LayoutUp_baiduIndexRouteImport.update({
+  id: '/up_baidu/',
+  path: '/up_baidu/',
+  getParentRoute: () => LayoutRouteRoute,
+} as any)
+const LayoutMafIndexRoute = LayoutMafIndexRouteImport.update({
+  id: '/maf/',
+  path: '/maf/',
+  getParentRoute: () => LayoutRouteRoute,
 } as any)
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   id: '/api/rpc/$',
@@ -36,54 +47,64 @@ const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof LayoutIndexRoute
   '/api/$': typeof ApiSplatRoute
-  '/maf/': typeof MafIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/maf/': typeof LayoutMafIndexRoute
+  '/up_baidu/': typeof LayoutUp_baiduIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/api/$': typeof ApiSplatRoute
-  '/maf': typeof MafIndexRoute
+  '/': typeof LayoutIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/maf': typeof LayoutMafIndexRoute
+  '/up_baidu': typeof LayoutUp_baiduIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_layout': typeof LayoutRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
-  '/maf/': typeof MafIndexRoute
+  '/_layout/': typeof LayoutIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/_layout/maf/': typeof LayoutMafIndexRoute
+  '/_layout/up_baidu/': typeof LayoutUp_baiduIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/$' | '/maf/' | '/api/rpc/$'
+  fullPaths: '/' | '/api/$' | '/api/rpc/$' | '/maf/' | '/up_baidu/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/$' | '/maf' | '/api/rpc/$'
-  id: '__root__' | '/' | '/api/$' | '/maf/' | '/api/rpc/$'
+  to: '/api/$' | '/' | '/api/rpc/$' | '/maf' | '/up_baidu'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/api/$'
+    | '/_layout/'
+    | '/api/rpc/$'
+    | '/_layout/maf/'
+    | '/_layout/up_baidu/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  LayoutRouteRoute: typeof LayoutRouteRouteWithChildren
   ApiSplatRoute: typeof ApiSplatRoute
-  MafIndexRoute: typeof MafIndexRoute
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_layout': {
+      id: '/_layout'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof LayoutRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/maf/': {
-      id: '/maf/'
-      path: '/maf'
-      fullPath: '/maf/'
-      preLoaderRoute: typeof MafIndexRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_layout/': {
+      id: '/_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
     }
     '/api/$': {
       id: '/api/$'
@@ -91,6 +112,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/$'
       preLoaderRoute: typeof ApiSplatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_layout/up_baidu/': {
+      id: '/_layout/up_baidu/'
+      path: '/up_baidu'
+      fullPath: '/up_baidu/'
+      preLoaderRoute: typeof LayoutUp_baiduIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
+    '/_layout/maf/': {
+      id: '/_layout/maf/'
+      path: '/maf'
+      fullPath: '/maf/'
+      preLoaderRoute: typeof LayoutMafIndexRouteImport
+      parentRoute: typeof LayoutRouteRoute
     }
     '/api/rpc/$': {
       id: '/api/rpc/$'
@@ -102,10 +137,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LayoutRouteRouteChildren {
+  LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutMafIndexRoute: typeof LayoutMafIndexRoute
+  LayoutUp_baiduIndexRoute: typeof LayoutUp_baiduIndexRoute
+}
+
+const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
+  LayoutIndexRoute: LayoutIndexRoute,
+  LayoutMafIndexRoute: LayoutMafIndexRoute,
+  LayoutUp_baiduIndexRoute: LayoutUp_baiduIndexRoute,
+}
+
+const LayoutRouteRouteWithChildren = LayoutRouteRoute._addFileChildren(
+  LayoutRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  LayoutRouteRoute: LayoutRouteRouteWithChildren,
   ApiSplatRoute: ApiSplatRoute,
-  MafIndexRoute: MafIndexRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
 }
 export const routeTree = rootRouteImport

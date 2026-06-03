@@ -6,14 +6,14 @@ import { MAF_路径输入 } from "./-component/MAF_路径输入";
 import { MAF_发布到淘宝 } from "./-component/maf-发布到淘宝";
 import { useMafStore } from "./-component/store";
 
-export const Route = createFileRoute("/maf/")({
+export const Route = createFileRoute("/_layout/maf/")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
 	const store = useMafStore();
 	return (
-		<div className="p-20 flex flex-col gap-20">
+		<>
 			<MAF_路径输入 />
 
 			{store.serverResInfo && (
@@ -24,6 +24,6 @@ function RouteComponent() {
 					<MAF_制作首图 />
 				</>
 			)}
-		</div>
+		</>
 	);
 }

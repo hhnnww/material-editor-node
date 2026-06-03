@@ -44,5 +44,6 @@ export const ORPC_加载素材 = os
 			previewImageList,
 			materialFormatWithCount,
 			folderNav,
+			refresh: true,
 		};
 	});

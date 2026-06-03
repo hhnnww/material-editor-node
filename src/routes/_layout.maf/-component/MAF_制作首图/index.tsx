@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { useAppForm } from "#/components/tanstack-form-component/create-form";
 import { orpc } from "#/orpc/client.ts";
-import { useMafStore } from "../store";
+import { useMafStore } from "../store.ts";
 import { MAF_效果图列表 } from "./maf-制作首图-子表单-效果图列表.tsx";
 import { MAF_预览图列表 } from "./maf-制作首图-子表单-预览图列表.tsx";
 import { MAF_制作首图_子表单_首图信息 } from "./maf-制作首图-子表单-首图信息.tsx";
-import { maf_制作首图_表单参数 } from "./maf-制作首图-表单参数";
+import { maf_制作首图_表单参数 } from "./maf-制作首图-表单参数.tsx";
 
 export function MAF_制作首图() {
 	const store = useMafStore();
@@ -53,19 +53,22 @@ export function MAF_制作首图() {
 	return (
 		<>
 			<MAF_制作首图_子表单_首图信息 form={form} />
-			{store.serverResInfo?.effectImageList && (
-				<MAF_效果图列表
-					form={form}
-					effectImageList={store.serverResInfo?.effectImageList}
-				/>
-			)}
 
-			{store.serverResInfo?.previewImageList && (
-				<MAF_预览图列表
-					form={form}
-					previewImageList={store.serverResInfo?.previewImageList}
-				/>
-			)}
+			{store.serverResInfo?.effectImageList &&
+				store.serverResInfo.effectImageList.length > 0 && (
+					<MAF_效果图列表
+						form={form}
+						effectImageList={store.serverResInfo?.effectImageList}
+					/>
+				)}
+
+			{store.serverResInfo?.previewImageList &&
+				store.serverResInfo.previewImageList.length > 0 && (
+					<MAF_预览图列表
+						form={form}
+						previewImageList={store.serverResInfo?.previewImageList}
+					/>
+				)}
 		</>
 	);
 }
