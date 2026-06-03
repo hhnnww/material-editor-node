@@ -19,6 +19,7 @@ const stLayoutList = [
 	"ST_行_固定尺寸",
 	"ST_1大_1小",
 	"ST_横版_1221",
+	"ST_竖版_1221",
 	"ST_1大列2小列",
 ];
 const logoSize = 100;

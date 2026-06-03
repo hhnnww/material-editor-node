@@ -11,7 +11,7 @@ export const maf_制作首图_表单参数 = formOptions({
 		format: "",
 		currentStem: "",
 		shopName: "",
-		background: "#ffffff",
+		background: "#FFFFFF",
 		borderRadius: 0,
 		innerSpacing: 0,
 		outerSpacing: 0,
