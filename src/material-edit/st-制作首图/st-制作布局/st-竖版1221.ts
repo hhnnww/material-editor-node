@@ -6,13 +6,6 @@ import { setting } from "#/setting";
 export async function ST_竖版1221(
 	props: InferRouterInputs<typeof ORPC_制作首图>,
 ) {
-	/**
-	 * 分为3大列，每一列均分宽度，每列内部分为上下两部分
-	 * 第一列：上面1张大图，下面2张横向排列的小图
-	 * 第二列：上面2张横向排列的小图，下面1张大图
-	 * 第三列：上面1张大图，下面2张横向排列的小图
-	 * 大图占 2/3 高度，小图占 1/3 高度
-	 */
 	const width = setting.stWidth;
 	const height =
 		props.style === "黑鲸"

@@ -1,1 +1,2 @@
-pm2 start pm2.config.cjs
+call npm run preview
+pause

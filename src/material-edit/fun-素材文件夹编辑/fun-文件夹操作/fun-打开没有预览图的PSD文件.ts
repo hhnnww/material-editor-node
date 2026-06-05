@@ -7,13 +7,8 @@ const require = createRequire(import.meta.url);
 const winax = require("winax");
 
 export function FUN_打开没有预览图的PSD文件(materialPath: string) {
-	/**
-	 * 遍历素材源文件
-	 * 查找是否有对应的素材图片文件
-	 * 如果没有的话打开这个psd
-	 * 每次只能打开10个
-	 */
 	const psdFileList = FUN_递归遍历文件夹(materialPath, [".psd", ".psb"]);
+	console.log(`找到 PSD/PSB 文件列表:`, psdFileList);
 	const imageFileList = FUN_递归遍历文件夹(
 		materialPath,
 		setting.imageSuffixList,

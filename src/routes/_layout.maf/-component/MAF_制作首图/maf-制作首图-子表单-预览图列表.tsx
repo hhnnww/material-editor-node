@@ -27,7 +27,7 @@ export const MAF_预览图列表 = withForm({
 		);
 		return (
 			<div className="item-box items-end">
-				<h2 className="col-span-12">效果图列表</h2>
+				<h2 className="col-span-12">预览图列表</h2>
 				<div className="col-span-12">
 					<Button
 						onClick={() => {
@@ -91,7 +91,7 @@ export const MAF_预览图列表 = withForm({
 										}}
 									>
 										<img
-											src={`/__local_disk_stream__/${item.thumbPath}`}
+											src={`/__local_disk_stream__/${item.thumbPath}?time=${Date.now()}`}
 											alt={item.imagePath}
 											className={`p-2 ${
 												child.some(
@@ -103,9 +103,10 @@ export const MAF_预览图列表 = withForm({
 											}`}
 										/>
 									</button>
+									<div className="">{item.materialName.toUpperCase()}</div>
 									<Button
+										variant={"destructive"}
 										onClick={async () => {
-											if (!confirm("确定要删除吗")) return;
 											const index = child.findIndex(
 												(selected) => selected.imagePath === item.imagePath,
 											);

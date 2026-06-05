@@ -63,7 +63,7 @@ export function MAF_制作详情() {
 						: [],
 				),
 			);
-			await mutation.mutateAsync({
+			return await mutation.mutateAsync({
 				...ctx.value,
 				effectImageList: store.serverResInfo?.effectImageList,
 				previewImageList: store.serverResInfo.previewImageList,

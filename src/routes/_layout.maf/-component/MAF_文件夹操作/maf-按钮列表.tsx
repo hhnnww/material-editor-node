@@ -28,6 +28,12 @@ export const MAFButtonList = [
 			icon: <FolderSync />,
 			confirm: false,
 		},
+		{ name: "移动到数字目录", icon: <FolderSync />, confirm: false },
+		{
+			name: "删除EPS文件",
+			icon: <FileXCorner />,
+			confirm: false,
+		},
 	],
 	[
 		{ name: "子目录内容移动到根", icon: <ArrowUpToLine />, confirm: false },
@@ -45,6 +51,7 @@ export const MAFButtonList = [
 	[
 		{ name: "PSD导出图片", icon: <ImagePlay />, confirm: false },
 		{ name: "PSD导出图片—插入广告", icon: <ImagePlay />, confirm: false },
+		{ name: "PSD删除广告_导出图片", icon: <ImagePlay />, confirm: false },
 		{ name: "图片转PSD", icon: <ImagePlay />, confirm: false },
 		{ name: "打开没有预览图的PSD文件", icon: <ImagePlay />, confirm: false },
 	],

@@ -30,7 +30,7 @@ export function MAF_制作首图() {
 				alert("必须填写标题");
 				return;
 			}
-			await mutation.mutateAsync(ctx.value);
+			return mutation.mutateAsync(ctx.value);
 		},
 	});
 

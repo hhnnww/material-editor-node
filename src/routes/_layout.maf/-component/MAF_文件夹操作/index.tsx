@@ -30,9 +30,9 @@ export function MAF_文件夹操作() {
 			shopName: "",
 		} as InferRouterInputs<typeof ORPC_文件夹操作>,
 
-		onSubmit: async (ctx) => {
-			await mutation.mutateAsync(ctx.value);
-			await loadFolderMutation.mutateAsync({
+		onSubmit: (ctx) => {
+			mutation.mutate(ctx.value);
+			loadFolderMutation.mutate({
 				rootPath: store.rootPath,
 				shopName: store.shopName,
 			});

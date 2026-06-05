@@ -45,5 +45,7 @@ export const ORPC_加载素材 = os
 			materialFormatWithCount,
 			folderNav,
 			refresh: true,
+			shopName: ctx.input.shopName,
+			rootPath: ctx.input.rootPath,
 		};
 	});

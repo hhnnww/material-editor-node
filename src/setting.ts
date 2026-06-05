@@ -1,11 +1,20 @@
 import { adlayerNames } from "./ps-layer-ad-names";
+import { psAdLayerNameReplayceList } from "./ps-layer-name-replace-list";
 
 const shopList = ["小夕素材", "泡泡素材", "饭桶设计"];
 const imageSuffixList = [".jpg", ".jpeg", ".png", ".gif"];
 const zipSuffixList = [".zip", ".rar", ".7z"];
 const materialSuffixList = [".psd", ".psb", ".ai", ".eps", ".ppt", ".pptx"];
 const thumbImageMaxWidth = 800;
-const adSuffixList = [".txt", ".pdf", ".docx", ".html", ".DS_Store"];
+const adSuffixList = [
+	".txt",
+	".pdf",
+	".docx",
+	".html",
+	".DS_Store",
+	".url",
+	".doc",
+];
 const stWidth = 2000;
 const stHeight = 2000;
 const xqWidth = 2000;
@@ -25,6 +34,7 @@ const stLayoutList = [
 const logoSize = 100;
 
 export const setting = {
+	psAdLayerNameReplayceList,
 	adlayerNames,
 	logoSize,
 	stLayoutList,

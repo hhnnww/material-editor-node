@@ -1,11 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
-import { imageSizeFromFile } from "image-size/fromFile";
+import { imageSize } from "image-size"; // 改为引入通用的 imageSize
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
 type output = {
 	imagePath: string;
+	imageName: string;
 	thumbpath: string;
 	imageRatio: number;
 	width: number;
@@ -35,10 +36,12 @@ export async function FUN_获取效果图(effectPath: string, thumbPath: string)
 		if (fs.existsSync(targetThumbPath)) {
 			try {
 				// 这里需要用fs先读取图片把
-				const dimensions = await imageSizeFromFile(imagePath);
+				const buffer = fs.readFileSync(imagePath);
+				const dimensions = imageSize(buffer);
 				if (dimensions.width && dimensions.height) {
 					result.push({
 						imagePath: imagePath,
+						imageName: path.basename(imagePath),
 						thumbpath: targetThumbPath,
 						width: dimensions.width,
 						height: dimensions.height,

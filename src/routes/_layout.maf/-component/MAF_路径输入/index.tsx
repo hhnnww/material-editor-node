@@ -11,6 +11,7 @@ export function MAF_路径输入() {
 		onSubmit: async (ctx) => {
 			useMafStore.setState((state) => {
 				state.shopName = ctx.value.shopName;
+				state.rootPath = ctx.value.rootPath;
 			});
 
 			return await loaderRootPathMutation.mutateAsync({

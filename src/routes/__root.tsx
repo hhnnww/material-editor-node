@@ -23,7 +23,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 				content: "width=device-width, initial-scale=1",
 			},
 			{
-				title: "MaterialEdit APP 1.0",
+				title: "素材编辑 NODE 1.0",
 			},
 		],
 		links: [

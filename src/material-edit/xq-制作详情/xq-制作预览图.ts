@@ -61,6 +61,7 @@ export async function XQ_制作预览图(
 			let imgBuffer = await sharp(img.imagePath)
 				.resize(currentItemWidth)
 				.toBuffer();
+
 			const imgMeta = await sharp(imgBuffer).metadata();
 			const currentImgWidth = imgMeta.width || currentItemWidth;
 			const currentImgHeight = imgMeta.height || 0;

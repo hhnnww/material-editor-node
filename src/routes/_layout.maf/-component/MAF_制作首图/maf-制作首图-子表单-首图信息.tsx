@@ -40,7 +40,7 @@ export const MAF_制作首图_子表单_首图信息 = withForm({
 							col={2}
 							type="number"
 							min={1}
-							max={6}
+							max={20}
 							step={1}
 						/>
 					)}

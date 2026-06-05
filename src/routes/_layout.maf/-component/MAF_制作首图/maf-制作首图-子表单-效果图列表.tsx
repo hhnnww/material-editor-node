@@ -87,7 +87,7 @@ export const MAF_效果图列表 = withForm({
 											}}
 										>
 											<img
-												src={`/__local_disk_stream__/${item.thumbpath}`}
+												src={`/__local_disk_stream__/${item.thumbpath}?time=${Date.now()}`}
 												alt={item.imagePath}
 												className={`p-2 ${
 													child.includes(item)
@@ -96,6 +96,7 @@ export const MAF_效果图列表 = withForm({
 												}`}
 											/>
 										</button>
+										<div className="">{item.imageName.toUpperCase()}</div>
 										<Button
 											disabled={
 												deleImageMutation.isPending &&

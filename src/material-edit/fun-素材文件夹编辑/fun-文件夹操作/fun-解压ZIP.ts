@@ -11,6 +11,7 @@ export function FUN_解压ZIP(materialPath: string) {
 	 * 解压完成之后删除所有zip压缩包
 	 */
 	const zipFileList = FUN_递归遍历文件夹(materialPath, setting.zipSuffixList);
+	console.log(`找到压缩文件列表:`, zipFileList);
 
 	if (zipFileList.length === 0) return;
 
@@ -23,6 +24,7 @@ export function FUN_解压ZIP(materialPath: string) {
 
 		// 解压成功后删除所有压缩包
 		for (const zipPath of zipFileList) {
+			console.log(`正在删除压缩包: ${zipPath}`);
 			fs.unlinkSync(zipPath);
 		}
 	} catch (error) {

@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { imageSizeFromFile } from "image-size/fromFile";
+import { imageSize } from "image-size"; // 改为引入通用的 imageSize
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
@@ -46,7 +46,8 @@ export async function FUN_获取预览图(props: {
 		// 只有当缩略图存在时才处理
 		if (fs.existsSync(targetThumbPath)) {
 			try {
-				const dimensions = await imageSizeFromFile(previewPath);
+				const buffer = fs.readFileSync(previewPath);
+				const dimensions = imageSize(buffer);
 				if (dimensions.width && dimensions.height) {
 					// 查找对应的素材源文件名称 (stem)
 					// 预览图文件名即为素材文件名或包含素材文件名
