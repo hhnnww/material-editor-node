@@ -30,7 +30,7 @@ export async function FUN_素材图水印(materialPath: string, shopName: string
 
 		try {
 			console.log(`正在处理图片水印: ${imgPath}`);
-			const image = sharp(imgPath);
+			const image = sharp(imgPath).resize(1200);
 			const metadata = await image.metadata();
 
 			if (metadata.width && metadata.height) {

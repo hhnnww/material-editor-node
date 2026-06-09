@@ -14,6 +14,7 @@ import { FUN_图片转PSD } from "#/material-edit/fun-素材文件夹编辑/fun-
 import { FUN_复制到预览图 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-复制到预览图";
 import { FUN_子文件夹源文件重命名 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子文件夹源文件重命名";
 import { FUN_子目录移动到根目录 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子目录内容移动到根";
+import { FUN_子目录图片横向排列 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子目录图片横向排列";
 import { FUN_子目录图片重命名 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子目录图片重命名";
 import { FUN_子目录重命名 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子目录重命名";
 import { FUN_PPT导出图片 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-导出PPTX图片";
@@ -117,7 +118,7 @@ export const ORPC_文件夹操作 = os
 		} else if (actionName === "AI导出图片-插入广告") {
 			FUN_AI导出图片(folderStructure.materialPath, true);
 		} else if (actionName === "素材图水印") {
-			FUN_素材图水印(folderStructure.materialPath, ctx.input.shopName);
+			await FUN_素材图水印(folderStructure.materialPath, ctx.input.shopName);
 		} else if (actionName === "PSD删除广告_导出图片") {
 			FUN_PSD_删除广告_导出图片(
 				folderStructure.materialPath,
@@ -133,6 +134,8 @@ export const ORPC_文件夹操作 = os
 					path.join(folderStructure.thumbPath, "预览图"),
 				],
 			});
+		} else if (actionName === "子目录图片横向拼接") {
+			FUN_子目录图片横向排列({ materialPath: folderStructure.materialPath });
 		}
 
 		return { success: true, actionName: ctx.input.actionName, refresh: false };

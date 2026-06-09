@@ -50,3 +50,13 @@ export const setting = {
 	xqWidth,
 	stHeijingHeight,
 };
+
+export type fontWeight =
+	| "Thin"
+	| "ExtraLight"
+	| "Light"
+	| "Regular"
+	| "Text"
+	| "Medium"
+	| "SemiBold"
+	| "Bold";

@@ -42,6 +42,7 @@ export const MAFButtonList = [
 		{ name: "子文件夹源文件重命名", icon: <FolderSync />, confirm: false },
 		{ name: "子目录图片重命名", icon: <ImagePlay />, confirm: false },
 		{ name: "享设计制作预览图", icon: <ImagePlus />, confirm: false },
+		{ name: "子目录图片横向拼接", icon: <ImagePlus />, confirm: false },
 	],
 	[
 		{ name: "AI导出图片", icon: <ImagePlus />, confirm: false },

@@ -7,11 +7,6 @@ const require = createRequire(import.meta.url);
 const winax = require("winax");
 
 export function FUN_打开没有预览图的AI文件(materialPath: string) {
-	/**
-	 * 查找ai或者eps源文件是否有对应的素材图
-	 * 如果没有的话使用winax打开这个源文件
-	 * 一次只能打开10个
-	 */
 	const materialFileList = FUN_递归遍历文件夹(materialPath, [".ai", ".eps"]);
 	const imageFileList = FUN_递归遍历文件夹(
 		materialPath,
@@ -22,6 +17,12 @@ export function FUN_打开没有预览图的AI文件(materialPath: string) {
 
 	for (const mFile of materialFileList) {
 		const mDir = path.dirname(mFile);
+		const parentDirName = path.basename(mDir).toLowerCase();
+
+		if (parentDirName === "links" || parentDirName === "link") {
+			continue;
+		}
+
 		const mStem = path.basename(mFile, path.extname(mFile));
 
 		// 检查同目录下是否存在同名的图片文件

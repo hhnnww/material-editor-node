@@ -1,6 +1,7 @@
 import { os } from "@orpc/server";
 import z from "zod";
 import { FUN_保存图片 } from "#/material-edit/fun-图片功能/fun-保存图片";
+import { RUN_制作T500首图 } from "#/material-edit/st-制作首图/st-T500";
 import { ST_1大1小 } from "#/material-edit/st-制作首图/st-制作布局/st-1大1小";
 import { ST_1大列2小列 } from "#/material-edit/st-制作首图/st-制作布局/st-1大列-2小列";
 import { ST_列_固定尺寸 } from "#/material-edit/st-制作首图/st-制作布局/st-列-固定尺寸";
@@ -62,6 +63,16 @@ export const ORPC_制作首图 = os
 						: ctx.input.format === "pptx"
 							? "ppt"
 							: ctx.input.format,
+				background: ctx.input.background,
+				shopName: ctx.input.shopName,
+				currentStem: ctx.input.currentStem,
+			});
+			await FUN_保存图片(st, `st_${ctx.input.nameNum}`, false);
+		} else if (ctx.input.style === "T500") {
+			const st = await RUN_制作T500首图({
+				bg: layoutIm,
+				title: ctx.input.title,
+				format: ctx.input.format,
 				background: ctx.input.background,
 				shopName: ctx.input.shopName,
 				currentStem: ctx.input.currentStem,

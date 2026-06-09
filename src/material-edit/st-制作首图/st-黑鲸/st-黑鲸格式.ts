@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { FUN_制作文字图片 } from "#/material-edit/fun-图片功能/fun-制作文字图片";
+import { makeTextImage } from "#/material-edit/fun-图片功能/fun-制作文字图片2";
 
 export async function ST_黑鲸格式(format: string) {
 	/**
@@ -41,13 +41,12 @@ export async function ST_黑鲸格式(format: string) {
 	const width = 250;
 	const height = width;
 	const config = colorMap[format.toLowerCase()] || colorMap.normal;
-	const fontSize = format.length <= 2 ? 105 : 80;
 	const borderWidth = 13;
 
-	const formatTextImg = await FUN_制作文字图片({
+	const formatTextImg = await makeTextImage({
 		text: format.toUpperCase(),
-		fontSize: fontSize,
-		fontWidth: "Bold",
+		width: 120,
+		fontWeight: "Bold",
 		fillColor: config.textColor,
 	});
 
@@ -64,9 +63,8 @@ export async function ST_黑鲸格式(format: string) {
 		.composite([
 			{
 				input: formatTextImg,
-				left: Math.round((width + borderWidth - (textMeta.width || 0)) / 2) - 5,
-				top:
-					Math.round((height + borderWidth - (textMeta.height || 0)) / 2) - 5,
+				left: Math.round((width + borderWidth - (textMeta.width || 0)) / 2),
+				top: Math.round((height + borderWidth - (textMeta.height || 0)) / 2),
 			},
 		])
 		.png()

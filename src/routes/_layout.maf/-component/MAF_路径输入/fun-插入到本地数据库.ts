@@ -1,5 +1,3 @@
-import { createClientOnlyFn } from "@tanstack/react-start";
-
 export function insertToLocalStorage(props: {
 	shopName: string;
 	rootPath: string;
@@ -34,7 +32,7 @@ export function insertToLocalStorage(props: {
 
 type localRootPath = { shopName: string; rootPath: string[] }[];
 
-export const getLocalStorage = createClientOnlyFn((): localRootPath => {
+export const getLocalStorage = (): localRootPath => {
 	const shopNameSort = [
 		{ shopName: "小夕素材", sort: 1 },
 		{ shopName: "泡泡素材", sort: 2 },
@@ -52,4 +50,4 @@ export const getLocalStorage = createClientOnlyFn((): localRootPath => {
 		});
 	}
 	return [];
-});
+};

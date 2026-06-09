@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { FUN_制作文字图片 } from "#/material-edit/fun-图片功能/fun-制作文字图片";
+import { makeTextImage } from "#/material-edit/fun-图片功能/fun-制作文字图片2";
 
 export async function ST_黑鲸商家编码(currentStem: string) {
 	/**
@@ -13,13 +13,13 @@ export async function ST_黑鲸商家编码(currentStem: string) {
 	 * 把stemimage 水平和垂直居中粘贴进去
 	 * 返回buff
 	 */
-	const borderRadius = 30;
+	const borderRadius = 40;
 	const paddingX = 60;
-	const paddingY = 30;
-	const stemImage = await FUN_制作文字图片({
+	const paddingY = 50;
+	const stemImage = await makeTextImage({
 		text: `ID:${currentStem}`,
-		fontSize: 37,
-		fontWidth: "Bold",
+		height: 35,
+		fontWeight: "SemiBold",
 		fillColor: "#FFFFFF",
 	});
 

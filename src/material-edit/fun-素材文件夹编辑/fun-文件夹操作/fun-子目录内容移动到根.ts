@@ -15,7 +15,7 @@ export function FUN_子目录移动到根目录(materialPath: string) {
 
 		if (stats.isDirectory()) {
 			console.log(`正在处理子目录: ${fullPath}`);
-			FUN_移动到根目录(fullPath);
+			FUN_移动到根目录([fullPath]);
 		}
 	}
 }

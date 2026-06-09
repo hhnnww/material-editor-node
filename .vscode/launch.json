@@ -25,6 +25,7 @@
 			"skipFiles": ["<node_internals>/**"],
 			// 🎯 核心改变：指定使用 node_modules 下的 tsx 来执行
 			"runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
+			"autoAttachChildProcesses": false, // 💡 阻止 VS Code 重复附加子进程
 			"args": [
 				"watch", // 让 tsx 处于监听模式
 				"${file}"
