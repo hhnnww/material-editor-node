@@ -15,10 +15,14 @@ export function MAF_文件夹操作() {
 	const loadFolderMutation = useLoadRootPathMutation();
 	const mutation = useMutation(
 		orpc.ORPC_文件夹操作.mutationOptions({
-			onSuccess: (ctx) => {
+			onSuccess: async (ctx) => {
 				toast(`${ctx.actionName} 操作成功`, {
 					position: "top-center",
 					icon: <CircleCheck />,
+				});
+				await loadFolderMutation.mutateAsync({
+					rootPath: store.rootPath,
+					shopName: store.shopName,
 				});
 			},
 		}),
@@ -30,14 +34,8 @@ export function MAF_文件夹操作() {
 			shopName: "",
 		} as InferRouterInputs<typeof ORPC_文件夹操作>,
 
-		onSubmit: (ctx) => {
-			mutation.mutate(ctx.value);
-			loadFolderMutation.mutate({
-				rootPath: store.rootPath,
-				shopName: store.shopName,
-			});
-
-			return true;
+		onSubmit: async (ctx) => {
+			return await mutation.mutateAsync(ctx.value);
 		},
 	});
 	const store = useMafStore();

@@ -103,7 +103,6 @@ export const MAF_效果图列表 = withForm({
 												deleImageMutation.status.includes(item.imagePath)
 											}
 											onClick={async () => {
-												if (!confirm("确定要删除吗")) return;
 												const index = child.findIndex(
 													(selected) => selected.imagePath === item.imagePath,
 												);

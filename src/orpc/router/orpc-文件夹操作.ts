@@ -3,6 +3,7 @@ import { os } from "@orpc/server";
 import z from "zod";
 import { FUN_创建文件夹 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹初始化/fun-创建文件夹";
 import { FUN_AI导出图片 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-AI导出图片";
+import { FUN_EPS文件转AI文件 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-eps文件转ai文件";
 import { FUN_PSD_删除广告_导出图片 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-PSD删除广告-导出图片";
 import { FUN_PSD导出图片 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-PSD导出图片";
 import { FUN_享设计制作预览图 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-享设计制作预览图";
@@ -45,6 +46,8 @@ export const ORPC_文件夹操作 = os
 
 		if (actionName === "打开素材文件夹") {
 			FUN_打开文件夹(folderStructure.materialPath);
+		} else if (actionName === "打开效果图文件夹") {
+			FUN_打开文件夹(folderStructure.effectPath);
 		} else if (actionName === "移动到根目录") {
 			FUN_移动到根目录([
 				folderStructure.materialPath,
@@ -136,6 +139,8 @@ export const ORPC_文件夹操作 = os
 			});
 		} else if (actionName === "子目录图片横向拼接") {
 			FUN_子目录图片横向排列({ materialPath: folderStructure.materialPath });
+		} else if (actionName === "EPS文件转AI文件") {
+			await FUN_EPS文件转AI文件({ materialPath: folderStructure.materialPath });
 		}
 
 		return { success: true, actionName: ctx.input.actionName, refresh: false };

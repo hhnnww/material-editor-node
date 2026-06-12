@@ -20,7 +20,13 @@ export function FUN_PSD_删除广告_导出图片(
 	if (psdFileList.length === 0) return;
 
 	try {
-		const app = new winax.Object("Photoshop.Application");
+		/**
+		 * 如果安装了多个版本或不在默认路径，可以使用版本化的 ProgID，例如:
+		 * Photoshop.Application.180 (PS 2024)
+		 * Photoshop.Application.170 (PS 2023)
+		 * 或者直接使用 Photoshop.Application
+		 */
+		const app = new winax.Object("Photoshop.Application.200");
 		app.DisplayDialogs = 3;
 
 		for (const psdPath of psdFileList) {

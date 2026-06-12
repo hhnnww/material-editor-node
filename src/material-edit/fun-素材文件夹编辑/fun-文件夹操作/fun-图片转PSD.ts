@@ -8,14 +8,6 @@ const require = createRequire(import.meta.url);
 const winax = require("winax");
 
 export function FUN_图片转PSD(materialPath: string) {
-	/**
-	 * 遍历图片列表
-	 * 使用ps打开图片
-	 * 解锁背景图层
-	 * 把psd另存为同层文件夹同stem的psd文件
-	 * 关闭psd文档
-	 * 删除图片
-	 */
 	const imageFileList = FUN_递归遍历文件夹(
 		materialPath,
 		setting.imageSuffixList,
@@ -24,7 +16,7 @@ export function FUN_图片转PSD(materialPath: string) {
 	if (imageFileList.length === 0) return;
 
 	try {
-		const app = new winax.Object("Photoshop.Application");
+		const app = new winax.Object("Photoshop.Application.200");
 
 		for (const imgPath of imageFileList) {
 			try {
@@ -42,7 +34,7 @@ export function FUN_图片转PSD(materialPath: string) {
 
 				// 设置 PSD 保存选项
 				const psdSaveOptions = new winax.Object(
-					"Photoshop.PhotoshopSaveOptions",
+					"Photoshop.PhotoshopSaveOptions.200",
 				);
 				psdSaveOptions.Layers = true;
 

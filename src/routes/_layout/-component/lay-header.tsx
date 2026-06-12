@@ -1,5 +1,5 @@
 import { Link, linkOptions } from "@tanstack/react-router";
-import { CloudUpload, Home, ImagePlay } from "lucide-react";
+import { CloudUpload, Home, ImagePlay, Workflow } from "lucide-react";
 import { Button } from "#/components/ui/button";
 
 export function LayHeader() {
@@ -9,6 +9,11 @@ export function LayHeader() {
 			name: "素材编辑",
 			link: linkOptions({ to: "/maf" }),
 			icon: <ImagePlay />,
+		},
+		{
+			name: "批处理",
+			link: linkOptions({ to: "/auto_action" }),
+			icon: <Workflow />,
 		},
 		{
 			name: "上传到百度网盘",

@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url);
 const winax = require("winax");
 
 export function FUN_当前PSD导出JPG(props: { materialPath: string }) {
-	const app = new winax.Object("Photoshop.Application");
+	const app = new winax.Object("Photoshop.Application.200");
 	const doc = app.activeDocument;
 
 	const psdDir = path.dirname(props.materialPath);
@@ -15,7 +15,9 @@ export function FUN_当前PSD导出JPG(props: { materialPath: string }) {
 	);
 	const targetImagePath = path.join(psdDir, `${psdStem}.jpg`);
 
-	const exportOptions = new winax.Object("Photoshop.ExportOptionsSaveForWeb");
+	const exportOptions = new winax.Object(
+		"Photoshop.ExportOptionsSaveForWeb.200",
+	);
 	exportOptions.Format = 6;
 	exportOptions.Quality = 80;
 	doc.Export(targetImagePath, 2, exportOptions);

@@ -1,8 +1,8 @@
 import type { InferRouterInputs } from "@orpc/server";
 import sharp, { type OverlayOptions } from "sharp";
-import { FUN_制作文字图片 } from "#/material-edit/fun-图片功能/fun-制作文字图片";
 import type { ORPC_制作详情 } from "#/orpc/router/orpc-制作详情";
 import { setting } from "#/setting";
+import { makeTextImage } from "../fun-图片功能/fun-制作文字图片2";
 import { XQ_制作标题 } from "./xq-制作标题";
 
 export async function XQ_制作预览图(
@@ -77,11 +77,11 @@ export async function XQ_制作预览图(
 			}
 
 			const nameText = img.materialName.toUpperCase();
-			const nameImg = await FUN_制作文字图片({
+			const nameImg = await makeTextImage({
 				text: nameText,
-				fontSize: nameFontSize,
-				fontWidth: nameFontWeight,
+				fontWeight: "Light",
 				fillColor: nameFontColor,
+				height: 40,
 			});
 
 			let processedNameImg = nameImg;
@@ -97,12 +97,11 @@ export async function XQ_制作预览图(
 			const sizeText = ["ai", "eps"].includes(ext || "")
 				? "AI矢量素材"
 				: `${img.width}×${img.height}(PX)`;
-
-			const sizeImg = await FUN_制作文字图片({
+			const sizeImg = await makeTextImage({
 				text: sizeText,
-				fontSize: sizeFontSize,
-				fontWidth: sizeFontWeight,
+				fontWeight: "Light",
 				fillColor: sizeFontColor,
+				height: 35,
 			});
 
 			let processedSizeImg = sizeImg;

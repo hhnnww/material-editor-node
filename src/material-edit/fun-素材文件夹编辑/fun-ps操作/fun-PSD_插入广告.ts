@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 const winax = require("winax");
 
 export function FUN_PSD_插入广告(shopName: string) {
-	const app = new winax.Object("Photoshop.Application");
+	const app = new winax.Object("Photoshop.Application.200");
 	const doc = app.activeDocument;
 	const qrDir = path.join(process.cwd(), "public", "二维码");
 
@@ -23,7 +23,7 @@ export function FUN_PSD_插入广告(shopName: string) {
 
 			// 使用 ActionManager 执行 Place (置入) 命令
 			const idPlc = app.CharIDToTypeID("Plc ");
-			const desc = new winax.Object("Photoshop.ActionDescriptor");
+			const desc = new winax.Object("Photoshop.ActionDescriptor.200");
 			const idnull = app.CharIDToTypeID("null");
 			desc.PutPath(idnull, qrPath);
 			const idFTms = app.CharIDToTypeID("FTms");

@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LayoutRouteRouteImport } from './routes/_layout/route'
 import { Route as LayoutIndexRouteImport } from './routes/_layout.index'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
+import { Route as LayoutAuto_actionRouteRouteImport } from './routes/_layout.auto_action/route'
 import { Route as LayoutUp_baiduIndexRouteImport } from './routes/_layout.up_baidu/index'
 import { Route as LayoutMafIndexRouteImport } from './routes/_layout.maf/index'
+import { Route as LayoutAuto_actionIndexRouteImport } from './routes/_layout.auto_action/index'
 import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
 
 const LayoutRouteRoute = LayoutRouteRouteImport.update({
@@ -30,6 +32,11 @@ const ApiSplatRoute = ApiSplatRouteImport.update({
   path: '/api/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LayoutAuto_actionRouteRoute = LayoutAuto_actionRouteRouteImport.update({
+  id: '/auto_action',
+  path: '/auto_action',
+  getParentRoute: () => LayoutRouteRoute,
+} as any)
 const LayoutUp_baiduIndexRoute = LayoutUp_baiduIndexRouteImport.update({
   id: '/up_baidu/',
   path: '/up_baidu/',
@@ -40,6 +47,11 @@ const LayoutMafIndexRoute = LayoutMafIndexRouteImport.update({
   path: '/maf/',
   getParentRoute: () => LayoutRouteRoute,
 } as any)
+const LayoutAuto_actionIndexRoute = LayoutAuto_actionIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LayoutAuto_actionRouteRoute,
+} as any)
 const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   id: '/api/rpc/$',
   path: '/api/rpc/$',
@@ -48,8 +60,10 @@ const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
+  '/auto_action': typeof LayoutAuto_actionRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/auto_action/': typeof LayoutAuto_actionIndexRoute
   '/maf/': typeof LayoutMafIndexRoute
   '/up_baidu/': typeof LayoutUp_baiduIndexRoute
 }
@@ -57,29 +71,41 @@ export interface FileRoutesByTo {
   '/api/$': typeof ApiSplatRoute
   '/': typeof LayoutIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/auto_action': typeof LayoutAuto_actionIndexRoute
   '/maf': typeof LayoutMafIndexRoute
   '/up_baidu': typeof LayoutUp_baiduIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_layout': typeof LayoutRouteRouteWithChildren
+  '/_layout/auto_action': typeof LayoutAuto_actionRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
   '/_layout/': typeof LayoutIndexRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
+  '/_layout/auto_action/': typeof LayoutAuto_actionIndexRoute
   '/_layout/maf/': typeof LayoutMafIndexRoute
   '/_layout/up_baidu/': typeof LayoutUp_baiduIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/$' | '/api/rpc/$' | '/maf/' | '/up_baidu/'
+  fullPaths:
+    | '/'
+    | '/auto_action'
+    | '/api/$'
+    | '/api/rpc/$'
+    | '/auto_action/'
+    | '/maf/'
+    | '/up_baidu/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/api/$' | '/' | '/api/rpc/$' | '/maf' | '/up_baidu'
+  to: '/api/$' | '/' | '/api/rpc/$' | '/auto_action' | '/maf' | '/up_baidu'
   id:
     | '__root__'
     | '/_layout'
+    | '/_layout/auto_action'
     | '/api/$'
     | '/_layout/'
     | '/api/rpc/$'
+    | '/_layout/auto_action/'
     | '/_layout/maf/'
     | '/_layout/up_baidu/'
   fileRoutesById: FileRoutesById
@@ -113,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_layout/auto_action': {
+      id: '/_layout/auto_action'
+      path: '/auto_action'
+      fullPath: '/auto_action'
+      preLoaderRoute: typeof LayoutAuto_actionRouteRouteImport
+      parentRoute: typeof LayoutRouteRoute
+    }
     '/_layout/up_baidu/': {
       id: '/_layout/up_baidu/'
       path: '/up_baidu'
@@ -127,6 +160,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutMafIndexRouteImport
       parentRoute: typeof LayoutRouteRoute
     }
+    '/_layout/auto_action/': {
+      id: '/_layout/auto_action/'
+      path: '/'
+      fullPath: '/auto_action/'
+      preLoaderRoute: typeof LayoutAuto_actionIndexRouteImport
+      parentRoute: typeof LayoutAuto_actionRouteRoute
+    }
     '/api/rpc/$': {
       id: '/api/rpc/$'
       path: '/api/rpc/$'
@@ -137,13 +177,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LayoutAuto_actionRouteRouteChildren {
+  LayoutAuto_actionIndexRoute: typeof LayoutAuto_actionIndexRoute
+}
+
+const LayoutAuto_actionRouteRouteChildren: LayoutAuto_actionRouteRouteChildren =
+  {
+    LayoutAuto_actionIndexRoute: LayoutAuto_actionIndexRoute,
+  }
+
+const LayoutAuto_actionRouteRouteWithChildren =
+  LayoutAuto_actionRouteRoute._addFileChildren(
+    LayoutAuto_actionRouteRouteChildren,
+  )
+
 interface LayoutRouteRouteChildren {
+  LayoutAuto_actionRouteRoute: typeof LayoutAuto_actionRouteRouteWithChildren
   LayoutIndexRoute: typeof LayoutIndexRoute
   LayoutMafIndexRoute: typeof LayoutMafIndexRoute
   LayoutUp_baiduIndexRoute: typeof LayoutUp_baiduIndexRoute
 }
 
 const LayoutRouteRouteChildren: LayoutRouteRouteChildren = {
+  LayoutAuto_actionRouteRoute: LayoutAuto_actionRouteRouteWithChildren,
   LayoutIndexRoute: LayoutIndexRoute,
   LayoutMafIndexRoute: LayoutMafIndexRoute,
   LayoutUp_baiduIndexRoute: LayoutUp_baiduIndexRoute,

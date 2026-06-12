@@ -14,6 +14,9 @@ import {
 export const MAFButtonList = [
 	[
 		{ name: "打开素材文件夹", icon: <FolderOpen />, confirm: false },
+		{ name: "打开效果图文件夹", icon: <FolderOpen /> },
+	],
+	[
 		{ name: "打开桌面上传文件夹", icon: <FolderOpen />, confirm: false },
 		{ name: "打开小夕素材大目录", icon: <FolderOpen />, confirm: false },
 		{ name: "打开泡泡素材大目录", icon: <FolderOpen />, confirm: false },
@@ -48,6 +51,7 @@ export const MAFButtonList = [
 		{ name: "AI导出图片", icon: <ImagePlus />, confirm: false },
 		{ name: "AI导出图片-插入广告", icon: <ImagePlus />, confirm: false },
 		{ name: "打开没有预览图的AI文件", icon: <ImageUp />, confirm: false },
+		{ name: "EPS文件转AI文件", icon: <ImageUp />, confirm: false },
 	],
 	[
 		{ name: "PSD导出图片", icon: <ImagePlay />, confirm: false },
