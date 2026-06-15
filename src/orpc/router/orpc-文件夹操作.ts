@@ -13,6 +13,7 @@ import { FUN_删除广告文件 } from "#/material-edit/fun-素材文件夹编�
 import { FUN_删除文件夹内所有图片 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-删除素材文件夹内所有图片";
 import { FUN_图片转PSD } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-图片转PSD";
 import { FUN_复制到预览图 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-复制到预览图";
+import { FUN_复制效果图片到剪切板 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-复制效果图到剪切板";
 import { FUN_子文件夹源文件重命名 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子文件夹源文件重命名";
 import { FUN_子目录移动到根目录 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子目录内容移动到根";
 import { FUN_子目录图片横向排列 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-子目录图片横向排列";
@@ -141,6 +142,10 @@ export const ORPC_文件夹操作 = os
 			FUN_子目录图片横向排列({ materialPath: folderStructure.materialPath });
 		} else if (actionName === "EPS文件转AI文件") {
 			await FUN_EPS文件转AI文件({ materialPath: folderStructure.materialPath });
+		} else if (actionName === "复制效果图") {
+			FUN_复制效果图片到剪切板({
+				effectPath: folderStructure.effectPath,
+			});
 		}
 
 		return { success: true, actionName: ctx.input.actionName, refresh: false };

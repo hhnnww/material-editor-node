@@ -72,4 +72,6 @@ export async function FUN_复制到预览图(
 			console.error(`处理预览图失败: ${oldPath}`, error);
 		}
 	}
+
+	return true;
 }

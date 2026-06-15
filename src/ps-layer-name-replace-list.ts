@@ -11,4 +11,8 @@ export const psAdLayerNameReplayceList = [
 	{ ori: "699pic", dst: "xiaoxi" },
 	{ ori: "baotu", dst: "xiaoxi" },
 	{ ori: "摄图", dst: "小夕" },
+	{
+		ori: "qiantu",
+		dst: "xiaoxi",
+	},
 ] as { ori: string; dst: string }[];
