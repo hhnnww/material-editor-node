@@ -63,7 +63,7 @@ export async function ST_黑鲸格式(format: string) {
 		.composite([
 			{
 				input: formatTextImg,
-				left: Math.round((width + borderWidth - (textMeta.width || 0)) / 2),
+				left: Math.round((width + borderWidth - (textMeta.width || 0)) / 2) - 5,
 				top: Math.round((height + borderWidth - (textMeta.height || 0)) / 2),
 			},
 		])

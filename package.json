@@ -6,7 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "vite dev --port 3000",
+    "dev": "set UV_THREADPOOL_SIZE=16 && vite dev --port 3000",
     "build": "vite build",
     "preview": "cross-env NODE_OPTIONS=\"--max-old-space-size=24096\" vite preview",
     "test": "vitest run",
@@ -41,6 +41,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "color-convert": "^3.1.3",
     "date-fns": "^4.3.0",
     "dotenv": "^17.4.2",
     "drizzle-kit": "^0.31.10",

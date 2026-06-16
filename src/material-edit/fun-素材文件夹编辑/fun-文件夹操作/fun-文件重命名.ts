@@ -10,13 +10,15 @@ type itemList = {
 }[];
 
 export function FUN_文件重命名(materialPath: string, shopName: string) {
-	/**
-	 * 修改成shopName(001)要有3位数
-	 */
-	const materialFileList = FUN_递归遍历文件夹(
+	let materialFileList = FUN_递归遍历文件夹(
 		materialPath,
 		setting.materialSuffixList,
 	);
+	// 根据后缀名排序
+	materialFileList = materialFileList.sort((a, b) =>
+		path.extname(a).localeCompare(path.extname(b)),
+	);
+
 	const imageFileList = FUN_递归遍历文件夹(
 		materialPath,
 		setting.imageSuffixList,

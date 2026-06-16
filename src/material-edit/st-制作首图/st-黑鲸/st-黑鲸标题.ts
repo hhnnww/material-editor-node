@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { FUN_制作文字图片 } from "#/material-edit/fun-图片功能/fun-制作文字图片";
+import { makeTextImage } from "#/material-edit/fun-图片功能/fun-制作文字图片2";
 import { setting } from "#/setting";
 
 export async function ST_黑鲸标题(params: { title: string }) {
@@ -12,13 +12,14 @@ export async function ST_黑鲸标题(params: { title: string }) {
 	 */
 	const width = setting.stWidth;
 	const height = setting.stHeijingHeight;
-	const borderRadius = 133;
-	const fontSize = 133;
-	const fontImage = await FUN_制作文字图片({
+	const borderRadius = 130;
+	const fontSize = 130;
+
+	const fontImage = await makeTextImage({
 		text: params.title,
-		fontSize: fontSize,
-		fontWidth: "Medium",
+		height: fontSize,
 		fillColor: "#FFFFFF",
+		fontWeight: "Medium",
 	});
 
 	const svgRect = Buffer.from(
@@ -33,7 +34,7 @@ export async function ST_黑鲸标题(params: { title: string }) {
 			{
 				input: fontImage,
 				left: 110,
-				top: Math.round((height - fontSize) / 2) - 2,
+				top: Math.round((height - fontSize) / 2),
 			},
 		])
 		.trim()

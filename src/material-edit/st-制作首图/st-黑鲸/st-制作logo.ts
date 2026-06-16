@@ -7,17 +7,19 @@ export async function ST_制作黑鲸LOGO(shopName: string) {
 	const spacing = 25;
 	const width = 230;
 	const height = 220;
-	const logoSize = Math.ceil(width * 0.63);
+	const logoSize = Math.ceil(width * 0.38);
 	const fontSize = 38;
 
 	// 1. 获取原始 LOGO 并调整为固定的宽高度
+	console.log("ST_制作黑鲸LOGO: 开始获取LOGO图片", { shopName, logoSize });
 	// 这里直接在第一步 resize 掉，免得后面 metadata 拿到的尺寸不准
-	const logoBuff = await sharp(await FUN_获取LOGO图片())
-		.resize({ width: logoSize })
-		.linear([0, 0, 0], [255, 255, 255])
-		.toBuffer();
+	const logoBuff = await FUN_获取LOGO图片({
+		fillColor: "#ffffff",
+		height: logoSize,
+	});
 
 	// 2. 生成文字图片
+	console.log("ST_制作黑鲸LOGO: 开始生成文字图片", { shopName, fontSize });
 	const shopBuff = await FUN_制作文字图片({
 		fontWidth: "Bold",
 		fontSize: fontSize,
@@ -33,6 +35,7 @@ export async function ST_制作黑鲸LOGO(shopName: string) {
 	const logoH = logoMeta.height || logoSize;
 	const shopW = shopMeta.width || 0;
 	const shopH = shopMeta.height || 0;
+	console.log("ST_制作黑鲸LOGO: 组件尺寸", { logoW, logoH, shopW, shopH });
 
 	// 🎯 计算内容真实总高度
 	const totalContentHeight = logoH + spacing + shopH;
@@ -47,6 +50,10 @@ export async function ST_制作黑鲸LOGO(shopName: string) {
 	// 计算整体垂直居中的起始 Y 坐标
 	const startY = (height - totalContentHeight) / 2;
 
+	console.log("ST_制作黑鲸LOGO: 开始合成最终图片", {
+		startY,
+		totalContentHeight,
+	});
 	// 🎯 核心修正：
 	// 创建一个纯透明的像素画布，然后将【黑色下圆角背景】、【LOGO】、【文字】依次叠上去
 	const resultBuffer = await sharp({
@@ -80,5 +87,6 @@ export async function ST_制作黑鲸LOGO(shopName: string) {
 		.png()
 		.toBuffer();
 
+	console.log("ST_制作黑鲸LOGO: 制作完成");
 	return resultBuffer;
 }

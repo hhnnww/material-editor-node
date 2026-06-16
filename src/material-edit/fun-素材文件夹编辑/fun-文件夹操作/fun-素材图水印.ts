@@ -19,40 +19,46 @@ export async function FUN_素材图水印(materialPath: string, shopName: string
 	);
 
 	const watermarkBuffer = await sharp(watermarkPath).toBuffer();
+	const concurrencyLimit = 10; // 同时处理10张图片
 
-	for (const imgPath of imageFileList) {
+	const tasks = imageFileList.map(async (imgPath) => {
 		const parentDirName = path.basename(path.dirname(imgPath)).toLowerCase();
 
-		// 如果图片的父文件夹是stem是links，则不处理
-		if (parentDirName.toLocaleLowerCase() === "links") {
-			continue;
-		}
+		if (parentDirName === "links") return;
 
 		try {
-			console.log(`正在处理图片水印: ${imgPath}`);
-			const image = sharp(imgPath).resize(1200);
+			const image = sharp(imgPath);
 			const metadata = await image.metadata();
 
 			if (metadata.width && metadata.height) {
-				// 调整水印大小，通常为原图宽度的 1/5
-				const watermarkWidth = Math.floor(metadata.width / 5);
+				const targetWidth = 1200;
+				const watermarkWidth = Math.floor(targetWidth / 5);
+
 				const resizedWatermark = await sharp(watermarkBuffer)
 					.resize(watermarkWidth)
 					.toBuffer();
 
-				const buffer = await image
+				const buffer = await sharp(imgPath)
+					.resize(targetWidth)
 					.composite([
 						{
 							input: resizedWatermark,
-							gravity: "southeast", // 右下角
+							gravity: "southeast",
 						},
 					])
 					.toBuffer();
+
 				await sharp(buffer).toFile(`${imgPath}.tmp`);
 				fs.renameSync(`${imgPath}.tmp`, imgPath);
+				console.log(`水印处理完成: ${path.basename(imgPath)}`);
 			}
 		} catch (error) {
 			console.error(`添加水印失败: ${imgPath}`, error);
 		}
+	});
+
+	// 使用简单的分批并行处理
+	for (let i = 0; i < tasks.length; i += concurrencyLimit) {
+		await Promise.all(tasks.slice(i, i + concurrencyLimit));
 	}
 }

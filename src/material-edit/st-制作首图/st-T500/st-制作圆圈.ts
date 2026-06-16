@@ -12,13 +12,11 @@ export const ST_制作圆圈 = async (props: {
 	const size = 740;
 	const spacing = 30;
 	const circleSvg = `<svg width="${size}" height="${size}"><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#000000" /></svg>`;
-	const logoBuffer = await FUN_获取LOGO图片();
 	const currentColor = "#FFC655";
-	const coloredLogo = await sharp(logoBuffer)
-		.resize(120)
-		.linear([0, 0, 0, 1], [255, 198, 85, 0]) // 将 logo 颜色填充为 #ffc655 (RGB: 255, 198, 85)
-		.png()
-		.toBuffer();
+	const coloredLogo = await FUN_获取LOGO图片({
+		fillColor: currentColor,
+		height: 90,
+	});
 	const logoMeta = await sharp(coloredLogo).metadata();
 	const shopNameBuffer = await makeTextImage({
 		fillColor: currentColor,

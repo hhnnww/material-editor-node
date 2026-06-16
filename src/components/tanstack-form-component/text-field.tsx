@@ -28,6 +28,7 @@ export function TextField(
 				}}
 				onBlur={field.handleBlur}
 				className="w-full"
+				autoComplete="off"
 			/>
 			{field.state.meta.errors && (
 				<FieldDescription>
