@@ -1,10 +1,6 @@
 import fs from "node:fs";
-import { createRequire } from "node:module";
 import path from "node:path";
-
-const require = createRequire(import.meta.url);
-const winax = require("winax");
-
+import winax from "winax";
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 

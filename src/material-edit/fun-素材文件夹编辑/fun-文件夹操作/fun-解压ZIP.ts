@@ -3,7 +3,7 @@ import fs from "node:fs";
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
-export function FUN_解压ZIP(materialPath: string) {
+export function unzipFiles(materialPath: string) {
 	/**
 	 * bandzip 解压命令
 	 * Bandizip.exe bx -o:materialPath -target:name a.zip b.zip c.zip

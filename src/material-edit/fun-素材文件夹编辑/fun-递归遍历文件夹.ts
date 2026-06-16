@@ -1,12 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
+
+/**
+ * 递归遍历文件夹，获取所有符合后缀条件的文件路径
+ * @param folder 目标文件夹路径
+ * @param suffixs 可选的文件后缀过滤数组 (例如: ['.jpg', '.png'])
+ * @returns 文件绝对路径数组
+ */
 export function FUN_递归遍历文件夹(folder: string, suffixs?: string[]) {
-	/**
-	 * 递归编辑文件夹内所有文件
-	 * 如果给出了suffixs
-	 * 则遍历指定后缀的文件
-	 * 否则遍历所有文件
-	 */
 	const files: string[] = [];
 
 	function traverse(currentPath: string) {

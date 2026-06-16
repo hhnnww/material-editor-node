@@ -4,18 +4,16 @@ import sharp from "sharp";
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
-export async function FUN_从效果图生成到缩略图(
+/**
+ * 从效果图文件夹生成缩略图
+ * @param effectPath 效果图文件夹路径
+ * @param thumbPath 缩略图根文件夹路径
+ */
+export async function generateThumbnailsFromEffects(
 	effectPath: string,
 	thumbPath: string,
 ) {
-	/**
-	 * 效果图目录 F:\泡泡素材\3000-3999\3675\效果图
-	 * 缩略图目录：F:\泡泡素材\3000-3999\3675\缩略图
-	 * 效果图对应的缩略图目录应该是 F:\泡泡素材\3000-3999\3675\缩略图\效果图
-	 * 构建对应的缩略图文件路径，如果缩略图不存在
-	 * 则使用sharp缩小到下面的尺寸，保存图片到缩略图
-	 */
-	const thumbImageMaxSize = setting.thumbImageMaxWidth;
+	const thumbImageMaxSize = setting.thumbImageMaxWidth; // 缩略图最大宽度
 	const effectImageList = FUN_递归遍历文件夹(
 		effectPath,
 		setting.imageSuffixList,

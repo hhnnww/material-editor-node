@@ -1,13 +1,15 @@
-import { createRequire } from "node:module";
+import winax from "winax";
 import { setting } from "#/setting";
 import { FUN_当前PSD导出JPG } from "../fun-ps操作/fun-PSD_当前导出JPG";
 import { FUN_PSD_插入广告 } from "../fun-ps操作/fun-PSD_插入广告";
 import { FUN_判断源文件是否有素材图 } from "../fun-判断源文件是否有素材图";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
-const require = createRequire(import.meta.url);
-const winax = require("winax");
-
+/**
+ * 遍历 PSD 文件，删除广告图层，替换特定文字，并导出为 JPG
+ * @param materialPath 素材根目录
+ * @param shopName 店铺名称（用于插入广告）
+ */
 export function FUN_PSD_删除广告_导出图片(
 	materialPath: string,
 	shopName: string,

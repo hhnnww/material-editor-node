@@ -1,8 +1,5 @@
-import { createRequire } from "node:module";
 import path from "node:path";
-
-const require = createRequire(import.meta.url);
-const winax = require("winax");
+import winax from "winax";
 
 export function FUN_当前PSD导出JPG(props: { materialPath: string }) {
 	const app = new winax.Object("Photoshop.Application.200");

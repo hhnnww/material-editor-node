@@ -2,7 +2,7 @@ import { os } from "@orpc/server";
 import z from "zod";
 import { FUN_创建文件夹 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹初始化/fun-创建文件夹";
 import { FUN_验证文件夹 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹初始化/fun-验证文件夹";
-import { FUN_从效果图生成到缩略图 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-从效果图生成到缩略图";
+import { generateThumbnailsFromEffects } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-效果图生成缩略图";
 import { FUN_获取上下文件夹 } from "#/material-edit/fun-素材文件夹编辑/fun-获取素材信息/fun-获取上下文件夹";
 import { FUN_获取效果图 } from "#/material-edit/fun-素材文件夹编辑/fun-获取素材信息/fun-获取效果图";
 import { FUN_获取素材格式 } from "#/material-edit/fun-素材文件夹编辑/fun-获取素材信息/fun-获取素材格式";
@@ -34,7 +34,7 @@ export const ORPC_加载素材 = os
 			folderStructure.materialPath,
 		);
 		const folderNav = await FUN_获取上下文件夹(ctx.input.rootPath);
-		await FUN_从效果图生成到缩略图(
+		await generateThumbnailsFromEffects(
 			folderStructure.effectPath,
 			folderStructure.thumbPath,
 		);

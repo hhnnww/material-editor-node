@@ -1,7 +1,12 @@
 import { useAppForm } from "#/components/tanstack-form-component/create-form";
 import { useMafStore } from "../store";
 
-export function MAF_素材信息() {
+/**
+ * 素材信息组件
+ *
+ * 显示当前选中素材的统计信息，包括文件总数、格式、大小等。
+ */
+export function MafMaterialInfo() {
 	const store = useMafStore();
 	const form = useAppForm({
 		defaultValues: store.serverResInfo?.materialFormatWithCount,

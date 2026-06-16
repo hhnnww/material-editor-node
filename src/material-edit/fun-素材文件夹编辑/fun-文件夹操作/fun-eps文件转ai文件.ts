@@ -1,11 +1,12 @@
 import fs from "node:fs";
-import { createRequire } from "node:module";
 import path from "node:path";
+import winax from "winax";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
-const require = createRequire(import.meta.url);
-const winax = require("winax");
-
+/**
+ * 遍历指定目录下的 EPS 文件并将其转换为 AI 格式
+ * @param props.materialPath 素材根目录路径
+ */
 export const FUN_EPS文件转AI文件 = async (props: { materialPath: string }) => {
 	const epsFileList = FUN_递归遍历文件夹(props.materialPath, [".eps"]);
 

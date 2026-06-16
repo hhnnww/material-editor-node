@@ -1,9 +1,6 @@
 import fs from "node:fs";
-import { createRequire } from "node:module";
 import path from "node:path";
-
-const require = createRequire(import.meta.url);
-const winax = require("winax");
+import winax from "winax";
 
 export function FUN_PSD_插入广告(shopName: string) {
 	const app = new winax.Object("Photoshop.Application.200");

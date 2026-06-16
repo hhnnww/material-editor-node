@@ -1,25 +1,21 @@
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
-const winax = require("winax");
-
+import winax from "winax";
 import { setting } from "#/setting";
 import { FUN_当前PSD导出JPG } from "../fun-ps操作/fun-PSD_当前导出JPG";
 import { FUN_PSD_插入广告 } from "../fun-ps操作/fun-PSD_插入广告";
 import { FUN_判断源文件是否有素材图 } from "../fun-判断源文件是否有素材图";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
+/**
+ * 遍历指定目录下的 PSD/PSB 文件并导出为 JPG 图片
+ * @param materialPath 素材根目录路径
+ * @param insertAd 是否插入广告二维码
+ * @param shopName 店铺名称（用于查找对应的二维码）
+ */
 export function FUN_PSD导出图片(
 	materialPath: string,
 	insertAd: boolean,
 	shopName: string,
 ) {
-	/**
-	 * 使用winax导出JPG高清大图
-	 * 导出图片和psd文件的stem相同
-	 * 在psd文件的同层目录
-	 * 在imageFileList中 如果相同stem的图片文件存在，并且和psd在同层目录，则不导出
-	 */
 	const psdFileList = FUN_递归遍历文件夹(materialPath, [".psd", ".psb"]);
 
 	if (psdFileList.length === 0) return;

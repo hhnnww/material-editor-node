@@ -1,10 +1,7 @@
-import { createRequire } from "node:module";
+import { exec } from "node:child_process";
+import path from "node:path";
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
-
-const require = createRequire(import.meta.url);
-const { exec } = require("node:child_process");
-const path = require("node:path");
 
 export const FUN_复制效果图片到剪切板 = (props: { effectPath: string }) => {
 	// 1. 获取文件夹下的所有图片路径列表

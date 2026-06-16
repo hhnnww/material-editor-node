@@ -4,24 +4,11 @@ import sharp from "sharp";
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
-export async function FUN_移动到效果图(
+export async function moveImagesToEffectFolder(
 	materialPath: string,
 	effectPath: string,
 	thumbPath: string,
 ) {
-	/**
-	 * 把素材文件夹下的所有图片，移动到效果图文件夹的根目录，并且把图片重命名为 1.jpg 2.jpg 3.png 4.gif这样的
-	 * 如果效果图里面已有图片，自增数字，保证不重名
-	 * 素材文件夹：F:\小夕素材\11000-11999\11824\11824
-	 * 效果图文件夹：F:\小夕素材\11000-11999\11824\效果图
-	 * 素材文件夹图片：F:\小夕素材\11000-11999\11824\11824\1.jpg
-	 * 或者 F:\小夕素材\11000-11999\11824\11824\232323\1.jpg
-	 * 全部移动到效果图文件夹 F:\小夕素材\11000-11999\11824\效果图\1.jpg,F:\小夕素材\11000-11999\11824\效果图\2.jpg这样
-	 * 移动过去之后，再把效果图图使用sharp缩小到最长边为imageMaxSize, 保存到缩略图
-	 * 传入的缩略图文件夹为 F:\小夕素材\11000-11999\11824\缩略图
-	 * 图片保存到 F:\小夕素材\11000-11999\11824\缩略图\效果图
-	 * 保证同名同结构
-	 */
 	const imageFileList = FUN_递归遍历文件夹(
 		materialPath,
 		setting.imageSuffixList,

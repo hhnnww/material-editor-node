@@ -3,7 +3,7 @@ import path from "node:path";
 import { os } from "@orpc/server";
 import z from "zod";
 
-export const orpc_获取所有目录列表 = os
+export const orpcGetAllDirectoryList = os
 	.input(
 		z.object({
 			dstPath: z.string(),

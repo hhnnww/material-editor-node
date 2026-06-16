@@ -4,6 +4,11 @@ import { orpc } from "#/orpc/client";
 import { setting } from "#/setting";
 import { useAutoAction } from "./auto-action-store";
 
+/**
+ * Download Directory to Material Directory Component
+ *
+ * 自动将下载目录中的素材移动并重命名到指定的素材库目录，并更新全局状态。
+ */
 export const COM_下载目录移动到素材目录 = () => {
 	const mutation = useMutation(
 		orpc.orpcMaterialAutoMake.mutationOptions({

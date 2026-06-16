@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAppForm } from "#/components/tanstack-form-component/create-form";
 import { useMafStore } from "./store";
 
-export function MAF_发布到淘宝() {
+export function MafPublishToTaobao() {
 	const store = useMafStore();
 	const form = useAppForm({
 		defaultValues: { title: "" },

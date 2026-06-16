@@ -26,11 +26,12 @@ import { FUN_打开没有预览图的AI文件 } from "#/material-edit/fun-素材
 import { FUN_打开没有预览图的PSD文件 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-打开没有预览图的PSD文件";
 import { FUN_打开素材大目录 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-打开素材大目录";
 import { FUN_文件重命名 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-文件重命名";
-import { FUN_移动到效果图 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-移动到效果图";
+import { moveImagesToEffectFolder } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-移动到效果图";
 import { FUN_移动到数字目录 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-移动到数字目录";
 import { FUN_移动到根目录 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-移动到根目录";
 import { FUN_素材图水印 } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-素材图水印";
-import { FUN_解压ZIP } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-解压ZIP";
+import { unzipFiles } from "#/material-edit/fun-素材文件夹编辑/fun-文件夹操作/fun-解压ZIP";
+
 export const ORPC_文件夹操作 = os
 	.input(
 		z.object({
@@ -56,13 +57,13 @@ export const ORPC_文件夹操作 = os
 				path.join(folderStructure.thumbPath, "预览图"),
 			]);
 		} else if (actionName === "移动到效果图") {
-			FUN_移动到效果图(
+			await moveImagesToEffectFolder(
 				folderStructure.materialPath,
 				folderStructure.effectPath,
 				folderStructure.thumbPath,
 			);
 		} else if (actionName === "解压ZIP") {
-			FUN_解压ZIP(folderStructure.materialPath);
+			unzipFiles(folderStructure.materialPath);
 		} else if (actionName === "文件重命名") {
 			FUN_文件重命名(folderStructure.materialPath, ctx.input.shopName);
 		} else if (actionName === "删除广告文件") {
@@ -102,7 +103,7 @@ export const ORPC_文件夹操作 = os
 		} else if (actionName === "AI导出图片") {
 			FUN_AI导出图片(folderStructure.materialPath, false);
 		} else if (actionName === "享设计制作预览图") {
-			FUN_享设计制作预览图(folderStructure.materialPath);
+			await FUN_享设计制作预览图(folderStructure.materialPath);
 		} else if (actionName === "图片转PSD") {
 			FUN_图片转PSD(folderStructure.materialPath);
 		} else if (actionName === "打开没有预览图的PSD文件") {

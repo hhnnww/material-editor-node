@@ -5,6 +5,7 @@ export function insertToLocalStorage(props: {
 	if (!props.shopName || props.shopName.trim() === "") return;
 
 	const data = getLocalStorage();
+	if (typeof window === "undefined" || !window.localStorage) return;
 	if (!data) return;
 	const index = data.findIndex((item) => item.shopName === props.shopName);
 
@@ -38,6 +39,10 @@ export const getLocalStorage = (): localRootPath => {
 		{ shopName: "泡泡素材", sort: 2 },
 		{ shopName: "饭桶设计", sort: 3 },
 	];
+	if (typeof window === "undefined" || !window.localStorage) {
+		return [];
+	}
+
 	const data = localStorage.getItem("rootPath");
 	if (data) {
 		const dataJson = JSON.parse(data) as localRootPath;

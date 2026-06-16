@@ -11,7 +11,12 @@ import { useLoadRootPathMutation } from "../maf-load-root-path";
 import { useMafStore } from "../store";
 import { MAFButtonList } from "./maf-按钮列表";
 
-export function MAF_文件夹操作() {
+/**
+ * 文件夹操作组件
+ *
+ * 提供了一系列按钮，用于对当前选中的素材文件夹执行各种自动化操作（如移动、重命名、解压、导出图片等）。
+ */
+export function MafFolderOperations() {
 	const loadFolderMutation = useLoadRootPathMutation();
 	const mutation = useMutation(
 		orpc.ORPC_文件夹操作.mutationOptions({

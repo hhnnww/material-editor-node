@@ -7,7 +7,7 @@ import { useAutoAction } from "./auto-action-store";
 
 export const COM_自动处理面板 = () => {
 	const getAllFolders = useMutation(
-		orpc.orpc_获取所有目录列表.mutationOptions(),
+		orpc.orpcGetAllDirectoryList.mutationOptions(),
 	);
 	const materialAction = useMutation(orpc.ORPC_文件夹操作.mutationOptions());
 	const form = useAppForm({
