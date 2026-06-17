@@ -34,7 +34,7 @@ export function MAF_制作详情() {
 				[
 					{
 						name: "商家编码",
-						content: store.serverResInfo.folderNav.currentStem,
+						content: `${store.serverResInfo.folderNav.currentStem} (对应网盘编号)`,
 					},
 					{
 						name: "素材格式",
@@ -46,11 +46,15 @@ export function MAF_制作详情() {
 					},
 					{
 						name: "素材大小",
-						content: store.serverResInfo.materialFormatWithCount.size,
+						content: `${store.serverResInfo.materialFormatWithCount.size} (可按需下载)`,
 					},
 					{
 						name: "发货方式",
-						content: "本店仅支持百度网盘实时发货，不支持其他任何方式",
+						content: "本店仅支持百度网盘实时发货 不支持其他任何方式",
+					},
+					{
+						name: "发货时间",
+						content: "24小时机器人值守 拍下后全自动秒发货",
 					},
 				].concat(
 					store.shopName === "泡泡素材"

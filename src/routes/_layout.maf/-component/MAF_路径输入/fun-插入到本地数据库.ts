@@ -19,8 +19,8 @@ export function insertToLocalStorage(props: {
 		targetItem.rootPath.unshift(props.rootPath);
 		data.unshift(targetItem);
 
-		if (data[0].rootPath.length > 20) {
-			data[0].rootPath = data[0].rootPath.slice(0, 20);
+		if (data[0].rootPath.length > 5) {
+			data[0].rootPath = data[0].rootPath.slice(0, 5);
 		}
 	} else {
 		data.unshift({

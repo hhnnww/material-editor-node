@@ -88,4 +88,5 @@ export const adlayerNames = [
 	"淘宝扫码-加入会员-全店免费",
 	"LOGO",
 	"包图logo",
+	"iBaoTu传媒出品",
 ];

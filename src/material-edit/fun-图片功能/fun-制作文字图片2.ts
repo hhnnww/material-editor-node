@@ -1,24 +1,14 @@
 import fs from "node:fs";
-import { createRequire } from "node:module";
 import path from "node:path";
+import { Resvg } from "@resvg/resvg-js";
 import sharp from "sharp";
-
-const require = createRequire(import.meta.url);
-const opentype = require("opentype.js");
+import type { fontWeight } from "#/setting";
 
 export const makeTextImage = async (props: {
 	text: string;
 	width?: number;
 	height?: number;
-	fontWeight:
-		| "Thin"
-		| "ExtraLight"
-		| "Light"
-		| "Regular"
-		| "Text"
-		| "Medium"
-		| "SemiBold"
-		| "Bold";
+	fontWeight: fontWeight;
 	fillColor: string;
 }) => {
 	const fontFolderPath = "public/ibm-plex-sans";
@@ -34,46 +24,55 @@ export const makeTextImage = async (props: {
 		);
 	}
 
-	const _opentype = (opentype as any).default || opentype;
-	const fileBuffer = fs.readFileSync(fontAbsoluteFilePath);
-	const font = _opentype.parse(
-		fileBuffer.buffer.slice(
-			fileBuffer.byteOffset,
-			fileBuffer.byteOffset + fileBuffer.byteLength,
-		),
-	);
+	// 1. 定义一个足够大的虚拟画布，确保长文本不会被截断
+	// 这里的尺寸不影响最终输出，因为后面 sharp().trim() 会把白边切掉
+	const fontSize = 300;
+	const virtualWidth = Math.ceil(props.text.length * 1.5 * fontSize);
+	const virtualHeight = fontSize * 2;
 
-	const fontSize = 1000;
-	const text = props.text;
-
-	// 1.5 获取精确的边界框以修正宽度
-	const bbox = font.getPath(text, 0, 0, fontSize).getBoundingBox();
-
-	// 2. 计算画布尺寸 (使用 bbox 确保宽度包含所有笔画，高度基于度量值)
-	const width = Math.ceil(bbox.x2 - bbox.x1);
-	const height = Math.ceil(bbox.y2 - bbox.y1);
-
-	// 3. 计算基线位置 (y 坐标)
-	const x = -bbox.x1;
-	const y = -bbox.y1;
-
-	const svgPath = font.getPath(text, x, y, fontSize).toSVG(2);
-
+	// 2. 构造现代 SVG 字符串
+	// 配合 dominant-baseline="central" 和 text-anchor="middle" 让文字天然居中
 	const svg = `
-		<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
-			<g fill="${props.fillColor || "black"}">${svgPath}</g>
-		</svg>`;
+        <svg width="${virtualWidth}" height="${virtualHeight}" xmlns="http://www.w3.org/2000/svg">
+            <style>
+                @font-face {
+                    font-family: 'IBMPlexSansSC';
+                    src: url('${fontAbsoluteFilePath}');
+                }
+                .text-style {
+                    font-family: 'IBMPlexSansSC';
+                    font-size: ${fontSize}px;
+                    fill: ${props.fillColor || "#000000"};
+                }
+            </style>
+            <rect width="100%" height="100%" fill="none"/>
+            <text 
+                x="${virtualWidth / 2}" 
+                y="${virtualHeight / 2}" 
+                dominant-baseline="central" 
+                text-anchor="middle" 
+                class="text-style"
+            >${props.text}</text>
+        </svg>`;
 
+	// 3. 使用 resvg-js 进行高速底层渲染
+	const resvg = new Resvg(svg, {
+		font: {
+			fontFiles: [fontAbsoluteFilePath], // 加载当前指定的具体粗细字体
+			loadSystemFonts: false, // 禁用系统字体，极大提升加载性能
+			defaultFontFamily: "IBMPlexSansSC",
+		},
+	});
+
+	const resvgBuffer = resvg.render().asPng();
+
+	// 4. 扔给 sharp：.trim() 会自动精确裁剪掉四周所有的透明白边
+	const imagePipeline = sharp(resvgBuffer).trim();
+
+	// 5. 根据出参要求缩放到指定的宽高
 	if (props.width) {
-		return await sharp(Buffer.from(svg))
-			.resize({ width: props.width })
-			.trim()
-			.png()
-			.toBuffer();
+		return await imagePipeline.resize({ width: props.width }).png().toBuffer();
 	}
-	return await sharp(Buffer.from(svg))
-		.resize({ height: props.height })
-		.trim()
-		.png()
-		.toBuffer();
+
+	return await imagePipeline.resize({ height: props.height }).png().toBuffer();
 };

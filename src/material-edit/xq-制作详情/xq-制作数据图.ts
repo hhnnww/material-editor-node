@@ -3,6 +3,7 @@ import sharp, { type OverlayOptions } from "sharp";
 import { FUN_制作文字图片 } from "#/material-edit/fun-图片功能/fun-制作文字图片";
 import type { ORPC_制作数据图 } from "#/orpc/router/orpc-制作数据图";
 import { setting } from "#/setting";
+import { makeTextImage } from "../fun-图片功能/fun-制作文字图片2";
 import { XQ_制作标题 } from "./xq-制作标题";
 
 export async function XQ_制作数据图(
@@ -65,12 +66,12 @@ export async function XQ_制作数据图(
 		});
 
 		const fontSize = 55;
-		// 制作名称文字
+
 		const nameImg = await FUN_制作文字图片({
 			text: item.name,
 			fontSize: fontSize,
 			fontWidth: "Light",
-			fillColor: "#666",
+			fillColor: "#333",
 		});
 		const nameMeta = await sharp(nameImg).metadata();
 
@@ -81,11 +82,11 @@ export async function XQ_制作数据图(
 		});
 
 		// 制作内容文字
-		const contentImg = await FUN_制作文字图片({
+		const contentImg = await makeTextImage({
 			text: item.content,
-			fontSize: fontSize,
-			fontWidth: "Light",
+			height: fontSize,
 			fillColor: "#666",
+			fontWeight: "Light",
 		});
 		const contentMeta = await sharp(contentImg).metadata();
 

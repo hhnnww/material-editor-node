@@ -16,7 +16,6 @@ export function FUN_PSD_插入广告(shopName: string) {
 			const qrPath = path.join(qrDir, qrFile);
 
 			const newLayer = doc.ArtLayers.Add();
-			newLayer.Name = "淘宝扫码-加入会员-全店免费";
 
 			// 使用 ActionManager 执行 Place (置入) 命令
 			const idPlc = app.CharIDToTypeID("Plc ");
@@ -29,8 +28,9 @@ export function FUN_PSD_插入广告(shopName: string) {
 			desc.PutEnumerated(idFTms, idQCSt, idQcsa);
 			app.ExecuteAction(idPlc, desc, 3); // 3 = DialogModes.NO
 
-			console.log(`已在 PSD 中通过 ActionManager 插入广告图层: ${qrStem}`);
+			newLayer.Name = "淘宝扫码-加入会员-全店免费";
 
+			console.log(`已在 PSD 中通过 ActionManager 插入广告图层: ${qrStem}`);
 			break;
 		}
 	}

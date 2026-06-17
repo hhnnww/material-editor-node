@@ -1,16 +1,14 @@
 import path from "node:path";
 
+/**
+ * 验证文件夹路径是否符合规范
+ * @param rootPath 待验证的绝对路径
+ * @returns 验证结果对象，包含成功标志和提示信息
+ */
 export function FUN_验证文件夹(rootPath: string): {
 	success: boolean;
 	message: string;
 } {
-	/**
-	 * 我是windows系统
-	 * 1,判断文件夹是否是绝对路径，如果不是返回false
-	 * 2，判断文件夹的stem和父stem是否相同，相同返回false
-	 * 3,判断路径深度是否大于等于3，否则返回false
-	 * 4，判断路径stem是否包含字符-，否则返回false
-	 */
 	// 1. 判断是否是绝对路径
 	if (!path.isAbsolute(rootPath)) {
 		console.log("验证失败: 路径必须是绝对路径");

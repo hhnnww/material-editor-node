@@ -33,14 +33,13 @@ export const FUN_保存图片 = createServerOnlyFn(
 			throw new Error("无法读取输入图片的尺寸");
 		}
 
-		// 居中裁剪水印：如果底图宽度小于水印宽度(4000)，则从水印中心截取
 		const watermarkWidth = waterMeta.width;
 		const processedWatermark = await sharp(waterLogo)
 			.extract({
 				left: Math.floor((watermarkWidth - width) / 2),
 				top: 0,
 				width: width,
-				height: setting.logoSize, // 100是fun-制作横向水印中定义的高度
+				height: setting.logoSize,
 			})
 			.toBuffer();
 

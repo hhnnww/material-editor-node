@@ -8,11 +8,10 @@ import { vitePluginLocalImage } from "#/lib/vite-plug";
 
 const config = defineConfig({
 	optimizeDeps: {
-		exclude: ["winax", "opentype.js"],
+		exclude: ["winax", "@resvg/resvg-js"],
 	},
 	ssr: {
-		external: ["winax", "opentype.js"],
-		noExternal: ["opentype.js"],
+		external: ["winax", "@resvg/resvg-js"],
 	},
 	build: {
 		rolldownOptions: {

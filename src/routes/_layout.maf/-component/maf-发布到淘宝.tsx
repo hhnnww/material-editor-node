@@ -33,7 +33,7 @@ export function MafPublishToTaobao() {
 			className="item-box"
 		>
 			<form.AppField name="title">
-				{(field) => <field.TextField col={10} label="发布到淘宝" />}
+				{(field) => <field.TextField col={12} label="发布到淘宝" />}
 			</form.AppField>
 			<form.AppForm>
 				<form.SubmitButtonField label="发布到淘宝" />
