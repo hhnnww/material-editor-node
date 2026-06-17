@@ -4,6 +4,8 @@ import { Resvg } from "@resvg/resvg-js";
 import sharp from "sharp";
 import type { fontWeight } from "#/setting";
 
+const textImageCache = new Map<string, Buffer>();
+
 export const makeTextImage = async (props: {
 	text: string;
 	width?: number;
@@ -11,6 +13,12 @@ export const makeTextImage = async (props: {
 	fontWeight: fontWeight;
 	fillColor: string;
 }) => {
+	const cacheKey = `${props.text}_w:${props.width || ""}_h:${props.height || ""}_fw:${props.fontWeight}_c:${props.fillColor}`;
+	const cached = textImageCache.get(cacheKey);
+	if (cached) {
+		return cached;
+	}
+
 	const fontFolderPath = "public/ibm-plex-sans";
 	const fontAbsoluteFilePath = path.resolve(
 		process.cwd(),
@@ -70,9 +78,19 @@ export const makeTextImage = async (props: {
 	const imagePipeline = sharp(resvgBuffer).trim();
 
 	// 5. 根据出参要求缩放到指定的宽高
+	let resultBuffer: Buffer;
 	if (props.width) {
-		return await imagePipeline.resize({ width: props.width }).png().toBuffer();
+		resultBuffer = await imagePipeline
+			.resize({ width: props.width })
+			.png()
+			.toBuffer();
+	} else {
+		resultBuffer = await imagePipeline
+			.resize({ height: props.height })
+			.png()
+			.toBuffer();
 	}
 
-	return await imagePipeline.resize({ height: props.height }).png().toBuffer();
+	textImageCache.set(cacheKey, resultBuffer);
+	return resultBuffer;
 };

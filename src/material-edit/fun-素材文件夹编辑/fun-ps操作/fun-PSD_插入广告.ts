@@ -15,8 +15,6 @@ export function FUN_PSD_插入广告(shopName: string) {
 		if (shopName === qrStem) {
 			const qrPath = path.join(qrDir, qrFile);
 
-			const newLayer = doc.ArtLayers.Add();
-
 			// 使用 ActionManager 执行 Place (置入) 命令
 			const idPlc = app.CharIDToTypeID("Plc ");
 			const desc = new winax.Object("Photoshop.ActionDescriptor.200");
@@ -28,7 +26,8 @@ export function FUN_PSD_插入广告(shopName: string) {
 			desc.PutEnumerated(idFTms, idQCSt, idQcsa);
 			app.ExecuteAction(idPlc, desc, 3); // 3 = DialogModes.NO
 
-			newLayer.Name = "淘宝扫码-加入会员-全店免费";
+			// 置入新图层后，该图层会自动变为 ActiveLayer，直接修改其 Name 即可
+			doc.ActiveLayer.Name = "淘宝扫码-加入会员-全店免费";
 
 			console.log(`已在 PSD 中通过 ActionManager 插入广告图层: ${qrStem}`);
 			break;

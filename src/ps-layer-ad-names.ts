@@ -89,4 +89,5 @@ export const adlayerNames = [
 	"LOGO",
 	"包图logo",
 	"iBaoTu传媒出品",
+	"小夕素材"
 ];

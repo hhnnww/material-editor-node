@@ -78,18 +78,22 @@ export async function XQ_制作预览图(
 					? firstRowItemWidth
 					: itemWidth;
 
-				// 1. 进行物理旋转校正并强制缩放到指定宽度
-				const pipeline = sharp(img.imagePath)
-					.rotate()
-					.resize({ width: currentItemWidth });
+				// 1. 获取原始图片的元数据，用于处理旋转带来的宽高交换
+				const originalMeta = await sharp(img.imagePath).metadata();
+				const isSwapped = !!(
+					originalMeta.orientation &&
+					originalMeta.orientation >= 5 &&
+					originalMeta.orientation <= 8
+				);
+				const origWidth = isSwapped
+					? originalMeta.height || img.height
+					: originalMeta.width || img.width;
+				const origHeight = isSwapped
+					? originalMeta.width || img.width
+					: originalMeta.height || img.height;
 
-				// 2. 先安全导出物理缩放 buffer，拿到绝对稳固的最终物理图片
-				const resizedBuffer = await pipeline.toBuffer();
-
-				// 再次读取真实落盘数据的确切宽高
-				const imgMeta = await sharp(resizedBuffer).metadata();
-				const currentImgWidth = imgMeta.width || currentItemWidth;
-				const currentImgHeight = imgMeta.height || 0;
+				const ratio = origHeight > 0 ? origWidth / origHeight : 1;
+				const currentImgHeight = Math.round(currentItemWidth / ratio);
 
 				if (currentImgHeight === 0) {
 					console.warn(
@@ -98,29 +102,29 @@ export async function XQ_制作预览图(
 					continue;
 				}
 
-				let imgBuffer: Buffer;
+				// 2. 构造一步到位的处理管道进行物理旋转校正与强制缩放
+				let finalPipeline = sharp(img.imagePath)
+					.rotate()
+					.resize(currentItemWidth, currentImgHeight);
 
 				// 3. 🔥 终极无缝圆角机制：基于图片真实宽高动态生成 SVG，并且加上精确的宽高属性，彻底防尺寸报错与缩减
 				if (props.borderRadius > 0) {
 					const maskSvg = Buffer.from(
-						`<svg width="${currentImgWidth}" height="${currentImgHeight}">
-                            <rect x="0" y="0" width="${currentImgWidth}" height="${currentImgHeight}" rx="${props.borderRadius}" ry="${props.borderRadius}" fill="black" />
+						`<svg width="${currentItemWidth}" height="${currentImgHeight}">
+                            <rect x="0" y="0" width="${currentItemWidth}" height="${currentImgHeight}" rx="${props.borderRadius}" ry="${props.borderRadius}" fill="black" />
                          </svg>`,
 					);
 
 					// 用绝对相等的宽高进行一次性复合，彻底解决 dimensions 报错，且保证图片 100% 完整显示
-					imgBuffer = await sharp(resizedBuffer)
-						.composite([
-							{
-								input: maskSvg,
-								blend: "dest-in",
-							},
-						])
-						.png()
-						.toBuffer();
-				} else {
-					imgBuffer = await sharp(resizedBuffer).png().toBuffer();
+					finalPipeline = finalPipeline.composite([
+						{
+							input: maskSvg,
+							blend: "dest-in",
+						},
+					]);
 				}
+
+				const imgBuffer = await finalPipeline.png().toBuffer();
 
 				// 4. 生成文字信息
 				const nameText = img.materialName.toUpperCase();

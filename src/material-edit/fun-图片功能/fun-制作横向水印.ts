@@ -2,7 +2,12 @@ import sharp, { type OverlayOptions } from "sharp";
 import { setting } from "#/setting";
 import { FUN_获取LOGO图片 } from "./fun-获取logo图片";
 
+let cachedWatermark: Buffer | null = null;
+
 export async function FUN_制作横向水印() {
+	if (cachedWatermark) {
+		return cachedWatermark;
+	}
 	const logoBuffer = await FUN_获取LOGO图片();
 	const spacing = 120;
 	const logoSize = setting.logoSize;
@@ -38,7 +43,7 @@ export async function FUN_制作横向水印() {
 	}
 
 	// 3. 创建空白画板并合成
-	return await sharp({
+	cachedWatermark = await sharp({
 		create: {
 			width: width,
 			height: height,
@@ -49,4 +54,6 @@ export async function FUN_制作横向水印() {
 		.composite(composites) // 🎯 修正：直接把带 blend: "over" 的数组传进去
 		.png()
 		.toBuffer();
+
+	return cachedWatermark;
 }

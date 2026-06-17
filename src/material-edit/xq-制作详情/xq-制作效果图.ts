@@ -50,25 +50,28 @@ export const XQ_制作效果图 = createServerOnlyFn(
 			const processedRow = await Promise.all(
 				row.map(async (img) => {
 					console.log(`制作详情：${img.imagePath}`);
-					let buffer = await sharp(img.imagePath)
-						.resize(currentItemWidth)
-						.toBuffer();
-					const meta = await sharp(buffer).metadata();
+					const ratio =
+						img.imageRatio || (img.height > 0 ? img.width / img.height : 1);
+					const targetHeight = Math.round(currentItemWidth / ratio);
+
+					let pipeline = sharp(img.imagePath).resize(
+						currentItemWidth,
+						targetHeight,
+					);
 
 					if (props.borderRadius > 0) {
 						const mask = Buffer.from(
-							`<svg><rect x="0" y="0" width="${meta.width}" height="${meta.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
+							`<svg><rect x="0" y="0" width="${currentItemWidth}" height="${targetHeight}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
 						);
-						buffer = await sharp(buffer)
-							.composite([{ input: mask, blend: "dest-in" }])
-							.png()
-							.toBuffer();
+						pipeline = pipeline.composite([{ input: mask, blend: "dest-in" }]);
 					}
+
+					const buffer = await pipeline.png().toBuffer();
 
 					return {
 						buffer,
-						height: meta.height || 0,
-						width: meta.width || 0,
+						height: targetHeight,
+						width: currentItemWidth,
 						itemWidthUsed: currentItemWidth,
 					};
 				}),

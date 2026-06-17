@@ -2,7 +2,15 @@ import sharp from "sharp";
 import { FUN_制作文字图片 } from "#/material-edit/fun-图片功能/fun-制作文字图片";
 import { setting } from "#/setting";
 
+const titleCache = new Map<string, Buffer>();
+
 export async function XQ_制作标题(props: { title: string; desc: string }) {
+	const cacheKey = `${props.title}_${props.desc}`;
+	const cached = titleCache.get(cacheKey);
+	if (cached) {
+		return cached;
+	}
+
 	const titleImg = await FUN_制作文字图片({
 		text: props.title,
 		fontSize: 69,
@@ -39,7 +47,7 @@ export async function XQ_制作标题(props: { title: string; desc: string }) {
 		(descMeta.height || 0) +
 		spacing;
 
-	return await sharp({
+	const result = await sharp({
 		create: {
 			width: width,
 			height: height,
@@ -66,4 +74,7 @@ export async function XQ_制作标题(props: { title: string; desc: string }) {
 		])
 		.png()
 		.toBuffer();
+
+	titleCache.set(cacheKey, result);
+	return result;
 }

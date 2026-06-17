@@ -35,22 +35,46 @@ export const ORPC_制作详情 = os
 		}),
 	)
 	.handler(async (ctx) => {
+		const isEffectEnabled =
+			ctx.input.制作效果图 === "制作" && ctx.input.effectImageList.length > 0;
+
+		const isPreviewEnabled =
+			ctx.input.制作预览图 === "制作" && ctx.input.previewImageList.length > 0;
+
+		console.log(
+			`[制作详情] 开始并行生成大图任务：效果图=${isEffectEnabled}, 预览图=${isPreviewEnabled}`,
+		);
+
+		const effectImgPromise = isEffectEnabled
+			? (async () => {
+					console.log("正在制作效果图大图...");
+					return await XQ_制作效果图({ ...ctx.input });
+				})()
+			: Promise.resolve(null);
+
+		const previewImgPromise = isPreviewEnabled
+			? (async () => {
+					console.log("正在制作预览图大图...");
+					return await XQ_制作预览图(ctx.input);
+				})()
+			: Promise.resolve(null);
+
+		// 并行执行大图合成计算
+		const [effectImg, previewImg] = await Promise.all([
+			effectImgPromise,
+			previewImgPromise,
+		]);
+
 		let startNum = 2;
-		if (
-			ctx.input.制作效果图 === "制作" &&
-			ctx.input.effectImageList.length > 0
-		) {
-			console.log("正在制作效果图详情...");
-			const effectImg = await XQ_制作效果图({ ...ctx.input });
+
+		// 顺序执行切片保存，保证保存文件序号连续
+		if (effectImg) {
+			console.log("正在切片并保存效果图...");
 			startNum = await FUN_循环保存图片(effectImg, startNum);
 		}
 
-		if (
-			ctx.input.制作预览图 === "制作" &&
-			ctx.input.previewImageList.length > 0
-		) {
-			console.log("正在制作预览图详情...");
-			const previewImg = await XQ_制作预览图(ctx.input);
+		if (previewImg) {
+			console.log("正在切片并保存预览图...");
 			await FUN_循环保存图片(previewImg, startNum);
 		}
 
