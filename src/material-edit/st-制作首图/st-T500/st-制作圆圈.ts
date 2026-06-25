@@ -2,10 +2,7 @@ import sharp from "sharp";
 import { makeTextImage } from "#/material-edit/fun-图片功能/fun-制作文字图片2";
 import { FUN_获取LOGO图片 } from "#/material-edit/fun-图片功能/fun-获取logo图片";
 
-export const ST_制作圆圈 = async (props: {
-	shopName: string;
-	materialID: string;
-}) => {
+export const ST_制作圆圈 = async (props: { shopName: string; materialID: string }) => {
 	/**
 	 * 画一个圆圈，直径740px 颜色 #ffC655
 	 */
@@ -26,8 +23,7 @@ export const ST_制作圆圈 = async (props: {
 	});
 	const shopMeta = await sharp(shopNameBuffer).metadata();
 
-	const top =
-		((size - 300) / 2 - logoMeta.height - shopMeta.height - spacing) / 2;
+	const top = ((size - 300) / 2 - logoMeta.height - shopMeta.height - spacing) / 2;
 
 	const adBuffer = await makeTextImage({
 		text: `${props.shopName} 只卖精品`,
@@ -46,8 +42,7 @@ export const ST_制作圆圈 = async (props: {
 	const idMeta = await sharp(idBuffer).metadata();
 
 	const colSize = (size - 300) / 2;
-	const buttomTop =
-		colSize + 300 + (colSize - adMeta.height - idMeta.height - spacing) / 2;
+	const buttomTop = colSize + 300 + (colSize - adMeta.height - idMeta.height - spacing) / 2;
 	return await sharp(Buffer.from(circleSvg))
 		.composite([
 			{

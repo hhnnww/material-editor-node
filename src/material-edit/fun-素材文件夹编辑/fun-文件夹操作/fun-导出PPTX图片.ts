@@ -50,10 +50,7 @@ export async function FUN_PPT导出图片(materialPath: string) {
 			}
 
 			// 1. 获取导出的图片列表
-			let exportedImages = FUN_递归遍历文件夹(
-				exportDir,
-				setting.imageSuffixList,
-			);
+			let exportedImages = FUN_递归遍历文件夹(exportDir, setting.imageSuffixList);
 
 			if (exportedImages.length === 0) {
 				console.log(`PPT 导出目录为空，等待1秒后重试: ${exportDir}`);
@@ -81,9 +78,7 @@ export async function FUN_PPT导出图片(materialPath: string) {
 			// 计算下方小图的宽度和高度 (2列)
 			const smallWidth = Math.floor((bigImageWidth - innerSpacing) / cols);
 			// 保持比例缩放小图高度
-			const smallHeight = Math.floor(
-				(smallWidth / (firstMeta.width || 1)) * (firstMeta.height || 1),
-			);
+			const smallHeight = Math.floor((smallWidth / (firstMeta.width || 1)) * (firstMeta.height || 1));
 
 			const composites: OverlayOptions[] = [];
 
@@ -104,9 +99,7 @@ export async function FUN_PPT导出图片(materialPath: string) {
 				const x = outerSpacing + col * (smallWidth + innerSpacing);
 				const y = currentY + row * (smallHeight + innerSpacing);
 
-				const imgBuffer = await sharp(targetImages[i])
-					.resize(smallWidth, smallHeight)
-					.toBuffer();
+				const imgBuffer = await sharp(targetImages[i]).resize(smallWidth, smallHeight).toBuffer();
 
 				composites.push({
 					input: imgBuffer,
@@ -117,11 +110,7 @@ export async function FUN_PPT导出图片(materialPath: string) {
 
 			// 计算总高度
 			const totalRows = Math.ceil((targetImages.length - 1) / cols);
-			const totalHeight =
-				currentY +
-				totalRows * smallHeight +
-				(totalRows - 1) * innerSpacing +
-				outerSpacing;
+			const totalHeight = currentY + totalRows * smallHeight + (totalRows - 1) * innerSpacing + outerSpacing;
 
 			// 3. 合成并保存
 			const finalImagePath = path.join(pptDir, `${pptStem}.jpg`);

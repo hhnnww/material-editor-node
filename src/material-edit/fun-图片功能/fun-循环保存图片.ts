@@ -4,10 +4,7 @@ import path from "node:path";
 import sharp from "sharp";
 import { FUN_保存图片_Core } from "./fun-保存图片";
 
-export async function FUN_循环保存图片(
-	im: Buffer<ArrayBufferLike>,
-	startNum: number,
-) {
+export async function FUN_循环保存图片(im: Buffer<ArrayBufferLike>, startNum: number) {
 	const itemHeight = 2000;
 
 	// 💡 优化点 1：只初始化一次 Sharp 实例并预载入数据
@@ -45,22 +42,11 @@ export async function FUN_循环保存图片(
 		const p = (async () => {
 			try {
 				// 💡 使用 .clone() 派生当前切片管道，并直接进行合成与文件写入，完全消除了 PNG 中间转换开销
-				const slicePipeline = basePipeline
-					.clone()
-					.extract({ left: 0, top: task.top, width, height: task.height });
+				const slicePipeline = basePipeline.clone().extract({ left: 0, top: task.top, width, height: task.height });
 
-				await FUN_保存图片_Core(
-					slicePipeline,
-					width,
-					task.height,
-					task.outputPath,
-					true,
-				);
+				await FUN_保存图片_Core(slicePipeline, width, task.height, task.outputPath, true);
 			} catch (error) {
-				console.error(
-					`[长图切片] 切割或保存第 ${task.index} 片 (xq_${task.currentStart}) 失败:`,
-					error,
-				);
+				console.error(`[长图切片] 切割或保存第 ${task.index} 片 (xq_${task.currentStart}) 失败:`, error);
 			}
 		})();
 

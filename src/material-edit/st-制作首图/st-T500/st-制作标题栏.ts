@@ -3,11 +3,7 @@ import { IMAGE_制作圆角文字 } from "#/material-edit/fun-图片功能/fun-�
 import { IMAGE_制作圆角矩形 } from "#/material-edit/fun-图片功能/fun-制作圆角矩形";
 import { makeTextImage } from "#/material-edit/fun-图片功能/fun-制作文字图片2";
 
-export const ST_制作标题栏 = async (props: {
-	title: string;
-	formatTitle: string;
-	adText: string;
-}) => {
+export const ST_制作标题栏 = async (props: { title: string; formatTitle: string; adText: string }) => {
 	const titleImage = await makeTextImage({
 		text: props.title,
 		fillColor: "#000000",

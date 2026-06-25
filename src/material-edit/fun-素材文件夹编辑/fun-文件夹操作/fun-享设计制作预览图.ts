@@ -11,9 +11,7 @@ export async function FUN_享设计制作预览图(materialPath: string) {
 	const maxHeightLimit = 30000;
 
 	const items = fs.readdirSync(materialPath);
-	const subDirs = items
-		.map((item) => path.join(materialPath, item))
-		.filter((fullPath) => fs.statSync(fullPath).isDirectory());
+	const subDirs = items.map((item) => path.join(materialPath, item)).filter((fullPath) => fs.statSync(fullPath).isDirectory());
 
 	for (const subDir of subDirs) {
 		const subDirStem = path.basename(subDir);
@@ -35,9 +33,7 @@ export async function FUN_享设计制作预览图(materialPath: string) {
 		const composites: OverlayOptions[] = [];
 
 		// 计算所有图片在 itemWidth 宽度下的总高度
-		const metas = await Promise.all(
-			imageFiles.map((img) => sharp(img).metadata()),
-		);
+		const metas = await Promise.all(imageFiles.map((img) => sharp(img).metadata()));
 		let totalHeightAtFullWidth = 0;
 		for (const m of metas) {
 			const h = Math.round(((m.height || 1) * itemWidth) / (m.width || 1));
@@ -49,13 +45,9 @@ export async function FUN_享设计制作预览图(materialPath: string) {
 		// 目标总高度 H ≈ (C * itemWidth) * (4/3)
 		// 瀑布流布局下，所有图片的总高度会平摊到 C 列，即 H ≈ totalHeightAtFullWidth / C
 		// 联立得：totalHeightAtFullWidth / C ≈ C * itemWidth * 4 / 3  => C^2 ≈ (3 * totalHeightAtFullWidth) / (4 * itemWidth)
-		const cols = Math.max(
-			1,
-			Math.round(Math.sqrt((3 * totalHeightAtFullWidth) / (4 * itemWidth))),
-		);
+		const cols = Math.max(1, Math.round(Math.sqrt((3 * totalHeightAtFullWidth) / (4 * itemWidth))));
 
-		const canvasWidth =
-			outerSpacing * 2 + cols * itemWidth + (cols - 1) * innerSpacing;
+		const canvasWidth = outerSpacing * 2 + cols * itemWidth + (cols - 1) * innerSpacing;
 
 		const colHeights = new Array(cols).fill(0);
 
@@ -81,10 +73,7 @@ export async function FUN_享设计制作预览图(materialPath: string) {
 		let finalHeight = Math.max(...colHeights);
 		if (finalHeight > innerSpacing) finalHeight -= innerSpacing;
 
-		const actualHeight = Math.min(
-			finalHeight + outerSpacing * 2,
-			maxHeightLimit,
-		);
+		const actualHeight = Math.min(finalHeight + outerSpacing * 2, maxHeightLimit);
 
 		await sharp({
 			create: {

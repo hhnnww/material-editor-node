@@ -3,9 +3,7 @@ import sharp from "sharp";
 import type { ORPC_制作首图 } from "#/orpc/router/orpc-制作首图";
 import { setting } from "#/setting";
 
-export async function ST_列_固定尺寸(
-	props: InferRouterInputs<typeof ORPC_制作首图>,
-) {
+export async function ST_列_固定尺寸(props: InferRouterInputs<typeof ORPC_制作首图>) {
 	/**
 	 * 1 计算所有图片的平均比例
 	 * 2 根据rows计算每一列的宽度
@@ -19,15 +17,11 @@ export async function ST_列_固定尺寸(
 	const availableWidth = width - props.outerSpacing * 2;
 
 	// 1. 计算所有图片的平均比例
-	const avgRatio =
-		props.imageList.reduce((acc, img) => acc + img.imageRatio, 0) /
-		props.imageList.length;
+	const avgRatio = props.imageList.reduce((acc, img) => acc + img.imageRatio, 0) / props.imageList.length;
 
 	// 2. 根据 rows 计算每一列的宽度 (这里 rows 实际上代表列数)
 	const colCount = props.rows;
-	const colWidth = Math.ceil(
-		(availableWidth - props.innerSpacing * (colCount - 1)) / colCount,
-	);
+	const colWidth = Math.ceil((availableWidth - props.innerSpacing * (colCount - 1)) / colCount);
 
 	// 3. 根据平均比例计算固定高度
 	const itemHeight = Math.floor(colWidth / avgRatio);
@@ -49,10 +43,7 @@ export async function ST_列_固定尺寸(
 		}
 
 		// 计算实际绘制高度（如果超出底部则裁剪）
-		const finalHeight = Math.min(
-			itemHeight,
-			height - props.outerSpacing - currentY,
-		);
+		const finalHeight = Math.min(itemHeight, height - props.outerSpacing - currentY);
 
 		layout.push({
 			imagePath: img.imagePath,
@@ -86,9 +77,7 @@ export async function ST_列_固定尺寸(
 				.toBuffer();
 
 			if (props.borderRadius > 0) {
-				const mask = Buffer.from(
-					`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
-				);
+				const mask = Buffer.from(`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`);
 				imageBuffer = await sharp(imageBuffer)
 					.composite([{ input: mask, blend: "dest-in" }])
 					.png()

@@ -18,13 +18,7 @@ export function SubmitButtonField(props: { label: string; icon?: ReactNode }) {
 							await form.handleSubmit();
 						}}
 					>
-						{isSubmitting ? (
-							<Spinner />
-						) : props?.icon ? (
-							props.icon
-						) : (
-							<Pointer />
-						)}
+						{isSubmitting ? <Spinner /> : props?.icon ? props.icon : <Pointer />}
 						{props.label}
 					</Button>
 				)}

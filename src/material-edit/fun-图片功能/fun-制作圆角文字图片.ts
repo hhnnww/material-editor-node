@@ -3,16 +3,7 @@ import type { fontWeight } from "#/setting";
 import { IMAGE_制作圆角矩形 } from "./fun-制作圆角矩形";
 import { makeTextImage } from "./fun-制作文字图片2";
 
-export const IMAGE_制作圆角文字 = async (props: {
-	text: string;
-	bgColor: string;
-	textColor: string;
-	borderRadius: number;
-	fontWeight: fontWeight;
-	height: number;
-	spacingX: number;
-	spacingY: number;
-}) => {
+export const IMAGE_制作圆角文字 = async (props: { text: string; bgColor: string; textColor: string; borderRadius: number; fontWeight: fontWeight; height: number; spacingX: number; spacingY: number }) => {
 	const textImage = await makeTextImage({
 		fillColor: props.textColor,
 		fontWeight: props.fontWeight,

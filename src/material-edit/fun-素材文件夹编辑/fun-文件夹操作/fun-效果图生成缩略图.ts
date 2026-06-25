@@ -9,15 +9,9 @@ import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
  * @param effectPath 效果图文件夹路径
  * @param thumbPath 缩略图根文件夹路径
  */
-export async function generateThumbnailsFromEffects(
-	effectPath: string,
-	thumbPath: string,
-) {
+export async function generateThumbnailsFromEffects(effectPath: string, thumbPath: string) {
 	const thumbImageMaxSize = setting.thumbImageMaxWidth; // 缩略图最大宽度
-	const effectImageList = FUN_递归遍历文件夹(
-		effectPath,
-		setting.imageSuffixList,
-	);
+	const effectImageList = FUN_递归遍历文件夹(effectPath, setting.imageSuffixList);
 
 	const thumbEffectPath = path.join(thumbPath, "效果图");
 

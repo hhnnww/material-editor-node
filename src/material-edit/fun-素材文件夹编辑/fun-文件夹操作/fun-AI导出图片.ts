@@ -11,10 +11,7 @@ export function FUN_AI导出图片(materialPath: string, insertAd: boolean) {
 	 * 最短边的长度设置为2000px
 	 */
 	const aiEpsFileList = FUN_递归遍历文件夹(materialPath, [".ai", ".eps"]);
-	const imageFileList = FUN_递归遍历文件夹(
-		materialPath,
-		setting.imageSuffixList,
-	);
+	const imageFileList = FUN_递归遍历文件夹(materialPath, setting.imageSuffixList);
 
 	if (aiEpsFileList.length === 0) return;
 
@@ -74,9 +71,7 @@ export function FUN_AI导出图片(materialPath: string, insertAd: boolean) {
 					const scale = (1000 / minSide) * 100; // Illustrator 导出比例是百分比
 
 					// 设置导出选项
-					const exportOptions = new winax.Object(
-						"Illustrator.ExportOptionsJPEG",
-					);
+					const exportOptions = new winax.Object("Illustrator.ExportOptionsJPEG");
 					exportOptions.AntiAliasing = true;
 					exportOptions.QualitySetting = 80;
 					exportOptions.Optimization = true;
@@ -101,9 +96,7 @@ export function FUN_AI导出图片(materialPath: string, insertAd: boolean) {
 				if (insertAd) {
 					const qrDir = path.join(process.cwd(), "public", "二维码");
 					if (fs.existsSync(qrDir)) {
-						const qrFiles = fs
-							.readdirSync(qrDir)
-							.filter((f) => f.toLowerCase().endsWith(".jpg"));
+						const qrFiles = fs.readdirSync(qrDir).filter((f) => f.toLowerCase().endsWith(".jpg"));
 						for (const qrFile of qrFiles) {
 							const qrStem = path.basename(qrFile, path.extname(qrFile));
 							if (fileStem.includes(qrStem)) {
@@ -125,9 +118,7 @@ export function FUN_AI导出图片(materialPath: string, insertAd: boolean) {
 				if (path.extname(filePath).toLowerCase() === ".eps") {
 					const aiPath = path.join(fileDir, `${fileStem}.ai`);
 					if (!fs.existsSync(aiPath)) {
-						const aiSaveOptions = new winax.Object(
-							"Illustrator.IllustratorSaveOptions",
-						);
+						const aiSaveOptions = new winax.Object("Illustrator.IllustratorSaveOptions");
 						doc.SaveAs(aiPath, aiSaveOptions);
 						console.log(`已将 EPS 另存为 AI: ${aiPath}`);
 					}
@@ -146,9 +137,6 @@ export function FUN_AI导出图片(materialPath: string, insertAd: boolean) {
 			}
 		}
 	} catch (error) {
-		console.error(
-			"调用 Illustrator 导出失败，请确保已安装 Illustrator 且 winax 配置正确",
-			error,
-		);
+		console.error("调用 Illustrator 导出失败，请确保已安装 Illustrator 且 winax 配置正确", error);
 	}
 }

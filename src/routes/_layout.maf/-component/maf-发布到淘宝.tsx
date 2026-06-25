@@ -8,13 +8,8 @@ export function MafPublishToTaobao() {
 		defaultValues: { title: "" },
 		onSubmit: async (ctx) => {
 			const title = ctx.value.title;
-			await navigator.clipboard.writeText(
-				`${title}${store.serverResInfo?.folderNav.currentStem || ""}`,
-			);
-			window.open(
-				"https://item.upload.taobao.com/sell/publish.htm?catId=201160807",
-				"_blank",
-			);
+			await navigator.clipboard.writeText(`${title}${store.serverResInfo?.folderNav.currentStem || ""}`);
+			window.open("https://item.upload.taobao.com/sell/publish.htm?catId=201160807", "_blank");
 		},
 	});
 	useEffect(() => {
@@ -32,9 +27,7 @@ export function MafPublishToTaobao() {
 			}}
 			className="item-box"
 		>
-			<form.AppField name="title">
-				{(field) => <field.TextField col={12} label="发布到淘宝" />}
-			</form.AppField>
+			<form.AppField name="title">{(field) => <field.TextField col={12} label="发布到淘宝" />}</form.AppField>
 			<form.AppForm>
 				<form.SubmitButtonField label="发布到淘宝" />
 			</form.AppForm>

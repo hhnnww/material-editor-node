@@ -5,14 +5,7 @@ import { ST_黑鲸商家编码 } from "./st-黑鲸商家编码";
 import { ST_黑鲸标题 } from "./st-黑鲸标题";
 import { ST_黑鲸格式 } from "./st-黑鲸格式";
 
-export async function RUN_制作黑鲸首图(props: {
-	bg: Buffer<ArrayBufferLike>;
-	title: string;
-	format: string;
-	background: string;
-	shopName: string;
-	currentStem: string;
-}) {
+export async function RUN_制作黑鲸首图(props: { bg: Buffer<ArrayBufferLike>; title: string; format: string; background: string; shopName: string; currentStem: string }) {
 	/**
 	 * 根据width height创建透明大图
 	 * 把bg粘贴到 left 0 top 0

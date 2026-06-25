@@ -3,9 +3,7 @@ import sharp from "sharp";
 import type { ORPC_制作首图 } from "#/orpc/router/orpc-制作首图";
 import { setting } from "#/setting";
 
-export async function ST_行固定尺寸(
-	props: InferRouterInputs<typeof ORPC_制作首图>,
-) {
+export async function ST_行固定尺寸(props: InferRouterInputs<typeof ORPC_制作首图>) {
 	/**
 	 * 1，先计算所有图片的平均比例
 	 * 2，计算单行的高度
@@ -13,23 +11,16 @@ export async function ST_行固定尺寸(
 	 * 4，每张图片排列到大图上面
 	 */
 	const width = setting.stWidth;
-	const height =
-		props.style === "黑鲸"
-			? setting.stHeight - setting.stHeijingHeight
-			: setting.stHeight;
+	const height = props.style === "黑鲸" ? setting.stHeight - setting.stHeijingHeight : setting.stHeight;
 
 	const availableWidth = width - props.outerSpacing * 2;
 	const availableHeight = height - props.outerSpacing * 2;
 
 	// 1. 计算所有图片的平均比例
-	const avgRatio =
-		props.imageList.reduce((acc, img) => acc + img.imageRatio, 0) /
-		props.imageList.length;
+	const avgRatio = props.imageList.reduce((acc, img) => acc + img.imageRatio, 0) / props.imageList.length;
 
 	// 2. 计算单行的高度
-	const rowHeight = Math.ceil(
-		(availableHeight - props.innerSpacing * (props.rows - 1)) / props.rows,
-	);
+	const rowHeight = Math.ceil((availableHeight - props.innerSpacing * (props.rows - 1)) / props.rows);
 
 	// 3. 计算固定宽度和每行布局
 	const itemWidth = Math.floor(rowHeight * avgRatio);
@@ -44,8 +35,7 @@ export async function ST_行固定尺寸(
 		while (totalWidthInRow < availableWidth) {
 			const img = props.imageList[imgIndex % props.imageList.length];
 			rowImages.push({ imagePath: img.imagePath });
-			totalWidthInRow +=
-				itemWidth + (rowImages.length > 1 ? props.innerSpacing : 0);
+			totalWidthInRow += itemWidth + (rowImages.length > 1 ? props.innerSpacing : 0);
 			imgIndex++;
 		}
 
@@ -99,9 +89,7 @@ export async function ST_行固定尺寸(
 				.toBuffer();
 
 			if (props.borderRadius > 0) {
-				const mask = Buffer.from(
-					`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
-				);
+				const mask = Buffer.from(`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`);
 				imageBuffer = await sharp(imageBuffer)
 					.composite([{ input: mask, blend: "dest-in" }])
 					.png()

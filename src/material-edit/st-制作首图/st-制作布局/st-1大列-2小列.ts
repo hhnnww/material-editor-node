@@ -3,9 +3,7 @@ import sharp from "sharp";
 import type { ORPC_制作首图 } from "#/orpc/router/orpc-制作首图";
 import { setting } from "#/setting";
 
-export async function ST_1大列2小列(
-	props: InferRouterInputs<typeof ORPC_制作首图>,
-) {
+export async function ST_1大列2小列(props: InferRouterInputs<typeof ORPC_制作首图>) {
 	/**
 	 * 左边1大列，占据图片60%空间，
 	 * 右边分为2列，平均分
@@ -13,27 +11,18 @@ export async function ST_1大列2小列(
 	 * 如果图片不够，自动从图片列表第二张开始重新遍历
 	 */
 	const width = setting.stWidth;
-	const height =
-		props.style === "黑鲸"
-			? setting.stHeight - setting.stHeijingHeight
-			: setting.stHeight;
+	const height = props.style === "黑鲸" ? setting.stHeight - setting.stHeijingHeight : setting.stHeight;
 
 	const availableWidth = width - props.outerSpacing * 2;
 	const availableHeight = height - props.outerSpacing * 2;
 
 	// 1. 计算尺寸
 	// 左侧大列占 60%
-	const bigColWidth = Math.floor(
-		(availableWidth - props.innerSpacing * 2) * 0.6,
-	);
+	const bigColWidth = Math.floor((availableWidth - props.innerSpacing * 2) * 0.6);
 	// 右侧两列平分剩余空间
-	const smallColWidth = Math.ceil(
-		(availableWidth - bigColWidth - props.innerSpacing * 2) / 2,
-	);
+	const smallColWidth = Math.ceil((availableWidth - bigColWidth - props.innerSpacing * 2) / 2);
 	// 右侧每列 3 张图，计算小图高度
-	const smallItemHeight = Math.ceil(
-		(availableHeight - props.innerSpacing * 2) / 3,
-	);
+	const smallItemHeight = Math.ceil((availableHeight - props.innerSpacing * 2) / 3);
 
 	const layout: any[] = [];
 
@@ -60,14 +49,8 @@ export async function ST_1大列2小列(
 
 			layout.push({
 				imagePath: img.imagePath,
-				x:
-					props.outerSpacing +
-					bigColWidth +
-					props.innerSpacing +
-					col * (smallColWidth + props.innerSpacing),
-				y: Math.ceil(
-					props.outerSpacing + row * (smallItemHeight + props.innerSpacing),
-				),
+				x: props.outerSpacing + bigColWidth + props.innerSpacing + col * (smallColWidth + props.innerSpacing),
+				y: Math.ceil(props.outerSpacing + row * (smallItemHeight + props.innerSpacing)),
 				width: Math.ceil(smallColWidth),
 				height: Math.ceil(smallItemHeight),
 			});
@@ -94,11 +77,7 @@ export async function ST_1大列2小列(
 				.toBuffer();
 
 			if (props.borderRadius > 0) {
-				const mask = Buffer.from(
-					`<svg><rect x="0" y="0" width="${item.width}" height="${
-						item.height
-					}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
-				);
+				const mask = Buffer.from(`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`);
 				imageBuffer = await sharp(imageBuffer)
 					.composite([{ input: mask, blend: "dest-in" }])
 					.png()

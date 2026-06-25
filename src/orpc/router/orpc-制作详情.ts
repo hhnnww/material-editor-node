@@ -35,15 +35,11 @@ export const ORPC_制作详情 = os
 		}),
 	)
 	.handler(async (ctx) => {
-		const isEffectEnabled =
-			ctx.input.制作效果图 === "制作" && ctx.input.effectImageList.length > 0;
+		const isEffectEnabled = ctx.input.制作效果图 === "制作" && ctx.input.effectImageList.length > 0;
 
-		const isPreviewEnabled =
-			ctx.input.制作预览图 === "制作" && ctx.input.previewImageList.length > 0;
+		const isPreviewEnabled = ctx.input.制作预览图 === "制作" && ctx.input.previewImageList.length > 0;
 
-		console.log(
-			`[制作详情] 开始并行生成大图任务：效果图=${isEffectEnabled}, 预览图=${isPreviewEnabled}`,
-		);
+		console.log(`[制作详情] 开始并行生成大图任务：效果图=${isEffectEnabled}, 预览图=${isPreviewEnabled}`);
 
 		const effectImgPromise = isEffectEnabled
 			? (async () => {
@@ -60,10 +56,7 @@ export const ORPC_制作详情 = os
 			: Promise.resolve(null);
 
 		// 并行执行大图合成计算
-		const [effectImg, previewImg] = await Promise.all([
-			effectImgPromise,
-			previewImgPromise,
-		]);
+		const [effectImg, previewImg] = await Promise.all([effectImgPromise, previewImgPromise]);
 
 		let startNum = 2;
 

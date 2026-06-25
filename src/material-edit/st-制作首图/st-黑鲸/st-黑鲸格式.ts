@@ -8,10 +8,7 @@ export async function ST_黑鲸格式(format: string) {
 	 * 再把文字垂直和水平居中站贴到圆形的正中间
 	 */
 
-	const colorMap: Record<
-		string,
-		{ backgroundColor: string; textColor: string; borderColor: string }
-	> = {
+	const colorMap: Record<string, { backgroundColor: string; textColor: string; borderColor: string }> = {
 		ps: {
 			backgroundColor: "#001E36",
 			textColor: "#31A8FF",

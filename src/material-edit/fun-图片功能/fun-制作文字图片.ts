@@ -6,41 +6,17 @@ import sharp from "sharp";
 const require = createRequire(import.meta.url);
 const opentype = require("opentype.js");
 
-export async function FUN_制作文字图片(props: {
-	text: string;
-	fontSize: number;
-	fontWidth:
-	| "Thin"
-	| "ExtraLight"
-	| "Light"
-	| "Regular"
-	| "Text"
-	| "Medium"
-	| "SemiBold"
-	| "Bold";
-	fillColor?: string;
-}) {
+export async function FUN_制作文字图片(props: { text: string; fontSize: number; fontWidth: "Thin" | "ExtraLight" | "Light" | "Regular" | "Text" | "Medium" | "SemiBold" | "Bold"; fillColor?: string }) {
 	const fontFolderPath = "public/ibm-plex-sans";
-	const fontAbsoluteFilePath = path.resolve(
-		process.cwd(),
-		fontFolderPath,
-		`IBMPlexSansSC-${props.fontWidth}.ttf`,
-	);
+	const fontAbsoluteFilePath = path.resolve(process.cwd(), fontFolderPath, `IBMPlexSansSC-${props.fontWidth}.ttf`);
 
 	if (!fs.existsSync(fontAbsoluteFilePath)) {
-		throw new Error(
-			`找不到字体文件，请检查路径是否正确: ${fontAbsoluteFilePath}`,
-		);
+		throw new Error(`找不到字体文件，请检查路径是否正确: ${fontAbsoluteFilePath}`);
 	}
 
 	const _opentype = (opentype as any).default || opentype;
 	const fileBuffer = fs.readFileSync(fontAbsoluteFilePath);
-	const font = _opentype.parse(
-		fileBuffer.buffer.slice(
-			fileBuffer.byteOffset,
-			fileBuffer.byteOffset + fileBuffer.byteLength,
-		),
-	);
+	const font = _opentype.parse(fileBuffer.buffer.slice(fileBuffer.byteOffset, fileBuffer.byteOffset + fileBuffer.byteLength));
 
 	const fontSize = props.fontSize;
 	const text = props.text;

@@ -7,9 +7,7 @@ export function FUN_PSD_插入广告(shopName: string) {
 	const doc = app.activeDocument;
 	const qrDir = path.join(process.cwd(), "public", "二维码");
 
-	const qrFiles = fs
-		.readdirSync(qrDir)
-		.filter((f) => f.toLowerCase().endsWith(".jpg"));
+	const qrFiles = fs.readdirSync(qrDir).filter((f) => f.toLowerCase().endsWith(".jpg"));
 	for (const qrFile of qrFiles) {
 		const qrStem = path.basename(qrFile, path.extname(qrFile));
 		if (shopName === qrStem) {

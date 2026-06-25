@@ -5,18 +5,10 @@ import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
 export async function FUN_素材图水印(materialPath: string, shopName: string) {
-	const imageFileList = FUN_递归遍历文件夹(
-		materialPath,
-		setting.imageSuffixList,
-	);
+	const imageFileList = FUN_递归遍历文件夹(materialPath, setting.imageSuffixList);
 
 	// 水印图片在public目录下的二维码目录，是shopname.jpg
-	const watermarkPath = path.join(
-		process.cwd(),
-		"public",
-		"二维码",
-		`${shopName}.jpg`,
-	);
+	const watermarkPath = path.join(process.cwd(), "public", "二维码", `${shopName}.jpg`);
 
 	const watermarkBuffer = await sharp(watermarkPath).toBuffer();
 	const concurrencyLimit = 10; // 同时处理10张图片
@@ -34,9 +26,7 @@ export async function FUN_素材图水印(materialPath: string, shopName: string
 				const targetWidth = 1200;
 				const watermarkWidth = Math.floor(targetWidth / 5);
 
-				const resizedWatermark = await sharp(watermarkBuffer)
-					.resize(watermarkWidth)
-					.toBuffer();
+				const resizedWatermark = await sharp(watermarkBuffer).resize(watermarkWidth).toBuffer();
 
 				const buffer = await sharp(imgPath)
 					.resize(targetWidth)

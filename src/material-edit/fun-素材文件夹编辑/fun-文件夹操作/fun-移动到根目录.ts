@@ -21,10 +21,7 @@ export function FUN_移动到根目录(folderList: string[]) {
 
 				// 保证不重名，添加 _1, _2 等数字
 				while (fs.existsSync(targetPath)) {
-					targetPath = path.join(
-						materialPath,
-						`${nameWithoutExt}_${counter}${ext}`,
-					);
+					targetPath = path.join(materialPath, `${nameWithoutExt}_${counter}${ext}`);
 					counter++;
 				}
 

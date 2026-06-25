@@ -3,9 +3,7 @@ import sharp from "sharp";
 import type { ORPC_制作首图 } from "#/orpc/router/orpc-制作首图";
 import { setting } from "#/setting";
 
-export async function ST_行自适应(
-	props: InferRouterInputs<typeof ORPC_制作首图>,
-) {
+export async function ST_行自适应(props: InferRouterInputs<typeof ORPC_制作首图>) {
 	/**
 	 * 1, 计算单行高度
 	 * 2，缩小小图，每张图片根据高度和自己的图片比例，缩小到适合的尺寸，如果props.borderRadius大于0
@@ -14,18 +12,13 @@ export async function ST_行自适应(
 	 * 4，把每一行拼接起来组合成大图
 	 */
 	const width = setting.stWidth;
-	const height =
-		props.style === "黑鲸"
-			? setting.stHeight - setting.stHeijingHeight
-			: setting.stHeight;
+	const height = props.style === "黑鲸" ? setting.stHeight - setting.stHeijingHeight : setting.stHeight;
 
 	const availableWidth = width - props.outerSpacing * 2;
 	const availableHeight = height - props.outerSpacing * 2;
 
 	// 1. 计算单行高度
-	const rowHeight = Math.ceil(
-		(availableHeight - props.innerSpacing * (props.rows - 1)) / props.rows,
-	);
+	const rowHeight = Math.ceil((availableHeight - props.innerSpacing * (props.rows - 1)) / props.rows);
 
 	const layout = [];
 	let imgIndex = 0;
@@ -43,8 +36,7 @@ export async function ST_行自适应(
 				imagePath: img.imagePath,
 				originalWidth: itemWidth,
 			});
-			totalWidthInRow +=
-				itemWidth + (rowImages.length > 1 ? props.innerSpacing : 0);
+			totalWidthInRow += itemWidth + (rowImages.length > 1 ? props.innerSpacing : 0);
 			imgIndex++;
 		}
 
@@ -112,9 +104,7 @@ export async function ST_行自适应(
 				.toBuffer();
 
 			if (props.borderRadius > 0) {
-				const mask = Buffer.from(
-					`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
-				);
+				const mask = Buffer.from(`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`);
 				imageBuffer = await sharp(imageBuffer)
 					.composite([{ input: mask, blend: "dest-in" }])
 					.png()

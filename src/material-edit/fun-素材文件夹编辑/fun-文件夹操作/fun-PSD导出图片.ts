@@ -11,11 +11,7 @@ import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
  * @param insertAd 是否插入广告二维码
  * @param shopName 店铺名称（用于查找对应的二维码）
  */
-export function FUN_PSD导出图片(
-	materialPath: string,
-	insertAd: boolean,
-	shopName: string,
-) {
+export function FUN_PSD导出图片(materialPath: string, insertAd: boolean, shopName: string) {
 	const psdFileList = FUN_递归遍历文件夹(materialPath, [".psd", ".psb"]);
 
 	if (psdFileList.length === 0) return;

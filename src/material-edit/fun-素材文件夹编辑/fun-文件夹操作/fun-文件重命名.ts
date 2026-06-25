@@ -10,19 +10,11 @@ type itemList = {
 }[];
 
 export function FUN_文件重命名(materialPath: string, shopName: string) {
-	let materialFileList = FUN_递归遍历文件夹(
-		materialPath,
-		setting.materialSuffixList,
-	);
+	let materialFileList = FUN_递归遍历文件夹(materialPath, setting.materialSuffixList);
 	// 根据后缀名排序
-	materialFileList = materialFileList.sort((a, b) =>
-		path.extname(a).localeCompare(path.extname(b)),
-	);
+	materialFileList = materialFileList.sort((a, b) => path.extname(a).localeCompare(path.extname(b)));
 
-	const imageFileList = FUN_递归遍历文件夹(
-		materialPath,
-		setting.imageSuffixList,
-	);
+	const imageFileList = FUN_递归遍历文件夹(materialPath, setting.imageSuffixList);
 
 	const itemList: itemList = materialFileList.map((mFile) => {
 		const mDir = path.dirname(mFile);
@@ -50,10 +42,7 @@ export function FUN_文件重命名(materialPath: string, shopName: string) {
 				const oldPath = imageFileList[i];
 				const indexStr = (i + 1).toString().padStart(3, "0");
 				const ext = path.extname(oldPath);
-				const newPath = path.join(
-					path.dirname(oldPath),
-					`${pass.prefix}(${indexStr})${ext}`,
-				);
+				const newPath = path.join(path.dirname(oldPath), `${pass.prefix}(${indexStr})${ext}`);
 				if (fs.existsSync(oldPath)) {
 					fs.renameSync(oldPath, newPath);
 					imageFileList[i] = newPath;
@@ -77,10 +66,7 @@ export function FUN_文件重命名(materialPath: string, shopName: string) {
 
 			// 1. 重命名素材文件
 			const mExt = path.extname(item.materialFile);
-			const newMPath = path.join(
-				path.dirname(item.materialFile),
-				baseName + mExt,
-			);
+			const newMPath = path.join(path.dirname(item.materialFile), baseName + mExt);
 			if (fs.existsSync(item.materialFile)) {
 				fs.renameSync(item.materialFile, newMPath);
 				item.materialFile = newMPath;

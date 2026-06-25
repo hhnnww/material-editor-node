@@ -10,10 +10,7 @@ import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
  * @param materialPath 素材根目录
  * @param shopName 店铺名称（用于插入广告）
  */
-export function FUN_PSD_删除广告_导出图片(
-	materialPath: string,
-	shopName: string,
-) {
+export function FUN_PSD_删除广告_导出图片(materialPath: string, shopName: string) {
 	const adlayerNames = setting.adlayerNames;
 	const adlayerNameReplaces = setting.psAdLayerNameReplayceList;
 	const psdFileList = FUN_递归遍历文件夹(materialPath, [".psd", ".psb"]);
@@ -81,14 +78,9 @@ export function FUN_PSD_删除广告_导出图片(
 								let contents = String(textItem.Contents).toUpperCase();
 								for (const item of adlayerNameReplaces) {
 									if (contents.includes(item.ori.toUpperCase())) {
-										console.log(
-											`[文字替换] ${item.ori.toUpperCase()} -> ${item.dst.toUpperCase()}`,
-										);
+										console.log(`[文字替换] ${item.ori.toUpperCase()} -> ${item.dst.toUpperCase()}`);
 										textItem.Font = "IBMPlexSansSC-Light";
-										contents = contents.replaceAll(
-											item.ori.toUpperCase(),
-											item.dst.toLowerCase(),
-										);
+										contents = contents.replaceAll(item.ori.toUpperCase(), item.dst.toLowerCase());
 										textItem.Contents = contents.toLowerCase();
 									}
 								}
@@ -112,9 +104,6 @@ export function FUN_PSD_删除广告_导出图片(
 			}
 		}
 	} catch (error) {
-		console.error(
-			"调用 Photoshop 导出失败，请确保已安装 Photoshop 且 winax 配置正确",
-			error,
-		);
+		console.error("调用 Photoshop 导出失败，请确保已安装 Photoshop 且 winax 配置正确", error);
 	}
 }

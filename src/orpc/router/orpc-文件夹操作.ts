@@ -54,18 +54,10 @@ export const ORPC_文件夹操作 = os
 				FUN_打开文件夹(folderStructure.effectPath);
 				break;
 			case "移动到根目录":
-				FUN_移动到根目录([
-					folderStructure.materialPath,
-					folderStructure.previewPath,
-					path.join(folderStructure.thumbPath, "预览图"),
-				]);
+				FUN_移动到根目录([folderStructure.materialPath, folderStructure.previewPath, path.join(folderStructure.thumbPath, "预览图")]);
 				break;
 			case "移动到效果图":
-				await moveImagesToEffectFolder(
-					folderStructure.materialPath,
-					folderStructure.effectPath,
-					folderStructure.thumbPath,
-				);
+				await moveImagesToEffectFolder(folderStructure.materialPath, folderStructure.effectPath, folderStructure.thumbPath);
 				break;
 			case "解压ZIP":
 				unzipFiles(folderStructure.materialPath);
@@ -77,33 +69,19 @@ export const ORPC_文件夹操作 = os
 				FUN_删除广告文件(folderStructure.materialPath);
 				break;
 			case "PSD导出图片":
-				FUN_PSD导出图片(
-					folderStructure.materialPath,
-					false,
-					ctx.input.shopName,
-				);
+				FUN_PSD导出图片(folderStructure.materialPath, false, ctx.input.shopName);
 				break;
 			case "复制到预览图":
-				await FUN_复制到预览图(
-					folderStructure.materialPath,
-					folderStructure.previewPath,
-					folderStructure.thumbPath,
-				);
+				await FUN_复制到预览图(folderStructure.materialPath, folderStructure.previewPath, folderStructure.thumbPath);
 				break;
 			case "删除素材文件夹内所有图片":
 				FUN_删除文件夹内所有图片([folderStructure.materialPath]);
 				break;
 			case "删除预览图":
-				FUN_删除文件夹内所有图片([
-					folderStructure.previewPath,
-					`${folderStructure.thumbPath}/预览图`,
-				]);
+				FUN_删除文件夹内所有图片([folderStructure.previewPath, `${folderStructure.thumbPath}/预览图`]);
 				break;
 			case "删除效果图":
-				FUN_删除文件夹内所有图片([
-					folderStructure.effectPath,
-					`${folderStructure.thumbPath}/效果图`,
-				]);
+				FUN_删除文件夹内所有图片([folderStructure.effectPath, `${folderStructure.thumbPath}/效果图`]);
 				break;
 			case "PPT导出图片":
 				FUN_PPT导出图片(folderStructure.materialPath);
@@ -160,21 +138,14 @@ export const ORPC_文件夹操作 = os
 				await FUN_素材图水印(folderStructure.materialPath, ctx.input.shopName);
 				break;
 			case "PSD删除广告_导出图片":
-				FUN_PSD_删除广告_导出图片(
-					folderStructure.materialPath,
-					ctx.input.shopName,
-				);
+				FUN_PSD_删除广告_导出图片(folderStructure.materialPath, ctx.input.shopName);
 				break;
 			case "删除EPS文件":
 				FUN_删除EPS文件(folderStructure.materialPath);
 				break;
 			case "移动到数字目录":
 				FUN_移动到数字目录({
-					folderList: [
-						folderStructure.materialPath,
-						folderStructure.previewPath,
-						path.join(folderStructure.thumbPath, "预览图"),
-					],
+					folderList: [folderStructure.materialPath, folderStructure.previewPath, path.join(folderStructure.thumbPath, "预览图")],
 				});
 				break;
 			case "子目录图片横向拼接":

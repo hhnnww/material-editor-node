@@ -20,10 +20,7 @@ export async function FUN_获取效果图(effectPath: string, thumbPath: string)
 	 * 使用 image-size 库获取效果图的宽度高度和比例
 	 * 返回 output
 	 */
-	const effectImageList = FUN_递归遍历文件夹(
-		effectPath,
-		setting.imageSuffixList,
-	);
+	const effectImageList = FUN_递归遍历文件夹(effectPath, setting.imageSuffixList);
 	const effectThumbPath = path.join(thumbPath, "效果图");
 
 	const result: output = [];

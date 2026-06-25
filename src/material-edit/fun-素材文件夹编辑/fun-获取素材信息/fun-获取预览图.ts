@@ -14,11 +14,7 @@ type output = {
 	imageRatio: number;
 }[];
 
-export async function FUN_获取预览图(props: {
-	materialPath: string;
-	previewPath: string;
-	thumbPath: string;
-}) {
+export async function FUN_获取预览图(props: { materialPath: string; previewPath: string; thumbPath: string }) {
 	/**
 	 * 根据素材图查找对应的素材源文件,他们在同层文件夹，素材文件的stem in 素材图stem
 	 * 根据素材图查找对应的预览图，他们在文件夹结构一致，name一致
@@ -27,14 +23,8 @@ export async function FUN_获取预览图(props: {
 	 * 那么预览图对应的缩略图文件夹就是 F:\小夕素材\11000-11999\11824\缩略图\预览图
 	 * 预览图对应的缩略图文件名一致，相对路径也是一致的
 	 */
-	const previewImageList = FUN_递归遍历文件夹(
-		props.previewPath,
-		setting.imageSuffixList,
-	);
-	const materialFileList = FUN_递归遍历文件夹(
-		props.materialPath,
-		setting.materialSuffixList,
-	);
+	const previewImageList = FUN_递归遍历文件夹(props.previewPath, setting.imageSuffixList);
+	const materialFileList = FUN_递归遍历文件夹(props.materialPath, setting.materialSuffixList);
 	const previewThumbPath = path.join(props.thumbPath, "预览图");
 
 	const result: output = [];
@@ -61,9 +51,7 @@ export async function FUN_获取预览图(props: {
 						const stem = path.basename(filePath, ext);
 						return stem === materialStem;
 					});
-					const foundMaterial = foundMaterialPath
-						? path.basename(foundMaterialPath)
-						: undefined;
+					const foundMaterial = foundMaterialPath ? path.basename(foundMaterialPath) : undefined;
 					const materialName = foundMaterial || path.basename(previewPath);
 
 					// 查找对应的素材图路径
@@ -73,9 +61,7 @@ export async function FUN_获取预览图(props: {
 						imagePath: previewPath,
 						thumbPath: targetThumbPath,
 						materialName: materialName,
-						materialImagePath: fs.existsSync(materialImagePath)
-							? materialImagePath
-							: "",
+						materialImagePath: fs.existsSync(materialImagePath) ? materialImagePath : "",
 						width: dimensions.width,
 						height: dimensions.height,
 						imageRatio: dimensions.width / dimensions.height,

@@ -53,10 +53,7 @@ export function MafFolderOperations() {
 					<div className="col-span-12" key={index.toString()}>
 						{items.map((item) => (
 							<Button
-								disabled={
-									mutation.isPending &&
-									form.getFieldValue("actionName") === item.name
-								}
+								disabled={mutation.isPending && form.getFieldValue("actionName") === item.name}
 								variant={item.confirm ? "destructive" : "default"}
 								key={item.name}
 								onClick={async () => {
@@ -69,12 +66,7 @@ export function MafFolderOperations() {
 									await form.handleSubmit();
 								}}
 							>
-								{mutation.isPending &&
-								form.getFieldValue("actionName") === item.name ? (
-									<Spinner />
-								) : (
-									item.icon
-								)}
+								{mutation.isPending && form.getFieldValue("actionName") === item.name ? <Spinner /> : item.icon}
 								{item.name}
 							</Button>
 						))}

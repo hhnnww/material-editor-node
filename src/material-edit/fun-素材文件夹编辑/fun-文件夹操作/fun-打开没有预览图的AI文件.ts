@@ -8,10 +8,7 @@ const winax = require("winax");
 
 export function FUN_打开没有预览图的AI文件(materialPath: string) {
 	const materialFileList = FUN_递归遍历文件夹(materialPath, [".ai", ".eps"]);
-	const imageFileList = FUN_递归遍历文件夹(
-		materialPath,
-		setting.imageSuffixList,
-	);
+	const imageFileList = FUN_递归遍历文件夹(materialPath, setting.imageSuffixList);
 
 	const missingPreviewFiles: string[] = [];
 

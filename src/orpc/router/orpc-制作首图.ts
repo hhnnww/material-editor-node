@@ -57,12 +57,7 @@ export const ORPC_制作首图 = os
 			const st = await RUN_制作黑鲸首图({
 				bg: layoutIm,
 				title: ctx.input.title,
-				format:
-					ctx.input.format === "psd"
-						? "ps"
-						: ctx.input.format === "pptx"
-							? "ppt"
-							: ctx.input.format,
+				format: ctx.input.format === "psd" ? "ps" : ctx.input.format === "pptx" ? "ppt" : ctx.input.format,
 				background: ctx.input.background,
 				shopName: ctx.input.shopName,
 				currentStem: ctx.input.currentStem,

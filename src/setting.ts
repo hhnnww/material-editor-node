@@ -6,31 +6,13 @@ const imageSuffixList = [".jpg", ".jpeg", ".png", ".gif"];
 const zipSuffixList = [".zip", ".rar", ".7z"];
 const materialSuffixList = [".psd", ".psb", ".ai", ".eps", ".ppt", ".pptx"];
 const thumbImageMaxWidth = 800;
-const adSuffixList = [
-	".txt",
-	".pdf",
-	".docx",
-	".html",
-	".DS_Store",
-	".url",
-	".doc",
-];
+const adSuffixList = [".txt", ".pdf", ".docx", ".html", ".DS_Store", ".url", ".doc"];
 const stWidth = 2000;
 const stHeight = 2000;
 const xqWidth = 2000;
 const stHeijingHeight = 250;
 const stStyleList = ["黑鲸", "T500"];
-const stLayoutList = [
-	"ST_固定裁剪",
-	"ST_列_自适应",
-	"ST_列_固定尺寸",
-	"ST_行_自适应",
-	"ST_行_固定尺寸",
-	"ST_1大_1小",
-	"ST_横版_1221",
-	"ST_竖版_1221",
-	"ST_1大列2小列",
-];
+const stLayoutList = ["ST_固定裁剪", "ST_列_自适应", "ST_列_固定尺寸", "ST_行_自适应", "ST_行_固定尺寸", "ST_1大_1小", "ST_横版_1221", "ST_竖版_1221", "ST_1大列2小列"];
 const logoSize = 100;
 
 export const setting = {
@@ -51,12 +33,4 @@ export const setting = {
 	stHeijingHeight,
 };
 
-export type fontWeight =
-	| "Thin"
-	| "ExtraLight"
-	| "Light"
-	| "Regular"
-	| "Text"
-	| "Medium"
-	| "SemiBold"
-	| "Bold";
+export type fontWeight = "Thin" | "ExtraLight" | "Light" | "Regular" | "Text" | "Medium" | "SemiBold" | "Bold";

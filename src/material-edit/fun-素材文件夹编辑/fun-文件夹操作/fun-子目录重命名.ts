@@ -9,9 +9,7 @@ export function FUN_子目录重命名(materialPath: string, shopName: string) {
 	 * 然后重命名为 shopName(001) shopName(002) 这样的自增，要有3位数
 	 */
 	const items = fs.readdirSync(materialPath);
-	const subDirs = items
-		.map((item) => path.join(materialPath, item))
-		.filter((fullPath) => fs.statSync(fullPath).isDirectory());
+	const subDirs = items.map((item) => path.join(materialPath, item)).filter((fullPath) => fs.statSync(fullPath).isDirectory());
 
 	if (subDirs.length === 0) return;
 

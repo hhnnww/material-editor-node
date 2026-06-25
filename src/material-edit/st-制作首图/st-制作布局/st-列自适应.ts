@@ -3,9 +3,7 @@ import sharp from "sharp";
 import type { ORPC_制作首图 } from "#/orpc/router/orpc-制作首图";
 import { setting } from "#/setting";
 
-export async function ST_列自适应(
-	props: InferRouterInputs<typeof ORPC_制作首图>,
-) {
+export async function ST_列自适应(props: InferRouterInputs<typeof ORPC_制作首图>) {
 	/**
 	 * 根据rows和spacing计算单列的宽度
 	 * 然后把图片缩小从第一列 上面开始往下排列
@@ -25,9 +23,7 @@ export async function ST_列自适应(
 
 	// 1. 计算单列宽度 (根据 rows 决定列数，这里 rows 实际上代表列数)
 	const colCount = props.rows;
-	const colWidth = Math.ceil(
-		(availableWidth - props.innerSpacing * (colCount - 1)) / colCount,
-	);
+	const colWidth = Math.ceil((availableWidth - props.innerSpacing * (colCount - 1)) / colCount);
 
 	const layout: any[] = [];
 	let currentCol = 0;
@@ -50,10 +46,7 @@ export async function ST_列自适应(
 		}
 
 		// 计算实际绘制高度（如果超出底部则裁剪）
-		const finalHeight = Math.min(
-			itemHeight,
-			height - props.outerSpacing - currentY,
-		);
+		const finalHeight = Math.min(itemHeight, height - props.outerSpacing - currentY);
 
 		layout.push({
 			imagePath: img.imagePath,
@@ -87,9 +80,7 @@ export async function ST_列自适应(
 				.toBuffer();
 
 			if (props.borderRadius > 0) {
-				const mask = Buffer.from(
-					`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
-				);
+				const mask = Buffer.from(`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`);
 				imageBuffer = await sharp(imageBuffer)
 					.composite([{ input: mask, blend: "dest-in" }])
 					.png()

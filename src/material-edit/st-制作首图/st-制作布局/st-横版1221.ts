@@ -3,9 +3,7 @@ import sharp from "sharp";
 import type { ORPC_制作首图 } from "#/orpc/router/orpc-制作首图";
 import { setting } from "#/setting";
 
-export async function ST_横版1221(
-	props: InferRouterInputs<typeof ORPC_制作首图>,
-) {
+export async function ST_横版1221(props: InferRouterInputs<typeof ORPC_制作首图>) {
 	/**
 	 * 把背景大图分割成横向3格
 	 * 竖向4格
@@ -15,10 +13,7 @@ export async function ST_横版1221(
 	 * 右下角排列1张大图占很像2格竖向2格
 	 */
 	const width = setting.stWidth;
-	const height =
-		props.style === "黑鲸"
-			? setting.stHeight - setting.stHeijingHeight
-			: setting.stHeight;
+	const height = props.style === "黑鲸" ? setting.stHeight - setting.stHeijingHeight : setting.stHeight;
 
 	const availableWidth = width - props.outerSpacing * 2;
 	const availableHeight = height - props.outerSpacing * 2;
@@ -82,19 +77,13 @@ export async function ST_横版1221(
 	const layout = layoutConfigs.map((config) => {
 		// 如果图片不够，自动从头开始遍历 (使用取模运算)
 		const img = props.imageList[config.imgIdx % props.imageList.length];
-		const itemWidth =
-			config.colSpan * cellWidth + (config.colSpan - 1) * props.innerSpacing;
-		const itemHeight =
-			config.rowSpan * cellHeight + (config.rowSpan - 1) * props.innerSpacing;
+		const itemWidth = config.colSpan * cellWidth + (config.colSpan - 1) * props.innerSpacing;
+		const itemHeight = config.rowSpan * cellHeight + (config.rowSpan - 1) * props.innerSpacing;
 
 		return {
 			imagePath: img.imagePath,
-			x: Math.ceil(
-				props.outerSpacing + config.col * (cellWidth + props.innerSpacing),
-			),
-			y: Math.ceil(
-				props.outerSpacing + config.row * (cellHeight + props.innerSpacing),
-			),
+			x: Math.ceil(props.outerSpacing + config.col * (cellWidth + props.innerSpacing)),
+			y: Math.ceil(props.outerSpacing + config.row * (cellHeight + props.innerSpacing)),
 			width: Math.ceil(itemWidth),
 			height: Math.ceil(itemHeight),
 		};
@@ -119,9 +108,7 @@ export async function ST_横版1221(
 				.toBuffer();
 
 			if (props.borderRadius > 0) {
-				const mask = Buffer.from(
-					`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
-				);
+				const mask = Buffer.from(`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`);
 				imageBuffer = await sharp(imageBuffer)
 					.composite([{ input: mask, blend: "dest-in" }])
 					.png()

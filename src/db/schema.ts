@@ -1,12 +1,4 @@
-import {
-	boolean,
-	foreignKey,
-	integer,
-	pgTable,
-	serial,
-	text,
-	timestamp,
-} from "drizzle-orm/pg-core";
+import { boolean, foreignKey, integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const materials = pgTable(
 	"materials",

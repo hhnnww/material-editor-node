@@ -6,9 +6,7 @@ import { setting } from "#/setting";
 import { makeTextImage } from "../fun-图片功能/fun-制作文字图片2";
 import { XQ_制作标题 } from "./xq-制作标题";
 
-export async function XQ_制作数据图(
-	props: InferRouterInputs<typeof ORPC_制作数据图>,
-) {
+export async function XQ_制作数据图(props: InferRouterInputs<typeof ORPC_制作数据图>) {
 	/**
 	 * 制作一个数据表格图片
 	 * 左边name右边content

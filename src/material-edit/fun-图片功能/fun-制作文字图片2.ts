@@ -6,13 +6,7 @@ import type { fontWeight } from "#/setting";
 
 const textImageCache = new Map<string, Buffer>();
 
-export const makeTextImage = async (props: {
-	text: string;
-	width?: number;
-	height?: number;
-	fontWeight: fontWeight;
-	fillColor: string;
-}) => {
+export const makeTextImage = async (props: { text: string; width?: number; height?: number; fontWeight: fontWeight; fillColor: string }) => {
 	const cacheKey = `${props.text}_w:${props.width || ""}_h:${props.height || ""}_fw:${props.fontWeight}_c:${props.fillColor}`;
 	const cached = textImageCache.get(cacheKey);
 	if (cached) {
@@ -20,16 +14,10 @@ export const makeTextImage = async (props: {
 	}
 
 	const fontFolderPath = "public/ibm-plex-sans";
-	const fontAbsoluteFilePath = path.resolve(
-		process.cwd(),
-		fontFolderPath,
-		`IBMPlexSansSC-${props.fontWeight}.ttf`,
-	);
+	const fontAbsoluteFilePath = path.resolve(process.cwd(), fontFolderPath, `IBMPlexSansSC-${props.fontWeight}.ttf`);
 
 	if (!fs.existsSync(fontAbsoluteFilePath)) {
-		throw new Error(
-			`找不到字体文件，请检查路径是否正确: ${fontAbsoluteFilePath}`,
-		);
+		throw new Error(`找不到字体文件，请检查路径是否正确: ${fontAbsoluteFilePath}`);
 	}
 
 	// 1. 定义一个足够大的虚拟画布，确保长文本不会被截断
@@ -80,15 +68,9 @@ export const makeTextImage = async (props: {
 	// 5. 根据出参要求缩放到指定的宽高
 	let resultBuffer: Buffer;
 	if (props.width) {
-		resultBuffer = await imagePipeline
-			.resize({ width: props.width })
-			.png()
-			.toBuffer();
+		resultBuffer = await imagePipeline.resize({ width: props.width }).png().toBuffer();
 	} else {
-		resultBuffer = await imagePipeline
-			.resize({ height: props.height })
-			.png()
-			.toBuffer();
+		resultBuffer = await imagePipeline.resize({ height: props.height }).png().toBuffer();
 	}
 
 	textImageCache.set(cacheKey, resultBuffer);

@@ -16,9 +16,7 @@ export async function FUN_子目录图片横向排列(props: { materialPath: str
 	const maxHeightLimit = 1000;
 
 	const items = fs.readdirSync(props.materialPath);
-	const subDirs = items
-		.map((item) => path.join(props.materialPath, item))
-		.filter((fullPath) => fs.statSync(fullPath).isDirectory());
+	const subDirs = items.map((item) => path.join(props.materialPath, item)).filter((fullPath) => fs.statSync(fullPath).isDirectory());
 
 	for (const subDir of subDirs) {
 		const subDirStem = path.basename(subDir);
@@ -56,9 +54,7 @@ export async function FUN_子目录图片横向排列(props: { materialPath: str
 			// 如果图片高度超过限制，则进行缩放，防止 composite 报错
 			if (imgHeight > maxHeightLimit - outerSpacing * 2) {
 				const targetH = maxHeightLimit - outerSpacing * 2;
-				const resizedBuffer = await sharp(buffer)
-					.resize({ height: targetH })
-					.toBuffer();
+				const resizedBuffer = await sharp(buffer).resize({ height: targetH }).toBuffer();
 				composites.push({
 					input: resizedBuffer,
 					left: currentX,
@@ -80,10 +76,7 @@ export async function FUN_子目录图片横向排列(props: { materialPath: str
 		}
 
 		const canvasWidth = currentX - innerSpacing + outerSpacing;
-		const canvasHeight = Math.min(
-			maxRowHeight + outerSpacing * 2,
-			maxHeightLimit,
-		);
+		const canvasHeight = Math.min(maxRowHeight + outerSpacing * 2, maxHeightLimit);
 
 		await sharp({
 			create: {

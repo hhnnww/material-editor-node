@@ -3,9 +3,7 @@ import sharp from "sharp";
 import type { ORPC_制作首图 } from "#/orpc/router/orpc-制作首图";
 import { setting } from "#/setting";
 
-export async function ST_1大1小(
-	props: InferRouterInputs<typeof ORPC_制作首图>,
-) {
+export async function ST_1大1小(props: InferRouterInputs<typeof ORPC_制作首图>) {
 	/**
 	 * 计算大图的宽度 根据width 和两个spacing
 	 * 把图片列表中的第一张图片缩放,粘贴到大图
@@ -16,10 +14,7 @@ export async function ST_1大1小(
 	 * 返回图片
 	 */
 	const width = setting.stWidth;
-	const height =
-		props.style === "黑鲸"
-			? setting.stHeight - setting.stHeijingHeight
-			: setting.stHeight;
+	const height = props.style === "黑鲸" ? setting.stHeight - setting.stHeijingHeight : setting.stHeight;
 
 	const availableWidth = width - props.outerSpacing * 2;
 	const availableHeight = height - props.outerSpacing * 2;
@@ -28,9 +23,7 @@ export async function ST_1大1小(
 	const bigImage = props.imageList[0];
 	// 预估大图高度，给小图留出约 1/4 到 1/3 的空间，或者根据比例计算
 	// 这里固定大图高度为可用高度的 70%，确保下方有空间
-	const bigRowHeight = Math.floor(
-		(availableHeight - props.innerSpacing) * 0.75,
-	);
+	const bigRowHeight = Math.floor((availableHeight - props.innerSpacing) * 0.75);
 	const smallRowHeight = availableHeight - props.innerSpacing - bigRowHeight;
 
 	const layout: any[] = [
@@ -48,18 +41,13 @@ export async function ST_1大1小(
 	const remainingImages = props.imageList.slice(1);
 	if (remainingImages.length > 0) {
 		// 根据剩余图片的平均比例计算适合放多少张
-		const avgRatio =
-			remainingImages.reduce((acc, img) => acc + img.imageRatio, 0) /
-			remainingImages.length;
+		const avgRatio = remainingImages.reduce((acc, img) => acc + img.imageRatio, 0) / remainingImages.length;
 
 		// 计算单行适合的列数: 可用宽度 / (小图高度 * 平均比例)
-		const colsPerRow =
-			Math.round(availableWidth / (smallRowHeight * avgRatio)) || 1;
+		const colsPerRow = Math.round(availableWidth / (smallRowHeight * avgRatio)) || 1;
 
 		// 计算最终小图宽度
-		const smallItemWidth = Math.ceil(
-			(availableWidth - props.innerSpacing * (colsPerRow - 1)) / colsPerRow,
-		);
+		const smallItemWidth = Math.ceil((availableWidth - props.innerSpacing * (colsPerRow - 1)) / colsPerRow);
 
 		for (let i = 0; i < colsPerRow; i++) {
 			// 如果图片不够，则循环使用剩余图片列表
@@ -68,10 +56,7 @@ export async function ST_1大1小(
 				imagePath: img.imagePath,
 				x: props.outerSpacing + i * (smallItemWidth + props.innerSpacing),
 				y: props.outerSpacing + bigRowHeight + props.innerSpacing,
-				width:
-					i === colsPerRow - 1
-						? availableWidth - i * (smallItemWidth + props.innerSpacing)
-						: smallItemWidth,
+				width: i === colsPerRow - 1 ? availableWidth - i * (smallItemWidth + props.innerSpacing) : smallItemWidth,
 				height: smallRowHeight,
 				fit: "cover" as const,
 			});
@@ -98,11 +83,7 @@ export async function ST_1大1小(
 				.toBuffer();
 
 			if (props.borderRadius > 0) {
-				const mask = Buffer.from(
-					`<svg><rect x="0" y="0" width="${item.width}" height="${
-						item.height
-					}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
-				);
+				const mask = Buffer.from(`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`);
 				imageBuffer = await sharp(imageBuffer)
 					.composite([{ input: mask, blend: "dest-in" }])
 					.png()

@@ -9,9 +9,7 @@ import { XQ_制作标题 } from "./xq-制作标题";
 /**
  * 制作预览图详情页（防裁剪、完整显示完美版）
  */
-export async function XQ_制作预览图(
-	props: InferRouterInputs<typeof ORPC_制作详情>,
-) {
+export async function XQ_制作预览图(props: InferRouterInputs<typeof ORPC_制作详情>) {
 	const width = setting.xqWidth;
 	const nameFontColor = "#333";
 	const sizeFontColor = "#333";
@@ -23,31 +21,17 @@ export async function XQ_制作预览图(
 	const bottomSpacing = 320;
 
 	// 并行初始化公共素材（标题和 LOGO）
-	const [titleImg, logoImage] = await Promise.all([
-		XQ_制作标题({ title: "素材预览图", desc: "* 素材内容以预览图为准" }),
-		FUN_获取LOGO图片({ fillColor: nameFontColor, height: 60 }),
-	]);
+	const [titleImg, logoImage] = await Promise.all([XQ_制作标题({ title: "素材预览图", desc: "* 素材内容以预览图为准" }), FUN_获取LOGO图片({ fillColor: nameFontColor, height: 60 })]);
 
 	// 一次性获取标题和LOGO的元数据
-	const [titleMeta, logoMeta] = await Promise.all([
-		sharp(titleImg).metadata(),
-		sharp(logoImage).metadata(),
-	]);
+	const [titleMeta, logoMeta] = await Promise.all([sharp(titleImg).metadata(), sharp(logoImage).metadata()]);
 	const logoHeight = logoMeta.height || 0;
 	const logoWidth = logoMeta.width || 0;
 
 	const availableWidth = width - props.outerSpacing * 2;
-	const itemWidth = Math.floor(
-		(availableWidth - (props.rows - 1) * props.innerSpacing) / props.rows,
-	);
-	const remainder =
-		props.rows >= 2 ? props.previewImageList.length % props.rows : 0;
-	const firstRowItemWidth =
-		remainder > 0
-			? Math.floor(
-					(availableWidth - (remainder - 1) * props.innerSpacing) / remainder,
-				)
-			: itemWidth;
+	const itemWidth = Math.floor((availableWidth - (props.rows - 1) * props.innerSpacing) / props.rows);
+	const remainder = props.rows >= 2 ? props.previewImageList.length % props.rows : 0;
+	const firstRowItemWidth = remainder > 0 ? Math.floor((availableWidth - (remainder - 1) * props.innerSpacing) / remainder) : itemWidth;
 
 	const composites: OverlayOptions[] = [];
 	composites.push({ input: titleImg, top: 0, left: 0 });
@@ -57,9 +41,7 @@ export async function XQ_制作预览图(
 	// ==========================================
 	// 2. 多图片异步流的限流排队
 	// ==========================================
-	console.log(
-		`[制作预览图] 2. 开始处理子项，总计: ${props.previewImageList.length} 张`,
-	);
+	console.log(`[制作预览图] 2. 开始处理子项，总计: ${props.previewImageList.length} 张`);
 
 	const processedItems = new Array(props.previewImageList.length);
 
@@ -74,38 +56,24 @@ export async function XQ_制作预览图(
 
 			try {
 				const isFirstRowRemainder = remainder > 0 && index < remainder;
-				const currentItemWidth = isFirstRowRemainder
-					? firstRowItemWidth
-					: itemWidth;
+				const currentItemWidth = isFirstRowRemainder ? firstRowItemWidth : itemWidth;
 
 				// 1. 获取原始图片的元数据，用于处理旋转带来的宽高交换
 				const originalMeta = await sharp(img.imagePath).metadata();
-				const isSwapped = !!(
-					originalMeta.orientation &&
-					originalMeta.orientation >= 5 &&
-					originalMeta.orientation <= 8
-				);
-				const origWidth = isSwapped
-					? originalMeta.height || img.height
-					: originalMeta.width || img.width;
-				const origHeight = isSwapped
-					? originalMeta.width || img.width
-					: originalMeta.height || img.height;
+				const isSwapped = !!(originalMeta.orientation && originalMeta.orientation >= 5 && originalMeta.orientation <= 8);
+				const origWidth = isSwapped ? originalMeta.height || img.height : originalMeta.width || img.width;
+				const origHeight = isSwapped ? originalMeta.width || img.width : originalMeta.height || img.height;
 
 				const ratio = origHeight > 0 ? origWidth / origHeight : 1;
 				const currentImgHeight = Math.round(currentItemWidth / ratio);
 
 				if (currentImgHeight === 0) {
-					console.warn(
-						`[制作预览图] 警告：第 ${index} 张图片高度计算为0 已跳过。`,
-					);
+					console.warn(`[制作预览图] 警告：第 ${index} 张图片高度计算为0 已跳过。`);
 					continue;
 				}
 
 				// 2. 构造一步到位的处理管道进行物理旋转校正与强制缩放
-				let finalPipeline = sharp(img.imagePath)
-					.rotate()
-					.resize(currentItemWidth, currentImgHeight);
+				let finalPipeline = sharp(img.imagePath).rotate().resize(currentItemWidth, currentImgHeight);
 
 				// 3. 🔥 终极无缝圆角机制：基于图片真实宽高动态生成 SVG，并且加上精确的宽高属性，彻底防尺寸报错与缩减
 				if (props.borderRadius > 0) {
@@ -129,9 +97,7 @@ export async function XQ_制作预览图(
 				// 4. 生成文字信息
 				const nameText = img.materialName.toUpperCase();
 				const ext = img.materialName.split(".").pop()?.toLowerCase();
-				const sizeText = ["ai", "eps"].includes(ext || "")
-					? "AI矢量素材"
-					: `${img.width}×${img.height}(PX)`;
+				const sizeText = ["ai", "eps"].includes(ext || "") ? "AI矢量素材" : `${img.width}×${img.height}(PX)`;
 
 				const [nameImg, sizeImg] = await Promise.all([
 					makeTextImage({
@@ -149,19 +115,9 @@ export async function XQ_制作预览图(
 				]);
 
 				// 5. 获取文字精确物理尺寸
-				const [nameMeta, sizeMeta] = await Promise.all([
-					sharp(nameImg).metadata(),
-					sharp(sizeImg).metadata(),
-				]);
+				const [nameMeta, sizeMeta] = await Promise.all([sharp(nameImg).metadata(), sharp(sizeImg).metadata()]);
 
-				const totalHeight =
-					currentImgHeight +
-					imgToLogoSpacing +
-					logoHeight +
-					logoToNameSpacing +
-					(nameMeta.height || 0) +
-					nameToSizeSpacing +
-					(sizeMeta.height || 0);
+				const totalHeight = currentImgHeight + imgToLogoSpacing + logoHeight + logoToNameSpacing + (nameMeta.height || 0) + nameToSizeSpacing + (sizeMeta.height || 0);
 
 				// 保存当前位置的计算结果
 				processedItems[index] = {
@@ -176,18 +132,13 @@ export async function XQ_制作预览图(
 					itemWidthUsed: currentItemWidth,
 				};
 			} catch (err) {
-				console.error(
-					`[制作预览图] 处理第 ${index} 张图 (${img?.imagePath || "未知路径"}) 出错:`,
-					err,
-				);
+				console.error(`[制作预览图] 处理第 ${index} 张图 (${img?.imagePath || "未知路径"}) 出错:`, err);
 			}
 		}
 	}
 
 	// 启动有限并发通道
-	const workers = Array.from({ length: CONCURRENCY_LIMIT }, () =>
-		queueWorker(),
-	);
+	const workers = Array.from({ length: CONCURRENCY_LIMIT }, () => queueWorker());
 	await Promise.all(workers);
 
 	console.log("[制作预览图] 3. 子项 Buffer 生成完毕，开始计算拼图坐标...");
@@ -197,16 +148,13 @@ export async function XQ_制作预览图(
 		const row = processedItems.slice(i, i + take);
 		i += take;
 
-		const maxHeight = Math.max(
-			...row.map((item) => (item ? item.totalHeight : 0)),
-		);
+		const maxHeight = Math.max(...row.map((item) => (item ? item.totalHeight : 0)));
 		const maxImgHeight = Math.max(...row.map((r) => (r ? r.imgHeight : 0)));
 
 		row.forEach((item, index) => {
 			if (!item) return;
 
-			const x =
-				props.outerSpacing + index * (item.itemWidthUsed + props.innerSpacing);
+			const x = props.outerSpacing + index * (item.itemWidthUsed + props.innerSpacing);
 			const imgYOffset = maxImgHeight - item.imgHeight;
 
 			// 压入原图 Buffer

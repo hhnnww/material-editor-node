@@ -36,14 +36,8 @@ export function MAF_制作首图() {
 
 	useEffect(() => {
 		if (store.serverResInfo?.materialFormatWithCount.format) {
-			form.setFieldValue(
-				"format",
-				store.serverResInfo?.materialFormatWithCount.format,
-			);
-			form.setFieldValue(
-				"currentStem",
-				store.serverResInfo.folderNav.currentStem,
-			);
+			form.setFieldValue("format", store.serverResInfo?.materialFormatWithCount.format);
+			form.setFieldValue("currentStem", store.serverResInfo.folderNav.currentStem);
 			form.setFieldValue("shopName", store.shopName);
 			form.clearFieldValues("imageList");
 			form.setFieldValue("title", "");
@@ -54,21 +48,9 @@ export function MAF_制作首图() {
 		<>
 			<MAF_制作首图_子表单_首图信息 form={form} />
 
-			{store.serverResInfo?.effectImageList &&
-				store.serverResInfo.effectImageList.length > 0 && (
-					<MAF_效果图列表
-						form={form}
-						effectImageList={store.serverResInfo?.effectImageList}
-					/>
-				)}
+			{store.serverResInfo?.effectImageList && store.serverResInfo.effectImageList.length > 0 && <MAF_效果图列表 form={form} effectImageList={store.serverResInfo?.effectImageList} />}
 
-			{store.serverResInfo?.previewImageList &&
-				store.serverResInfo.previewImageList.length > 0 && (
-					<MAF_预览图列表
-						form={form}
-						previewImageList={store.serverResInfo?.previewImageList}
-					/>
-				)}
+			{store.serverResInfo?.previewImageList && store.serverResInfo.previewImageList.length > 0 && <MAF_预览图列表 form={form} previewImageList={store.serverResInfo?.previewImageList} />}
 		</>
 	);
 }

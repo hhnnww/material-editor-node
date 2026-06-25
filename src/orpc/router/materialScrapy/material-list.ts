@@ -13,25 +13,13 @@ export const orpcMateralList = os
 		}),
 	)
 	.handler(async (ctx) => {
-		const shopId = await db
-			.select()
-			.from(shop_name)
-			.where(eq(shop_name.name, ctx.input.shopName));
-		const siteId = await db
-			.select()
-			.from(site_name)
-			.where(eq(site_name.name, ctx.input.siteName));
+		const shopId = await db.select().from(shop_name).where(eq(shop_name.name, ctx.input.shopName));
+		const siteId = await db.select().from(site_name).where(eq(site_name.name, ctx.input.siteName));
 		if (!shopId || !siteId) return null;
 		return await db
 			.select()
 			.from(materials)
-			.where(
-				and(
-					eq(materials.shop_id, shopId[0].id),
-					eq(materials.site_id, siteId[0].id),
-					eq(materials.state, false),
-				),
-			)
+			.where(and(eq(materials.shop_id, shopId[0].id), eq(materials.site_id, siteId[0].id), eq(materials.state, false)))
 			.limit(120)
 			.offset((ctx.input.pageNum - 1) * 120);
 	});

@@ -16,15 +16,9 @@ export function TextField(
 			<FieldLabel>{props.label}</FieldLabel>
 			<Input
 				{...inputProps}
-				value={
-					props?.type === "number"
-						? Number(field.state.value)
-						: field.state.value
-				}
+				value={props?.type === "number" ? Number(field.state.value) : field.state.value}
 				onChange={(e) => {
-					field.handleChange(
-						props?.type === "number" ? Number(e.target.value) : e.target.value,
-					);
+					field.handleChange(props?.type === "number" ? Number(e.target.value) : e.target.value);
 				}}
 				onBlur={field.handleBlur}
 				className="w-full"

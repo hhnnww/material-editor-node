@@ -1,11 +1,6 @@
 import sharp from "sharp";
 
-export const IMAGE_制作圆角矩形 = async (props: {
-	width: number;
-	height: number;
-	borderRadius: number;
-	fillColor: string;
-}) => {
+export const IMAGE_制作圆角矩形 = async (props: { width: number; height: number; borderRadius: number; fillColor: string }) => {
 	const { width, height, borderRadius, fillColor } = props;
 
 	const svgRect = Buffer.from(

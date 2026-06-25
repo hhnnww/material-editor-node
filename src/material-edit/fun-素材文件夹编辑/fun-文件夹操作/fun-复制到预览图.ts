@@ -8,16 +8,9 @@ import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 /**
  * 复制到预览图并生成缩略图（高性能并发控制版）
  */
-export async function FUN_复制到预览图(
-	materialPath: string,
-	previewPath: string,
-	thumbPath: string,
-) {
+export async function FUN_复制到预览图(materialPath: string, previewPath: string, thumbPath: string) {
 	const thumbMaxSize = setting.thumbImageMaxWidth;
-	const materialImageList = FUN_递归遍历文件夹(
-		materialPath,
-		setting.imageSuffixList,
-	);
+	const materialImageList = FUN_递归遍历文件夹(materialPath, setting.imageSuffixList);
 
 	const thumbPreviewPath = path.join(thumbPath, "预览图");
 
@@ -84,9 +77,7 @@ export async function FUN_复制到预览图(
 	}
 
 	// 启动多通道并发执行
-	console.log(
-		`[开始并行处理] 开启 ${CONCURRENCY_LIMIT} 个并发线程处理 ${materialImageList.length} 张图片...`,
-	);
+	console.log(`[开始并行处理] 开启 ${CONCURRENCY_LIMIT} 个并发线程处理 ${materialImageList.length} 张图片...`);
 	const workers = Array.from({ length: CONCURRENCY_LIMIT }, () => worker());
 	await Promise.all(workers);
 

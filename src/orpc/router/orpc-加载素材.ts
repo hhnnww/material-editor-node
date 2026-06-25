@@ -21,23 +21,15 @@ export const ORPC_加载素材 = os
 			throw new Error(res.message);
 		}
 		const folderStructure = FUN_创建文件夹(ctx.input.rootPath);
-		const effectImageList = await FUN_获取效果图(
-			folderStructure.effectPath,
-			folderStructure.thumbPath,
-		);
+		const effectImageList = await FUN_获取效果图(folderStructure.effectPath, folderStructure.thumbPath);
 		const previewImageList = await FUN_获取预览图({
 			materialPath: folderStructure.materialPath,
 			previewPath: folderStructure.previewPath,
 			thumbPath: folderStructure.thumbPath,
 		});
-		const materialFormatWithCount = FUN_获取素材格式(
-			folderStructure.materialPath,
-		);
+		const materialFormatWithCount = FUN_获取素材格式(folderStructure.materialPath);
 		const folderNav = await FUN_获取上下文件夹(ctx.input.rootPath);
-		await generateThumbnailsFromEffects(
-			folderStructure.effectPath,
-			folderStructure.thumbPath,
-		);
+		await generateThumbnailsFromEffects(folderStructure.effectPath, folderStructure.thumbPath);
 		return {
 			folderStructure,
 			effectImageList,

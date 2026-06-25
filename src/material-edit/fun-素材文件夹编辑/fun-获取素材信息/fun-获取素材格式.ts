@@ -51,10 +51,7 @@ export function FUN_获取素材格式(materialPath: string): output {
 
 	// 1. 如果有ai文件并且ai文件大于5，则返回ai
 	if ((stats.ai || 0) >= 5) {
-		const countTitle =
-			totalImageCount > 0
-				? `${stats.ai}个AI文件 + ${totalImageCount}张预览图`
-				: `${stats.ai}个AI文件`;
+		const countTitle = totalImageCount > 0 ? `${stats.ai}个AI文件 + ${totalImageCount}张预览图` : `${stats.ai}个AI文件`;
 		return {
 			count: stats.ai,
 			format: "ai",
@@ -72,16 +69,12 @@ export function FUN_获取素材格式(materialPath: string): output {
 	if (materialStats.length > 0) {
 		const mainExt = materialStats[0][0];
 		const mainCount = materialStats[0][1];
-		const countTitle =
-			totalImageCount > 0
-				? `${mainCount}个${mainExt.toUpperCase()}文件 + ${totalImageCount}张预览图`
-				: `${mainCount}个${mainExt.toUpperCase()}文件`;
+		const countTitle = totalImageCount > 0 ? `${mainCount}个${mainExt.toUpperCase()}文件 + ${totalImageCount}张预览图` : `${mainCount}个${mainExt.toUpperCase()}文件`;
 		return {
 			count: mainCount,
 			format: mainExt,
 			size: formatSize(sizeStats[mainExt] || 0),
-			formatTitle:
-				formatTitleMap[mainExt] || `${mainExt.toUpperCase()}设计素材`,
+			formatTitle: formatTitleMap[mainExt] || `${mainExt.toUpperCase()}设计素材`,
 			countTitle,
 		};
 	}

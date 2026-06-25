@@ -7,11 +7,7 @@ import type { Connect, Plugin } from "vite";
 // 我们换成一个非常独特的虚拟前缀，防止跟任何路由冲突
 const VIRTUAL_PREFIX = "/__local_disk_stream__/";
 
-const handler: Connect.NextHandleFunction = (
-	req: IncomingMessage,
-	res: ServerResponse,
-	next: Connect.NextFunction,
-) => {
+const handler: Connect.NextHandleFunction = (req: IncomingMessage, res: ServerResponse, next: Connect.NextFunction) => {
 	const url = req.url;
 
 	if (url?.includes(VIRTUAL_PREFIX)) {
@@ -24,8 +20,7 @@ const handler: Connect.NextHandleFunction = (
 		const normalizedPath = path.normalize(decodedPath);
 
 		if (fs.existsSync(normalizedPath) && fs.statSync(normalizedPath).isFile()) {
-			const contentType =
-				mime.lookup(normalizedPath) || "application/octet-stream";
+			const contentType = mime.lookup(normalizedPath) || "application/octet-stream";
 			res.writeHead(200, {
 				"Content-Type": contentType,
 				"Cache-Control": "max-age=31536000",

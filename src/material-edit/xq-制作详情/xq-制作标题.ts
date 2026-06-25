@@ -40,12 +40,7 @@ export async function XQ_制作标题(props: { title: string; desc: string }) {
 	const outerPaddingBottom = 250;
 	const spacing = 35;
 	const width = setting.xqWidth;
-	const height =
-		outerPaddingTop +
-		outerPaddingBottom +
-		(titleMeta.height || 0) +
-		(descMeta.height || 0) +
-		spacing;
+	const height = outerPaddingTop + outerPaddingBottom + (titleMeta.height || 0) + (descMeta.height || 0) + spacing;
 
 	const result = await sharp({
 		create: {

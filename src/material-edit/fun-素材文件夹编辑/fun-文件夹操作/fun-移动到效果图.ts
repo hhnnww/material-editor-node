@@ -4,22 +4,14 @@ import sharp from "sharp";
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
-export async function moveImagesToEffectFolder(
-	materialPath: string,
-	effectPath: string,
-	thumbPath: string,
-) {
-	const imageFileList = FUN_递归遍历文件夹(
-		materialPath,
-		setting.imageSuffixList,
-	);
+export async function moveImagesToEffectFolder(materialPath: string, effectPath: string, thumbPath: string) {
+	const imageFileList = FUN_递归遍历文件夹(materialPath, setting.imageSuffixList);
 	const imageMaxSize = setting.thumbImageMaxWidth;
 
 	// 确保目标目录存在
 	const thumbEffectPath = path.join(thumbPath, "效果图");
 	if (!fs.existsSync(effectPath)) fs.mkdirSync(effectPath, { recursive: true });
-	if (!fs.existsSync(thumbEffectPath))
-		fs.mkdirSync(thumbEffectPath, { recursive: true });
+	if (!fs.existsSync(thumbEffectPath)) fs.mkdirSync(thumbEffectPath, { recursive: true });
 
 	// 获取效果图目录中已有的最大数字编号
 	const existingFiles = fs.readdirSync(effectPath);

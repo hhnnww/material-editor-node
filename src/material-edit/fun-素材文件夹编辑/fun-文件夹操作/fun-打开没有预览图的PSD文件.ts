@@ -9,10 +9,7 @@ const winax = require("winax");
 export function FUN_打开没有预览图的PSD文件(materialPath: string) {
 	const psdFileList = FUN_递归遍历文件夹(materialPath, [".psd", ".psb"]);
 	console.log(`找到 PSD/PSB 文件列表:`, psdFileList);
-	const imageFileList = FUN_递归遍历文件夹(
-		materialPath,
-		setting.imageSuffixList,
-	);
+	const imageFileList = FUN_递归遍历文件夹(materialPath, setting.imageSuffixList);
 
 	const missingPreviewFiles: string[] = [];
 

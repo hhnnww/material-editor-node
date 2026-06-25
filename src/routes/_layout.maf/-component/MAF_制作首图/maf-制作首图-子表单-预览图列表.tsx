@@ -33,10 +33,7 @@ export const MAF_预览图列表 = withForm({
 						onClick={() => {
 							const currentImages = form.getFieldValue("imageList") || [];
 							previewImageList?.forEach((item) => {
-								const exists = currentImages.some(
-									(selected: { imagePath: string }) =>
-										selected.imagePath === item.imagePath,
-								);
+								const exists = currentImages.some((selected: { imagePath: string }) => selected.imagePath === item.imagePath);
 								if (!exists) {
 									form.pushFieldValue("imageList", item);
 								}
@@ -57,28 +54,17 @@ export const MAF_预览图列表 = withForm({
 				</div>
 				{previewImageList?.map((item) => {
 					return (
-						<form.Subscribe
-							selector={(state) => state.values.imageList}
-							key={item.imagePath}
-						>
+						<form.Subscribe selector={(state) => state.values.imageList} key={item.imagePath}>
 							{(child) => (
 								<div className="col-span-2 flex flex-col items-start gap-2">
 									<button
 										type="button"
 										className=""
 										onClick={() => {
-											if (
-												child.findIndex(
-													(selected: { imagePath: string }) =>
-														selected.imagePath === item.imagePath,
-												) !== -1
-											) {
+											if (child.findIndex((selected: { imagePath: string }) => selected.imagePath === item.imagePath) !== -1) {
 												form.removeFieldValue(
 													"imageList",
-													child.findIndex(
-														(selected: { imagePath: string }) =>
-															selected.imagePath === item.imagePath,
-													),
+													child.findIndex((selected: { imagePath: string }) => selected.imagePath === item.imagePath),
 												);
 											} else {
 												form.pushFieldValue("imageList", {
@@ -90,34 +76,17 @@ export const MAF_预览图列表 = withForm({
 											}
 										}}
 									>
-										<img
-											src={`/__local_disk_stream__/${item.thumbPath}?time=${Date.now()}`}
-											alt={item.imagePath}
-											className={`p-2 ${
-												child.some(
-													(selected: { imagePath: string }) =>
-														selected.imagePath === item.imagePath,
-												)
-													? "bg-blue-500"
-													: "bg-transparent"
-											}`}
-										/>
+										<img src={`/__local_disk_stream__/${item.thumbPath}?time=${Date.now()}`} alt={item.imagePath} className={`p-2 ${child.some((selected: { imagePath: string }) => selected.imagePath === item.imagePath) ? "bg-blue-500" : "bg-transparent"}`} />
 									</button>
 									<div className="">{item.materialName.toUpperCase()}</div>
 									<Button
 										variant={"destructive"}
 										onClick={async () => {
-											const index = child.findIndex(
-												(selected) => selected.imagePath === item.imagePath,
-											);
+											const index = child.findIndex((selected) => selected.imagePath === item.imagePath);
 											if (index > -1) {
 												form.removeFieldValue("imageList", index);
 											}
-											return await deleImageMutation.mutateAsync([
-												item.materialImagePath,
-												item.imagePath,
-												item.thumbPath,
-											]);
+											return await deleImageMutation.mutateAsync([item.materialImagePath, item.imagePath, item.thumbPath]);
 										}}
 									>
 										<ImageMinus />

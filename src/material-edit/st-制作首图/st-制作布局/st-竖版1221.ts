@@ -3,14 +3,9 @@ import sharp from "sharp";
 import type { ORPC_制作首图 } from "#/orpc/router/orpc-制作首图";
 import { setting } from "#/setting";
 
-export async function ST_竖版1221(
-	props: InferRouterInputs<typeof ORPC_制作首图>,
-) {
+export async function ST_竖版1221(props: InferRouterInputs<typeof ORPC_制作首图>) {
 	const width = setting.stWidth;
-	const height =
-		props.style === "黑鲸"
-			? setting.stHeight - setting.stHeijingHeight
-			: setting.stHeight;
+	const height = props.style === "黑鲸" ? setting.stHeight - setting.stHeijingHeight : setting.stHeight;
 
 	const availableWidth = width - props.outerSpacing * 2;
 	const availableHeight = height - props.outerSpacing * 2;
@@ -95,8 +90,7 @@ export async function ST_竖版1221(
 		// 9. 第三列下面右小图
 		{
 			imgIdx: 8,
-			x:
-				(colWidth + props.innerSpacing) * 2 + halfColWidth + props.innerSpacing,
+			x: (colWidth + props.innerSpacing) * 2 + halfColWidth + props.innerSpacing,
 			y: bigRowHeight + props.innerSpacing,
 			w: halfColWidth,
 			h: smallRowHeight,
@@ -133,9 +127,7 @@ export async function ST_竖版1221(
 				.toBuffer();
 
 			if (props.borderRadius > 0) {
-				const mask = Buffer.from(
-					`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`,
-				);
+				const mask = Buffer.from(`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${props.borderRadius}" ry="${props.borderRadius}" /></svg>`);
 				imageBuffer = await sharp(imageBuffer)
 					.composite([{ input: mask, blend: "dest-in" }])
 					.png()

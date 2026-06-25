@@ -1,19 +1,8 @@
 import { useFieldContext } from "#/hooks/create-form-hook";
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Field, FieldLabel } from "../ui/field";
 
-export function SelectField(props: {
-	label: string;
-	col: number;
-	options: string[];
-}) {
+export function SelectField(props: { label: string; col: number; options: string[] }) {
 	const field = useFieldContext<string>();
 	return (
 		<Field className={`col-span-${props.col}`}>

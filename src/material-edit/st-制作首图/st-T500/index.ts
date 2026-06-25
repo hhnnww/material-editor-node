@@ -3,14 +3,7 @@ import { setting } from "#/setting";
 import { ST_制作圆圈 } from "./st-制作圆圈";
 import { ST_制作标题栏 } from "./st-制作标题栏";
 
-export const RUN_制作T500首图 = async (props: {
-	bg: Buffer<ArrayBufferLike>;
-	title: string;
-	format: string;
-	background: string;
-	shopName: string;
-	currentStem: string;
-}) => {
+export const RUN_制作T500首图 = async (props: { bg: Buffer<ArrayBufferLike>; title: string; format: string; background: string; shopName: string; currentStem: string }) => {
 	const width = setting.stWidth;
 	const height = setting.stHeight;
 

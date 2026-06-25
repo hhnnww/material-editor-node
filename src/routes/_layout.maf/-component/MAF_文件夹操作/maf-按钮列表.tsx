@@ -1,15 +1,4 @@
-import {
-	ArrowUpToLine,
-	FileXCorner,
-	FolderArchive,
-	FolderInput,
-	FolderOpen,
-	FolderSync,
-	ImageOff,
-	ImagePlay,
-	ImagePlus,
-	ImageUp,
-} from "lucide-react";
+import { ArrowUpToLine, FileXCorner, FolderArchive, FolderInput, FolderOpen, FolderSync, ImageOff, ImagePlay, ImagePlus, ImageUp } from "lucide-react";
 
 export const MAFButtonList = [
 	[

@@ -3,18 +3,12 @@ import sharp from "sharp";
 import type { ORPC_制作首图 } from "#/orpc/router/orpc-制作首图";
 import { setting } from "#/setting";
 
-export async function ST_固定裁剪(
-	props: InferRouterInputs<typeof ORPC_制作首图>,
-) {
+export async function ST_固定裁剪(props: InferRouterInputs<typeof ORPC_制作首图>) {
 	const width = setting.stWidth;
-	const height =
-		props.style === "黑鲸"
-			? setting.stHeight - setting.stHeijingHeight
-			: setting.stHeight;
+	const height = props.style === "黑鲸" ? setting.stHeight - setting.stHeijingHeight : setting.stHeight;
 
 	// 1. 计算单行可用高度 (总高度 - 外边距*2 - 内边距*(行数-1)) / 行数
-	const availableHeight =
-		height - props.outerSpacing * 2 - props.innerSpacing * (props.rows - 1);
+	const availableHeight = height - props.outerSpacing * 2 - props.innerSpacing * (props.rows - 1);
 	const rowHeight = Math.ceil(availableHeight / props.rows);
 
 	// 2. 获取所有图片的比例并计算平均比例
@@ -32,9 +26,7 @@ export async function ST_固定裁剪(
 	const colsPerRow = Math.round(availableWidth / (rowHeight * avgRatio)) || 1;
 
 	// 4. 计算最终单个图片的裁剪宽度 (考虑内边距)
-	const itemWidth = Math.ceil(
-		(availableWidth - props.innerSpacing * (colsPerRow - 1)) / colsPerRow,
-	);
+	const itemWidth = Math.ceil((availableWidth - props.innerSpacing * (colsPerRow - 1)) / colsPerRow);
 
 	// 5. 生成排列坐标
 	const totalCells = props.rows * colsPerRow;
@@ -74,9 +66,7 @@ export async function ST_固定裁剪(
 				.toBuffer();
 
 			if (item.borderRadius) {
-				const mask = Buffer.from(
-					`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${item.borderRadius}" ry="${item.borderRadius}" /></svg>`,
-				);
+				const mask = Buffer.from(`<svg><rect x="0" y="0" width="${item.width}" height="${item.height}" rx="${item.borderRadius}" ry="${item.borderRadius}" /></svg>`);
 				imageBuffer = await sharp(imageBuffer)
 					.composite([{ input: mask, blend: "dest-in" }])
 					.png()

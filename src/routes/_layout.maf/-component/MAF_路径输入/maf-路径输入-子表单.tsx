@@ -2,15 +2,7 @@ import { withForm } from "#/components/tanstack-form-component/create-form";
 import { Field, FieldLabel } from "#/components/ui/field";
 import { setting } from "#/setting";
 import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useLoadRootPathMutation } from "../maf-load-root-path";
 import { useMafStore } from "../store";
 import { getLocalStorage } from "./fun-插入到本地数据库";
@@ -43,27 +35,15 @@ export const MAF_路径输入子表单 = withForm({
 			>
 				<h2 className="col-span-12">路径输入</h2>
 
-				<form.AppField name="shopName">
-					{(field) => (
-						<field.SelectField
-							label="店铺名"
-							col={2}
-							options={setting.shopList}
-						/>
-					)}
-				</form.AppField>
+				<form.AppField name="shopName">{(field) => <field.SelectField label="店铺名" col={2} options={setting.shopList} />}</form.AppField>
 
-				<form.AppField name="rootPath">
-					{(field) => <field.TextField label="路径" col={8} />}
-				</form.AppField>
+				<form.AppField name="rootPath">{(field) => <field.TextField label="路径" col={8} />}</form.AppField>
 
 				<div className="col-span-2">
 					<Field>
 						<FieldLabel>选择最近菜单</FieldLabel>
 						<DropdownMenu>
-							<DropdownMenuTrigger render={<Button variant="outline" />}>
-								最近使用的路径
-							</DropdownMenuTrigger>
+							<DropdownMenuTrigger render={<Button variant="outline" />}>最近使用的路径</DropdownMenuTrigger>
 							<DropdownMenuContent>
 								{rootPathList?.map((item, index) => {
 									return (

@@ -46,23 +46,13 @@ export const COM_下载目录移动到素材目录 = () => {
 			<h2 className="col-span-12">移动素材到素材文件夹</h2>
 			<form.AppField name="shopName">
 				{(field) => {
-					return (
-						<field.SelectField
-							col={2}
-							label="店铺选择"
-							options={setting.shopList}
-						/>
-					);
+					return <field.SelectField col={2} label="店铺选择" options={setting.shopList} />;
 				}}
 			</form.AppField>
 
-			<form.AppField name="oriPath">
-				{(field) => <field.TextField col={5} label="下载文件夹" />}
-			</form.AppField>
+			<form.AppField name="oriPath">{(field) => <field.TextField col={5} label="下载文件夹" />}</form.AppField>
 
-			<form.AppField name="dstPath">
-				{(field) => <field.TextField col={5} label="素材文件夹" />}
-			</form.AppField>
+			<form.AppField name="dstPath">{(field) => <field.TextField col={5} label="素材文件夹" />}</form.AppField>
 
 			<form.AppForm>
 				<form.SubmitButtonField label="自动批处理" />

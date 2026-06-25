@@ -1,7 +1,4 @@
-export function insertToLocalStorage(props: {
-	shopName: string;
-	rootPath: string;
-}) {
+export function insertToLocalStorage(props: { shopName: string; rootPath: string }) {
 	if (!props.shopName || props.shopName.trim() === "") return;
 
 	const data = getLocalStorage();
@@ -12,9 +9,7 @@ export function insertToLocalStorage(props: {
 	if (index > -1) {
 		const targetItem = data.splice(index, 1)[0];
 		// 过滤掉已存在的相同路径，确保不重复
-		targetItem.rootPath = targetItem.rootPath.filter(
-			(path) => path !== props.rootPath,
-		);
+		targetItem.rootPath = targetItem.rootPath.filter((path) => path !== props.rootPath);
 		// 将最新路径插入到最前面
 		targetItem.rootPath.unshift(props.rootPath);
 		data.unshift(targetItem);
@@ -47,10 +42,8 @@ export const getLocalStorage = (): localRootPath => {
 	if (data) {
 		const dataJson = JSON.parse(data) as localRootPath;
 		return dataJson.sort((a, b) => {
-			const sortA =
-				shopNameSort.find((s) => s.shopName === a.shopName)?.sort || 99;
-			const sortB =
-				shopNameSort.find((s) => s.shopName === b.shopName)?.sort || 99;
+			const sortA = shopNameSort.find((s) => s.shopName === a.shopName)?.sort || 99;
+			const sortB = shopNameSort.find((s) => s.shopName === b.shopName)?.sort || 99;
 			return sortA - sortB;
 		});
 	}

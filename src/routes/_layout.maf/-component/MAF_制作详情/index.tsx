@@ -23,10 +23,7 @@ export function MAF_制作详情() {
 	const form = useAppForm({
 		...maf_详情表单参数,
 		onSubmit: async (ctx) => {
-			if (
-				!store.serverResInfo?.effectImageList ||
-				!store.serverResInfo.previewImageList
-			) {
+			if (!store.serverResInfo?.effectImageList || !store.serverResInfo.previewImageList) {
 				alert("必须先加载图片");
 				return;
 			}
@@ -85,77 +82,17 @@ export function MAF_制作详情() {
 			}}
 		>
 			<h2 className="col-span-12">制作详情</h2>
-			<form.AppField name="rows">
-				{(field) => (
-					<field.TextField
-						label="栏数"
-						col={2}
-						type="number"
-						min={1}
-						max={5}
-						step={1}
-					/>
-				)}
-			</form.AppField>
+			<form.AppField name="rows">{(field) => <field.TextField label="栏数" col={2} type="number" min={1} max={5} step={1} />}</form.AppField>
 
-			<form.AppField name="制作效果图">
-				{(field) => (
-					<field.SelectField
-						label="制作效果图"
-						options={["制作", "不制作"]}
-						col={2}
-					/>
-				)}
-			</form.AppField>
+			<form.AppField name="制作效果图">{(field) => <field.SelectField label="制作效果图" options={["制作", "不制作"]} col={2} />}</form.AppField>
 
-			<form.AppField name="制作预览图">
-				{(field) => (
-					<field.SelectField
-						label="制作预览图"
-						options={["制作", "不制作"]}
-						col={2}
-					/>
-				)}
-			</form.AppField>
+			<form.AppField name="制作预览图">{(field) => <field.SelectField label="制作预览图" options={["制作", "不制作"]} col={2} />}</form.AppField>
 
-			<form.AppField name="borderRadius">
-				{(field) => (
-					<field.TextField
-						label="小图圆角"
-						col={2}
-						type="number"
-						min={0}
-						max={50}
-						step={5}
-					/>
-				)}
-			</form.AppField>
+			<form.AppField name="borderRadius">{(field) => <field.TextField label="小图圆角" col={2} type="number" min={0} max={50} step={5} />}</form.AppField>
 
-			<form.AppField name="innerSpacing">
-				{(field) => (
-					<field.TextField
-						label="内边距"
-						type="number"
-						col={2}
-						min={0}
-						max={100}
-						step={5}
-					/>
-				)}
-			</form.AppField>
+			<form.AppField name="innerSpacing">{(field) => <field.TextField label="内边距" type="number" col={2} min={0} max={100} step={5} />}</form.AppField>
 
-			<form.AppField name="outerSpacing">
-				{(field) => (
-					<field.TextField
-						label="外边距"
-						type="number"
-						col={2}
-						min={0}
-						max={100}
-						step={5}
-					/>
-				)}
-			</form.AppField>
+			<form.AppField name="outerSpacing">{(field) => <field.TextField label="外边距" type="number" col={2} min={0} max={100} step={5} />}</form.AppField>
 
 			<form.AppForm>
 				<form.SubmitButtonField label="制作详情" />

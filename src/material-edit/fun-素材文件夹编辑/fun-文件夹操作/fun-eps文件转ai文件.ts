@@ -31,9 +31,7 @@ export const FUN_EPS文件转AI文件 = async (props: { materialPath: string }) 
 				console.log(`正在转换 EPS 为 AI: ${epsPath}`);
 				const doc = app.Open(epsPath);
 
-				const aiSaveOptions = new winax.Object(
-					"Illustrator.IllustratorSaveOptions",
-				);
+				const aiSaveOptions = new winax.Object("Illustrator.IllustratorSaveOptions");
 				doc.SaveAs(aiPath, aiSaveOptions);
 
 				// 关闭文档 (2 = SaveOptions.DONOTCHANGES)

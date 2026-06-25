@@ -20,12 +20,7 @@ export function FUN_递归遍历文件夹(folder: string, suffixs?: string[]) {
 			if (stat.isDirectory()) {
 				traverse(fullPath);
 			} else if (stat.isFile()) {
-				if (
-					!suffixs ||
-					suffixs.some((suffix) =>
-						item.toLowerCase().endsWith(suffix.toLowerCase()),
-					)
-				) {
+				if (!suffixs || suffixs.some((suffix) => item.toLowerCase().endsWith(suffix.toLowerCase()))) {
 					files.push(fullPath);
 				}
 			}

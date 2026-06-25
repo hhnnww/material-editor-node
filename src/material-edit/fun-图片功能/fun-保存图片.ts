@@ -24,13 +24,7 @@ async function getWatermarkData(): Promise<{ logo: Buffer; width: number }> {
 	return { logo: newLogo, width: newWidth };
 }
 
-export async function FUN_保存图片_Core(
-	baseImage: sharp.Sharp,
-	width: number,
-	height: number,
-	outputPath: string,
-	warter: boolean,
-) {
+export async function FUN_保存图片_Core(baseImage: sharp.Sharp, width: number, height: number, outputPath: string, warter: boolean) {
 	if (!warter) {
 		await baseImage.jpeg().toFile(outputPath);
 		return;
@@ -65,25 +59,23 @@ export async function FUN_保存图片_Core(
 		.toFile(outputPath);
 }
 
-export const FUN_保存图片 = createServerOnlyFn(
-	async (im: Buffer<ArrayBufferLike>, stem: string, warter: boolean) => {
-		const desktopPath = path.join(os.homedir(), "Desktop");
-		const uploadDir = path.join(desktopPath, "UPLOAD");
+export const FUN_保存图片 = createServerOnlyFn(async (im: Buffer<ArrayBufferLike>, stem: string, warter: boolean) => {
+	const desktopPath = path.join(os.homedir(), "Desktop");
+	const uploadDir = path.join(desktopPath, "UPLOAD");
 
-		if (!fs.existsSync(uploadDir)) {
-			fs.mkdirSync(uploadDir, { recursive: true });
-		}
-		const outputPath = path.join(uploadDir, `${stem}.jpg`);
+	if (!fs.existsSync(uploadDir)) {
+		fs.mkdirSync(uploadDir, { recursive: true });
+	}
+	const outputPath = path.join(uploadDir, `${stem}.jpg`);
 
-		const baseImage = sharp(im);
-		const { width, height } = await baseImage.metadata();
+	const baseImage = sharp(im);
+	const { width, height } = await baseImage.metadata();
 
-		if (!width || !height) {
-			throw new Error("无法读取输入图片的尺寸");
-		}
+	if (!width || !height) {
+		throw new Error("无法读取输入图片的尺寸");
+	}
 
-		await FUN_保存图片_Core(baseImage, width, height, outputPath, warter);
+	await FUN_保存图片_Core(baseImage, width, height, outputPath, warter);
 
-		return outputPath;
-	},
-);
+	return outputPath;
+});
