@@ -90,4 +90,8 @@ export const adlayerNames = [
 	"包图logo",
 	"iBaoTu传媒出品",
 	"小夕素材",
+	"二维码 拷贝",
+	"包图网LOGO",
+	"摄图网logo-新",
+	"黑LOGO色",
 ];

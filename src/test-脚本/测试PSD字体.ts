@@ -2,7 +2,7 @@ import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 const winax = require("winax");
-const app = new winax.Object("Photoshop.Application");
+const app = new winax.Object("Photoshop.Application.200");
 const doc = app.activeDocument;
 
 console.log(doc.Name);

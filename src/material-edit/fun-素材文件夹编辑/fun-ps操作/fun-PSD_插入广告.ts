@@ -15,7 +15,7 @@ export function FUN_PSD_插入广告(shopName: string) {
 
 			// 使用 ActionManager 执行 Place (置入) 命令
 			const idPlc = app.CharIDToTypeID("Plc ");
-			const desc = new winax.Object("Photoshop.ActionDescriptor.200");
+			const desc = new winax.Object("Photoshop.ActionDescriptor");
 			const idnull = app.CharIDToTypeID("null");
 			desc.PutPath(idnull, qrPath);
 			const idFTms = app.CharIDToTypeID("FTms");

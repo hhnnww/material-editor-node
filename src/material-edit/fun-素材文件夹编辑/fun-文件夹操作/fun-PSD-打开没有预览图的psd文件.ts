@@ -37,7 +37,7 @@ export function FUN_打开没有预览图的PSD文件(materialPath: string) {
 	const filesToOpen = missingPreviewFiles.slice(0, 10);
 
 	try {
-		const app = new winax.Object("Photoshop.Application");
+		const app = new winax.Object("Photoshop.Application.200");
 		for (const filePath of filesToOpen) {
 			console.log(`正在打开缺失预览图的 PSD: ${filePath}`);
 			app.Open(filePath);

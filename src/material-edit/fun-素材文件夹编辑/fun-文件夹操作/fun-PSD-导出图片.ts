@@ -16,7 +16,7 @@ export function FUN_PSD导出图片(materialPath: string, insertAd: boolean, sho
 
 	if (psdFileList.length === 0) return;
 
-	const app = new winax.Object("Photoshop.Application");
+	const app = new winax.Object("Photoshop.Application.200");
 
 	for (const psdPath of psdFileList) {
 		// 检查是否已存在同名图片
