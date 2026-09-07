@@ -45,7 +45,7 @@ export async function FUN_获取预览图(props: { materialPath: string; preview
 					const previewStem = path.basename(previewPath, previewExt);
 
 					// 提取前缀并查找对应的素材源文件
-					const materialStem = previewStem.split("_")[0];
+					const materialStem = previewStem.split("-")[0];
 					const foundMaterialPath = materialFileList.find((filePath) => {
 						const ext = path.extname(filePath);
 						const stem = path.basename(filePath, ext);
