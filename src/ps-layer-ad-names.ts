@@ -96,4 +96,6 @@ export const adlayerNames = [
 	"黑LOGO色",
 	"摄图网LOGO",
 	"54deffeb6d9a53f2ac1d6e4576c1cde9",
+	"组 8h",
+	"logo",
 ];
