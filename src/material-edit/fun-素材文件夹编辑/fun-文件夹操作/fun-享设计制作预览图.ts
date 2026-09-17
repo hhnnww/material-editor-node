@@ -32,33 +32,30 @@ export async function FUN_享设计制作预览图(materialPath: string) {
 
 		const composites: OverlayOptions[] = [];
 
-		// 计算所有图片在 itemWidth 宽度下的总高度
 		const metas = await Promise.all(imageFiles.map((img) => sharp(img).metadata()));
+
+		const singleImage = imageFiles.length === 1;
+		const actualItemWidth = singleImage ? metas[0].width || itemWidth : itemWidth;
+
 		let totalHeightAtFullWidth = 0;
 		for (const m of metas) {
-			const h = Math.round(((m.height || 1) * itemWidth) / (m.width || 1));
+			const h = Math.round(((m.height || 1) * actualItemWidth) / (m.width || 1));
 			totalHeightAtFullWidth += h;
 		}
 
-		// 目标宽高比为 3:4，即 height = width * (4/3)
-		// 设列数为 C，则 width ≈ C * itemWidth
-		// 目标总高度 H ≈ (C * itemWidth) * (4/3)
-		// 瀑布流布局下，所有图片的总高度会平摊到 C 列，即 H ≈ totalHeightAtFullWidth / C
-		// 联立得：totalHeightAtFullWidth / C ≈ C * itemWidth * 4 / 3  => C^2 ≈ (3 * totalHeightAtFullWidth) / (4 * itemWidth)
-		const cols = Math.max(1, Math.round(Math.sqrt((3 * totalHeightAtFullWidth) / (4 * itemWidth))));
+		const cols = singleImage ? 1 : Math.max(1, Math.round(Math.sqrt((3 * totalHeightAtFullWidth) / (4 * actualItemWidth))));
 
-		const canvasWidth = outerSpacing * 2 + cols * itemWidth + (cols - 1) * innerSpacing;
+		const canvasWidth = outerSpacing * 2 + cols * actualItemWidth + (cols - 1) * innerSpacing;
 
 		const colHeights = new Array(cols).fill(0);
 
 		for (let i = 0; i < imageFiles.length; i++) {
-			// 总是把下一张图放在当前最短的那一列
 			const shortestCol = colHeights.indexOf(Math.min(...colHeights));
-			const resizedImage = sharp(imageFiles[i]).resize(itemWidth);
+			const resizedImage = singleImage ? sharp(imageFiles[i]) : sharp(imageFiles[i]).resize(actualItemWidth);
 			const buffer = await resizedImage.toBuffer();
-			const meta = await sharp(buffer).metadata(); // 此时 buffer 已是调整后的尺寸
+			const meta = await sharp(buffer).metadata();
 
-			const x = outerSpacing + shortestCol * (itemWidth + innerSpacing);
+			const x = outerSpacing + shortestCol * (actualItemWidth + innerSpacing);
 			const y = outerSpacing + colHeights[shortestCol];
 
 			composites.push({
