@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "set UV_THREADPOOL_SIZE=16 && vite dev --port 3000",
     "build": "vite build",
-    "preview": "cross-env NODE_OPTIONS=\"--max-old-space-size=24096\" vite preview",
+    "preview": "cross-env NODE_OPTIONS=--max-old-space-size=8192 UV_THREADPOOL_SIZE=4 MALLOC_ARENA_MAX=2 vite preview",
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",

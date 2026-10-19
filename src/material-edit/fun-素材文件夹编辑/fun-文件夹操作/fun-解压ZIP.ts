@@ -1,5 +1,7 @@
 import { execSync } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import fs from "node:fs";
+import path from "node:path";
 import { setting } from "#/setting";
 import { FUN_递归遍历文件夹 } from "../fun-递归遍历文件夹";
 
@@ -10,10 +12,20 @@ export function unzipFiles(materialPath: string) {
 	 * 根据这个命令解压所有压缩包文件
 	 * 解压完成之后删除所有zip压缩包
 	 */
+
+	if (FUN_递归遍历文件夹(materialPath, setting.zipSuffixList).length === 0) return;
+
+	let num = 1;
+	const uuid = randomUUID();
+	for (const zipPath of FUN_递归遍历文件夹(materialPath, setting.zipSuffixList)) {
+		const ext = path.extname(zipPath);
+		const newName = `${uuid}-${num++}${ext}`;
+		const newPath = path.join(path.dirname(zipPath), newName);
+		fs.renameSync(zipPath, newPath);
+	}
+
 	const zipFileList = FUN_递归遍历文件夹(materialPath, setting.zipSuffixList);
 	console.log(`找到压缩文件列表:`, zipFileList);
-
-	if (zipFileList.length === 0) return;
 
 	try {
 		// 构建一次性解压所有文件的命令
