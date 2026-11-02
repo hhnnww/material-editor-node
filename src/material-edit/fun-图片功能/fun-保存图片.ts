@@ -25,8 +25,11 @@ async function getWatermarkData(): Promise<{ logo: Buffer; width: number }> {
 }
 
 export async function FUN_保存图片_Core(baseImage: sharp.Sharp, width: number, height: number, outputPath: string, warter: boolean) {
+	const tmpPath = `${outputPath}.${process.pid}.${Date.now()}.${Math.random().toString(36).slice(2, 8)}.tmp`;
+
 	if (!warter) {
-		await baseImage.jpeg().toFile(outputPath);
+		await baseImage.jpeg().toFile(tmpPath);
+		fs.renameSync(tmpPath, outputPath);
 		return;
 	}
 
@@ -56,7 +59,9 @@ export async function FUN_保存图片_Core(baseImage: sharp.Sharp, width: numbe
 			},
 		])
 		.jpeg({ quality: 80 })
-		.toFile(outputPath);
+		.toFile(tmpPath);
+
+	fs.renameSync(tmpPath, outputPath);
 }
 
 export const FUN_保存图片 = createServerOnlyFn(async (im: Buffer<ArrayBufferLike>, stem: string, warter: boolean) => {

@@ -9,9 +9,9 @@ import { ST_列自适应 } from "#/material-edit/st-制作首图/st-制作布局
 import { ST_固定裁剪 } from "#/material-edit/st-制作首图/st-制作布局/st-固定裁剪";
 import { ST_横版1221 } from "#/material-edit/st-制作首图/st-制作布局/st-横版1221";
 import { ST_竖版1221 } from "#/material-edit/st-制作首图/st-制作布局/st-竖版1221";
-import { ST_行固定尺寸 } from "#/material-edit/st-制作首图/st-制作布局/st-行固定尺寸";
 import { ST_行自适应 } from "#/material-edit/st-制作首图/st-制作布局/st-行自适应";
 import { RUN_制作黑鲸首图 } from "#/material-edit/st-制作首图/st-黑鲸/run-制作黑鲸首图";
+import { ST_行固定尺寸 } from "#/material-edit/st-制作首图/st-制作布局/st-行固定尺寸";
 
 export const ORPC_制作首图 = os
 	.input(
@@ -36,19 +36,23 @@ export const ORPC_制作首图 = os
 			shopName: z.string(),
 			currentStem: z.string(),
 			nameNum: z.number(),
+			imageOrder: z.enum(["有序", "随机"]).default("有序"),
 		}),
 	)
 	.handler(async (ctx) => {
+		const imageList = ctx.input.imageOrder === "随机" ? ST_打乱图片列表(ctx.input.imageList) : ctx.input.imageList;
+		const input = { ...ctx.input, imageList };
+
 		const layoutMap: Record<string, () => Promise<Buffer>> = {
-			ST_固定裁剪: async () => await ST_固定裁剪({ ...ctx.input }),
-			ST_1大_1小: async () => await ST_1大1小({ ...ctx.input }),
-			ST_横版_1221: async () => await ST_横版1221({ ...ctx.input }),
-			ST_列_自适应: async () => await ST_列自适应(ctx.input),
-			ST_1大列2小列: async () => await ST_1大列2小列(ctx.input),
-			ST_行_自适应: async () => await ST_行自适应(ctx.input),
-			ST_行_固定尺寸: async () => await ST_行固定尺寸(ctx.input),
-			ST_列_固定尺寸: async () => await ST_列_固定尺寸(ctx.input),
-			ST_竖版_1221: async () => await ST_竖版1221(ctx.input),
+			ST_固定裁剪: async () => await ST_固定裁剪({ ...input }),
+			ST_1大_1小: async () => await ST_1大1小({ ...input }),
+			ST_横版_1221: async () => await ST_横版1221({ ...input }),
+			ST_列_自适应: async () => await ST_列自适应(input),
+			ST_1大列2小列: async () => await ST_1大列2小列(input),
+			ST_行_自适应: async () => await ST_行自适应(input),
+			ST_行_固定尺寸: async () => await ST_行固定尺寸(input),
+			ST_列_固定尺寸: async () => await ST_列_固定尺寸(input),
+			ST_竖版_1221: async () => await ST_竖版1221(input),
 		};
 
 		const layoutIm = await layoutMap[ctx.input.layout]();
@@ -77,3 +81,10 @@ export const ORPC_制作首图 = os
 
 		return ctx.input;
 	});
+
+function ST_打乱图片列表<T>(list: T[]): T[] {
+	return [...list]
+		.map((item) => ({ item, random: Math.random() }))
+		.sort((a, b) => a.random - b.random)
+		.map(({ item }) => item);
+}

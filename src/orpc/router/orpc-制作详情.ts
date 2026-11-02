@@ -1,9 +1,8 @@
 import { os } from "@orpc/server";
 import z from "zod";
-import { FUN_循环保存图片 } from "#/material-edit/fun-图片功能/fun-循环保存图片";
-import { XQ_制作效果图 } from "#/material-edit/xq-制作详情/xq-制作效果图";
-import { XQ_制作预览图 } from "#/material-edit/xq-制作详情/xq-制作预览图";
-
+import { FUN_初始化分片, FUN_增量写入分片, FUN_最终加水印 } from "#/material-edit/fun-图片功能/fun-直接分片合成保存";
+import { XQ_分批生成效果图Composites, XQ_生成效果图固定层, XQ_计算效果图布局 } from "#/material-edit/xq-制作详情/xq-制作效果图";
+import { XQ_分批生成预览图Composites, XQ_生成预览图固定层, XQ_计算预览图布局 } from "#/material-edit/xq-制作详情/xq-制作预览图";
 export const ORPC_制作详情 = os
 	.input(
 		z.object({
@@ -36,40 +35,34 @@ export const ORPC_制作详情 = os
 	)
 	.handler(async (ctx) => {
 		const isEffectEnabled = ctx.input.制作效果图 === "制作" && ctx.input.effectImageList.length > 0;
-
 		const isPreviewEnabled = ctx.input.制作预览图 === "制作" && ctx.input.previewImageList.length > 0;
-
-		console.log(`[制作详情] 开始并行生成大图任务：效果图=${isEffectEnabled}, 预览图=${isPreviewEnabled}`);
-
-		const effectImgPromise = isEffectEnabled
-			? (async () => {
-					console.log("正在制作效果图大图...");
-					return await XQ_制作效果图({ ...ctx.input });
-				})()
-			: Promise.resolve(null);
-
-		const previewImgPromise = isPreviewEnabled
-			? (async () => {
-					console.log("正在制作预览图大图...");
-					return await XQ_制作预览图(ctx.input);
-				})()
-			: Promise.resolve(null);
-
-		// 并行执行大图合成计算
-		const [effectImg, previewImg] = await Promise.all([effectImgPromise, previewImgPromise]);
-
+		console.log(`[制作详情] 开始处理：效果图=${isEffectEnabled}(${ctx.input.effectImageList.length}张), 预览图=${isPreviewEnabled}(${ctx.input.previewImageList.length}张)`);
 		let startNum = 2;
-
-		// 顺序执行切片保存，保证保存文件序号连续
-		if (effectImg) {
-			console.log("正在切片并保存效果图...");
-			startNum = await FUN_循环保存图片(effectImg, startNum);
+		if (isEffectEnabled) {
+			console.log("[制作详情] === 开始处理效果图（分批模式） ===");
+			const layout = await XQ_计算效果图布局(ctx.input);
+			const fixedComposites = await XQ_生成效果图固定层(layout);
+			await FUN_初始化分片(layout.width, layout.totalHeight, fixedComposites, startNum);
+			for await (const batch of XQ_分批生成效果图Composites(ctx.input, layout)) {
+				await FUN_增量写入分片(layout.width, layout.totalHeight, batch.composites, startNum);
+			}
+			await FUN_最终加水印(layout.width, layout.totalHeight, startNum);
+			const parts = Math.ceil(layout.totalHeight / 2000);
+			startNum += parts;
+			console.log("[制作详情] 效果图完成");
 		}
-
-		if (previewImg) {
-			console.log("正在切片并保存预览图...");
-			await FUN_循环保存图片(previewImg, startNum);
+		if (isPreviewEnabled) {
+			console.log("[制作详情] === 开始处理预览图（分批模式） ===");
+			const layout = await XQ_计算预览图布局(ctx.input);
+			const fixedComposites = await XQ_生成预览图固定层(layout);
+			await FUN_初始化分片(layout.width, layout.totalHeight, fixedComposites, startNum);
+			for await (const batch of XQ_分批生成预览图Composites(ctx.input, layout)) {
+				await FUN_增量写入分片(layout.width, layout.totalHeight, batch.composites, startNum);
+			}
+			await FUN_最终加水印(layout.width, layout.totalHeight, startNum);
+			const parts = Math.ceil(layout.totalHeight / 2000);
+			startNum += parts;
+			console.log("[制作详情] 预览图完成");
 		}
-
 		return ctx.input;
 	});

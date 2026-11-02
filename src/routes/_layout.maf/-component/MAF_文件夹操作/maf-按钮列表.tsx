@@ -50,10 +50,11 @@ export const MAFButtonList = [
 		{ name: "打开没有预览图的PSD文件", icon: <ImagePlay />, confirm: false },
 	],
 	[{ name: "PPT导出图片", icon: <ImagePlay />, confirm: false }],
+	[{ name: "裁剪PNG透明边框", icon: <ImageOff />, confirm: false }],
+	[{ name: "素材图水印", icon: <ImageUp />, confirm: false }],
 	[
 		{ name: "复制到预览图", icon: <ImagePlus />, confirm: false },
 		{ name: "移动到效果图", icon: <ImageUp />, confirm: false },
-		{ name: "素材图水印", icon: <ImageUp />, confirm: false },
 		{ name: "复制效果图", icon: <ImageUp />, confirm: false },
 	],
 	[

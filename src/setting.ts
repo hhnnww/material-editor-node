@@ -13,6 +13,7 @@ const xqWidth = 2000;
 const stHeijingHeight = 250;
 const stStyleList = ["黑鲸", "T500"];
 const stLayoutList = ["ST_固定裁剪", "ST_列_自适应", "ST_列_固定尺寸", "ST_行_自适应", "ST_行_固定尺寸", "ST_1大_1小", "ST_横版_1221", "ST_竖版_1221", "ST_1大列2小列"];
+const stImageOrderList = ["有序", "随机"];
 const logoSize = 100;
 
 export const setting = {
@@ -21,6 +22,7 @@ export const setting = {
 	logoSize,
 	stLayoutList,
 	stStyleList,
+	stImageOrderList,
 	shopList,
 	imageSuffixList,
 	thumbImageMaxWidth,
